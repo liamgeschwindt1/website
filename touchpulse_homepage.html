@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TouchPulse — Navigation Intelligence Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--color-bg:#031119;
+--color-surface:rgba(27,53,79,0.40);
+--color-text:#F7F7F7;
+--color-body:rgba(247,247,247,0.75);
+--color-muted:rgba(247,247,247,0.45);
+--color-teal:#01B4AF;
+--color-gold:#FFB100;
+--color-border:rgba(255,255,255,0.08);
+--color-border-hover:rgba(1,180,175,0.35);
+--font-sans:Inter,ui-sans-serif,-apple-system,Arial,sans-serif;
+--font-mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--color-bg);color:var(--color-text);font-family:var(--font-sans);font-size:16px;line-height:1.65;overflow-x:hidden}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 clamp(24px,5vw,80px);height:60px;display:flex;align-items:center;justify-content:space-between;background:transparent;transition:background 200ms ease,border-color 200ms ease;border-bottom:0.5px solid transparent}
+nav.scrolled{background:rgba(3,17,25,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom-color:rgba(255,255,255,0.08)}
+.nav-logo{font-size:18px;font-weight:500;color:var(--color-text);text-decoration:none;letter-spacing:-0.01em}
+.nav-links{display:flex;align-items:center;gap:28px;list-style:none}
+.nav-links a{font-size:14px;color:rgba(247,247,247,0.55);text-decoration:none;transition:color 150ms}
+.nav-links a:hover{color:var(--color-text)}
+.nav-links a.active{color:var(--color-teal)}
+.btn-ghost{padding:8px 16px;border:0.5px solid rgba(255,255,255,0.7);border-radius:6px;background:transparent;color:var(--color-text);font-size:13px;font-weight:500;cursor:pointer;text-decoration:none;transition:background 150ms;font-family:var(--font-sans)}
+.btn-ghost:hover{background:rgba(255,255,255,0.06)}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:0 clamp(24px,5vw,80px);overflow:hidden}
+.hero-aurora{position:absolute;inset:0;background:
+  radial-gradient(ellipse at 20% 50%,rgba(1,180,175,0.55) 0%,transparent 60%),
+  radial-gradient(ellipse at 80% 30%,rgba(255,177,0,0.40) 0%,transparent 55%),
+  radial-gradient(ellipse at 50% 90%,rgba(27,53,79,0.60) 0%,transparent 70%);
+background-color:var(--color-bg);z-index:0}
+.hero-grain{position:absolute;inset:0;z-index:1;opacity:0.05;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");background-size:200px}
+.hero-content{position:relative;z-index:2;max-width:720px}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:3px 12px;border-radius:999px;background:rgba(1,180,175,0.12);border:0.5px solid rgba(1,180,175,0.40);color:var(--color-teal);font-size:12px;font-weight:500;margin-bottom:32px}
+.hero h1{font-size:clamp(48px,7vw,80px);font-weight:500;line-height:1.05;letter-spacing:-0.03em;color:var(--color-text);margin-bottom:24px}
+.hero h1 span{background:linear-gradient(135deg,var(--color-teal),#7ff7f5);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-lead{font-size:18px;color:var(--color-body);max-width:540px;margin-bottom:40px;line-height:1.65}
+.hero-ctas{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.btn-gold{padding:10px 20px;border-radius:6px;background:var(--color-gold);color:#031119;font-size:14px;font-weight:500;border:none;cursor:pointer;text-decoration:none;font-family:var(--font-sans);transition:opacity 150ms}
+.btn-gold:hover{opacity:0.9}
+.hero-scroll{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);z-index:2;color:var(--color-muted);font-size:12px;letter-spacing:0.08em;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:8px}
+.scroll-line{width:0.5px;height:40px;background:linear-gradient(to bottom,var(--color-muted),transparent)}
+
+/* SOCIAL PROOF */
+.proof{padding:32px clamp(24px,5vw,80px);border-top:0.5px solid var(--color-border);border-bottom:0.5px solid var(--color-border);display:flex;align-items:center;gap:48px;overflow:hidden}
+.proof-label{font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-muted);white-space:nowrap}
+.proof-logos{display:flex;align-items:center;gap:48px;opacity:0.4}
+.proof-logo{font-size:14px;font-weight:500;color:var(--color-text);letter-spacing:-0.01em}
+
+/* SECTIONS */
+section{padding:96px clamp(24px,5vw,80px)}
+.eyebrow{font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-muted);margin-bottom:16px}
+.section-heading{font-size:clamp(32px,4vw,48px);font-weight:500;letter-spacing:-0.02em;line-height:1.1;color:var(--color-text);margin-bottom:20px}
+.section-lead{font-size:17px;color:var(--color-body);max-width:540px;margin-bottom:56px}
+
+/* FEATURE GRID */
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--color-border)}
+.feature-card{background:var(--color-bg);padding:40px 32px;border-left:4px solid var(--color-teal)}
+.feature-card h3{font-size:20px;font-weight:500;color:var(--color-text);margin-bottom:12px;letter-spacing:-0.01em}
+.feature-card p{font-size:15px;color:var(--color-body);line-height:1.65}
+.feature-icon{font-size:16px;margin-bottom:20px;color:var(--color-teal)}
+
+/* AI SECTION */
+.ai-section{background:
+  radial-gradient(ellipse at 30% 60%,rgba(99,153,255,0.50) 0%,transparent 55%),
+  radial-gradient(ellipse at 70% 20%,rgba(180,120,255,0.45) 0%,transparent 60%),
+  radial-gradient(ellipse at 50% 100%,rgba(1,180,175,0.35) 0%,transparent 60%);
+background-color:#060c12;position:relative;overflow:hidden}
+.ai-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.code-block{background:rgba(3,17,25,0.8);border:0.5px solid var(--color-border);border-left:4px solid var(--color-teal);border-radius:12px;padding:24px;font-family:var(--font-mono);font-size:13px;color:var(--color-body);line-height:1.7;overflow:auto}
+.code-comment{color:rgba(1,180,175,0.6)}
+.code-key{color:#7ff7f5}
+.code-string{color:#FFB100}
+.code-num{color:rgba(247,247,247,0.9)}
+
+/* METRICS */
+.metrics-section{background:rgba(27,53,79,0.15);border-top:0.5px solid var(--color-border);border-bottom:0.5px solid var(--color-border)}
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--color-border)}
+.metric-card{background:var(--color-bg);padding:40px 32px}
+.metric-label{font-size:11px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;color:var(--color-muted);margin-bottom:12px}
+.metric-value{font-size:40px;font-weight:500;letter-spacing:-0.03em;color:var(--color-text);line-height:1}
+.metric-delta{font-size:13px;color:var(--color-teal);margin-top:8px}
+
+/* USE CASES */
+.usecase-row{display:grid;grid-template-columns:60fr 40fr;gap:80px;align-items:center;margin-bottom:80px}
+.usecase-row.reverse{grid-template-columns:40fr 60fr}
+.usecase-row.reverse .usecase-text{order:2}
+.usecase-row.reverse .usecase-visual{order:1}
+.usecase-text h3{font-size:28px;font-weight:500;letter-spacing:-0.02em;color:var(--color-text);margin-bottom:16px}
+.usecase-text p{font-size:16px;color:var(--color-body);margin-bottom:24px}
+.usecase-link{color:var(--color-teal);font-size:14px;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.usecase-visual{border-radius:12px;background:var(--color-surface);border:0.5px solid var(--color-border);height:240px;display:flex;align-items:center;justify-content:center;color:var(--color-muted);font-size:13px;position:relative;overflow:hidden}
+.usecase-visual::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(1,180,175,0.08),transparent)}
+.sector-badge{position:absolute;top:16px;left:16px;padding:3px 10px;border-radius:999px;background:rgba(1,180,175,0.12);border:0.5px solid rgba(1,180,175,0.40);color:var(--color-teal);font-size:11px;font-weight:500}
+
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:56px}
+.pricing-card{border-radius:12px;padding:32px;background:var(--color-surface);border:0.5px solid var(--color-border);transition:border-color 200ms}
+.pricing-card:hover{border-color:var(--color-border-hover)}
+.pricing-card.featured{border-color:var(--color-teal)}
+.pricing-tier{font-size:13px;font-weight:500;letter-spacing:0.05em;text-transform:uppercase;color:var(--color-muted);margin-bottom:12px}
+.pricing-card.featured .pricing-tier{color:var(--color-teal)}
+.pricing-name{font-size:24px;font-weight:500;color:var(--color-text);margin-bottom:8px;letter-spacing:-0.01em}
+.pricing-desc{font-size:14px;color:var(--color-body);margin-bottom:28px;min-height:48px}
+.pricing-features{list-style:none;display:flex;flex-direction:column;gap:10px}
+.pricing-features li{font-size:14px;color:var(--color-body);display:flex;align-items:center;gap:8px}
+.pricing-features li::before{content:'→';color:var(--color-teal);font-size:12px;flex-shrink:0}
+
+/* PARTNER */
+.partner-section{background:rgba(1,180,175,0.04);border-top:0.5px solid var(--color-border);border-bottom:0.5px solid var(--color-border)}
+.partner-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.partner-quote{font-size:22px;font-weight:500;line-height:1.4;color:var(--color-text);letter-spacing:-0.01em;margin-bottom:16px}
+.partner-attr{font-size:14px;color:var(--color-muted)}
+.partner-logo-box{border-radius:12px;background:var(--color-surface);border:0.5px solid var(--color-border);padding:40px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
+.partner-logo-text{font-size:20px;font-weight:500;color:var(--color-text)}
+.partner-logo-sub{font-size:13px;color:var(--color-muted)}
+
+/* CTA BANNER */
+.cta-banner{text-align:center;padding:128px clamp(24px,5vw,80px);position:relative;overflow:hidden}
+.cta-banner::before{content:'';position:absolute;inset:0;background:
+  radial-gradient(ellipse at 50% 50%,rgba(1,180,175,0.25) 0%,transparent 65%);z-index:0}
+.cta-banner h2{font-size:clamp(36px,5vw,60px);font-weight:500;letter-spacing:-0.03em;margin-bottom:20px;position:relative;z-index:1}
+.cta-banner p{font-size:18px;color:var(--color-body);margin-bottom:40px;position:relative;z-index:1}
+.cta-banner .cta-row{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;position:relative;z-index:1}
+
+/* FOOTER */
+footer{padding:64px clamp(24px,5vw,80px) 40px;border-top:0.5px solid var(--color-border)}
+.footer-inner{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-brand p{font-size:14px;color:var(--color-muted);margin-top:12px;max-width:260px;line-height:1.6}
+.footer-col h4{font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--color-muted);margin-bottom:16px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.footer-col a{font-size:14px;color:rgba(247,247,247,0.55);text-decoration:none;transition:color 150ms}
+.footer-col a:hover{color:var(--color-text)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;border-top:0.5px solid var(--color-border);padding-top:24px}
+.footer-bottom p{font-size:13px;color:var(--color-muted)}
+.footer-address{font-size:13px;color:var(--color-muted)}
+
+/* ANIMATIONS */
+@media(prefers-reduced-motion:no-preference){
+.reveal{opacity:0;transform:translateY(20px);transition:opacity 500ms ease-out,transform 500ms ease-out}
+.reveal.visible{opacity:1;transform:translateY(0)}
+}
+
+/* FOCUS */
+*:focus-visible{outline:2px solid var(--color-teal);outline-offset:2px}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#" class="nav-logo">TouchPulse</a>
+  <ul class="nav-links">
+    <li><a href="#" class="active">Home</a></li>
+    <li><a href="#">For Business ›</a></li>
+    <li><a href="#">Tiera</a></li>
+    <li><a href="#">Partners</a></li>
+    <li><a href="#">Blog</a></li>
+  </ul>
+  <a href="#" class="btn-ghost">Book demo ↗</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-aurora"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-content">
+    <div class="badge">✦ AI-powered navigation</div>
+    <h1>Navigate with<br><span>confidence.</span></h1>
+    <p class="hero-lead">TouchPulse turns complex buildings and streets into clear, accessible paths. Powered by Tiera, our AI guide, and 24/7 human backup.</p>
+    <div class="hero-ctas">
+      <a href="#" class="btn-gold">Get started ↗</a>
+      <a href="#" class="btn-ghost">Explore solutions →</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<div class="proof">
+  <span class="proof-label">Trusted by</span>
+  <div class="proof-logos">
+    <span class="proof-logo">Blind Veterans UK</span>
+    <span class="proof-logo">NS</span>
+    <span class="proof-logo">Radboud UMC</span>
+    <span class="proof-logo">TU/e</span>
+    <span class="proof-logo">ProRail</span>
+  </div>
+</div>
+
+<!-- CORE VALUE SECTION -->
+<section>
+  <div class="reveal">
+    <p class="eyebrow">What we do</p>
+    <h2 class="section-heading">Safety layers for everyone.</h2>
+    <p class="section-lead">No visitor is ever left stranded. Three layers of intelligence ensure confident, independent navigation at every step.</p>
+  </div>
+  <div class="feature-grid reveal">
+    <div class="feature-card">
+      <div class="feature-icon">→</div>
+      <h3>Safe navigation</h3>
+      <p>Tiera understands exactly where you are, providing the details you need to move through your surroundings on your own terms.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">◎</div>
+      <h3>Human support</h3>
+      <p>Professional human guides available 24/7. There for the most complex moments — a real backup, always ready.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">✦</div>
+      <h3>AI vision</h3>
+      <p>Smart on-device technology helps Tiera spot obstacles, signs and landmarks the moment you need to know about them.</p>
+    </div>
+  </div>
+</section>
+
+<!-- AI SECTION -->
+<section class="ai-section" style="padding:96px clamp(24px,5vw,80px)">
+  <div class="ai-inner">
+    <div class="reveal">
+      <div class="badge" style="background:rgba(99,153,255,0.12);border-color:rgba(99,153,255,0.40);color:#7fb3ff">✦ Intelligence layer</div>
+      <h2 class="section-heading" style="margin-top:20px">Real-time routing.<br>Zero guesswork.</h2>
+      <p class="section-lead" style="margin-bottom:32px">Tiera processes live environment data, user context and spatial mapping to deliver turn-by-turn guidance that adapts as conditions change.</p>
+      <a href="#" class="btn-ghost">View documentation →</a>
+    </div>
+    <div class="reveal">
+      <div class="code-block">
+<span class="code-comment">// Tiera navigation session</span>
+<br>{
+<br>&nbsp;&nbsp;<span class="code-key">"session_id"</span>: <span class="code-string">"tp_nav_7f3a"</span>,
+<br>&nbsp;&nbsp;<span class="code-key">"location"</span>: {
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">"lat"</span>: <span class="code-num">51.4416</span>,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">"lng"</span>: <span class="code-num">5.4697</span>,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">"floor"</span>: <span class="code-num">2</span>
+<br>&nbsp;&nbsp;},
+<br>&nbsp;&nbsp;<span class="code-key">"next_instruction"</span>: <span class="code-string">"Turn left in 4m"</span>,
+<br>&nbsp;&nbsp;<span class="code-key">"confidence"</span>: <span class="code-num">0.97</span>,
+<br>&nbsp;&nbsp;<span class="code-key">"human_available"</span>: <span class="code-num">true</span>
+<br>}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METRICS -->
+<section class="metrics-section" style="padding:0">
+  <div class="metrics-grid">
+    <div class="metric-card reveal">
+      <div class="metric-label">Routes completed</div>
+      <div class="metric-value">2.4M</div>
+      <div class="metric-delta">↑ 18% this month</div>
+    </div>
+    <div class="metric-card reveal">
+      <div class="metric-label">Navigation accuracy</div>
+      <div class="metric-value">97%</div>
+      <div class="metric-delta">↑ 3pts vs last quarter</div>
+    </div>
+    <div class="metric-card reveal">
+      <div class="metric-label">Human support SLA</div>
+      <div class="metric-value">24/7</div>
+      <div class="metric-delta" style="color:var(--color-muted)">Always on</div>
+    </div>
+    <div class="metric-card reveal">
+      <div class="metric-label">Partner organisations</div>
+      <div class="metric-value">40+</div>
+      <div class="metric-delta">↑ 12 new this year</div>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section>
+  <div class="reveal">
+    <p class="eyebrow">Built for busy places</p>
+    <h2 class="section-heading">Sight loss can be isolating,<br>even in crowded spaces.</h2>
+  </div>
+  <div class="usecase-row reveal">
+    <div class="usecase-text">
+      <h3>Retail</h3>
+      <p>Help your customers shop on their own. Tiera allows blind and low vision visitors to find what they need without searching for a member of staff.</p>
+      <a href="#" class="usecase-link">Tiera for Retail →</a>
+    </div>
+    <div class="usecase-visual">
+      <div class="sector-badge">● Live</div>
+      <span>Retail environment map</span>
+    </div>
+  </div>
+  <div class="usecase-row reverse reveal">
+    <div class="usecase-visual usecase-text">
+      <div class="sector-badge">● Live</div>
+      <span>Transit hub guidance</span>
+    </div>
+    <div class="usecase-text" style="order:2">
+      <h3>Public transport</h3>
+      <p>Make your platforms easier to navigate. Tiera helps travellers move through busy hubs safely and without the usual worry.</p>
+      <a href="#" class="usecase-link">Tiera for Transport →</a>
+    </div>
+  </div>
+  <div class="usecase-row reveal">
+    <div class="usecase-text">
+      <h3>Hospital</h3>
+      <p>Seamless wayfinding from entrance to care spaces. Improves the patient experience while reducing staff escort demand.</p>
+      <a href="#" class="usecase-link">Tiera for Hospital →</a>
+    </div>
+    <div class="usecase-visual">
+      <div class="sector-badge">● Live</div>
+      <span>Hospital floor plan</span>
+    </div>
+  </div>
+</section>
+
+<!-- PARTNER -->
+<section class="partner-section" style="padding:96px clamp(24px,5vw,80px)">
+  <div class="partner-inner reveal">
+    <div>
+      <p class="eyebrow">Partnership</p>
+      <h2 class="section-heading">Blind Veterans UK</h2>
+      <p class="section-lead" style="margin-bottom:32px">TouchPulse is proud to collaborate with Blind Veterans UK — ensuring those who served can navigate the world with confidence and the power of AI-driven guidance.</p>
+      <div style="border-left:4px solid var(--color-teal);padding-left:24px;margin-top:32px">
+        <p class="partner-quote">"What has impressed me most about Tiera is that this is not innovation for its own sake."</p>
+        <p class="partner-attr">Richard Jenkins — Technology Leader & Sight Loss Advocate</p>
+      </div>
+    </div>
+    <div class="partner-logo-box">
+      <div style="width:64px;height:64px;border-radius:50%;background:rgba(1,180,175,0.12);border:0.5px solid rgba(1,180,175,0.40);display:flex;align-items:center;justify-content:center;color:var(--color-teal);font-size:24px">✦</div>
+      <p class="partner-logo-text">Blind Veterans UK</p>
+      <p class="partner-logo-sub">Official partner since 2024</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section>
+  <div class="reveal">
+    <p class="eyebrow">Pricing</p>
+    <h2 class="section-heading">Straightforward tiers.<br>No hidden extras.</h2>
+  </div>
+  <div class="pricing-grid reveal">
+    <div class="pricing-card">
+      <div class="pricing-tier">Standard</div>
+      <div class="pricing-name">Starter</div>
+      <div class="pricing-desc">The starting point — unlimited access to Tiera so no visitor is ever left stuck.</div>
+      <ul class="pricing-features">
+        <li>Access to the Tiera app</li>
+        <li>Monthly analytics + reporting</li>
+        <li>Standard support</li>
+      </ul>
+    </div>
+    <div class="pricing-card featured">
+      <div class="pricing-tier">Premium</div>
+      <div class="pricing-name">Professional</div>
+      <div class="pricing-desc">Tiera learns your building's specifics — entrances, lifts, toilets and more.</div>
+      <ul class="pricing-features">
+        <li>Everything in Standard</li>
+        <li>Location-specific training</li>
+        <li>Staff workflow integration</li>
+        <li>Priority support</li>
+      </ul>
+    </div>
+    <div class="pricing-card">
+      <div class="pricing-tier">Custom</div>
+      <div class="pricing-name">Enterprise</div>
+      <div class="pricing-desc">Workflow integration, detailed indoor guidance, or local API connections.</div>
+      <ul class="pricing-features">
+        <li>Everything in Professional</li>
+        <li>Custom API integration</li>
+        <li>Dedicated account manager</li>
+        <li>SLA guarantee</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <h2>Ready to make your<br>space accessible?</h2>
+  <p>Tiera is deployed in days, not months. Let's talk.</p>
+  <div class="cta-row">
+    <a href="#" class="btn-gold">Book a demo ↗</a>
+    <a href="#" class="btn-ghost">Talk to sales →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="nav-logo">TouchPulse</div>
+      <p>Navigation intelligence for a more accessible world. Powered by Tiera AI.</p>
+      <p style="margin-top:12px;font-size:13px;color:var(--color-muted)">Het Eeuwsel 57, 5612 AS<br>Eindhoven, Netherlands</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <ul>
+        <li><a href="#">Tiera app</a></li>
+        <li><a href="#">For retail</a></li>
+        <li><a href="#">For transport</a></li>
+        <li><a href="#">For hospital</a></li>
+        <li><a href="#">For university</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">Team</a></li>
+        <li><a href="#">Partners</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="#">Privacy policy</a></li>
+        <li><a href="#">Terms of service</a></li>
+        <li><a href="#">Accessibility</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 TouchPulse B.V. (kvk 98689371)</p>
+    <div style="display:flex;gap:20px">
+      <a href="#" style="color:var(--color-muted);text-decoration:none;font-size:13px">Instagram</a>
+      <a href="#" style="color:var(--color-muted);text-decoration:none;font-size:13px">LinkedIn</a>
+      <a href="#" style="color:var(--color-muted);text-decoration:none;font-size:13px">Facebook</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll',()=>{
+  nav.classList.toggle('scrolled',window.scrollY>48)
+});
+
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}})
+},{threshold:0.1});
+reveals.forEach(r=>observer.observe(r));
+</script>
+</body>
+</html>

@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #031119;
+  --surface: rgba(27, 53, 79, 0.40);
+  --text: #F7F7F7;
+  --body: rgba(247, 247, 247, 0.75);
+  --muted: rgba(247, 247, 247, 0.45);
+  --teal: #01B4AF;
+  --gold: #FFB100;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-hover: rgba(1, 180, 175, 0.35);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+
+.hero-aurora {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 15% 55%, rgba(1,180,175,0.50) 0%, transparent 58%),
+    radial-gradient(ellipse at 75% 25%, rgba(255,177,0,0.38) 0%, transparent 52%),
+    radial-gradient(ellipse at 55% 95%, rgba(27,53,79,0.65) 0%, transparent 68%);
+  background-color: var(--bg);
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px;
+  pointer-events: none;
+}
+
+.code-block {
+  background: rgba(3, 17, 25, 0.85);
+  border: 0.5px solid var(--border);
+  border-left: 4px solid var(--teal);
+  border-radius: 12px;
+  padding: 24px;
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 13px;
+  color: var(--body);
+  line-height: 1.8;
+  overflow: auto;
+}
+
+.ck { color: #7ff8f6; }
+.cs { color: rgba(255, 177, 0, 0.9); }
+.cn { color: rgba(247, 247, 247, 0.92); }
+.cc { color: rgba(1, 180, 175, 0.55); }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 3px; }
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
