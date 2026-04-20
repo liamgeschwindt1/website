@@ -1,0 +1,21 @@
+# Dependencies
+node_modules
+.npm
+
+# Build output
+.next
+out
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Git
+.git
+.gitignore
+
+# Dev files
+*.log
+.DS_Store
+README.md
