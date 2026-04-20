@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Lora:ital,wght@0,400;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg:#031119;
+--surface:rgba(27,53,79,0.40);
+--text:#F7F7F7;
+--body:rgba(247,247,247,0.75);
+--muted:rgba(247,247,247,0.45);
+--teal:#01B4AF;
+--gold:#FFB100;
+--border:rgba(255,255,255,0.08);
+--border-hover:rgba(1,180,175,0.35);
+--sans:Inter,ui-sans-serif,system-ui,sans-serif;
+--serif:'Lora',Georgia,serif;
+--mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.65;overflow-x:hidden}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 clamp(24px,5vw,80px);height:60px;display:flex;align-items:center;justify-content:space-between;background:transparent;transition:all 200ms ease;border-bottom:0.5px solid transparent}
+nav.scrolled{background:rgba(3,17,25,0.88);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom-color:rgba(255,255,255,0.08)}
+.nav-logo{font-family:var(--sans);font-size:18px;font-weight:500;color:var(--text);text-decoration:none}
+.nav-links{display:flex;align-items:center;gap:28px;list-style:none}
+.nav-links a{font-size:14px;color:rgba(247,247,247,0.50);text-decoration:none;transition:color 150ms}
+.nav-links a:hover{color:var(--text)}
+.nav-links a.active{color:var(--teal)}
+.btn-ghost{padding:8px 16px;border:0.5px solid rgba(255,255,255,0.6);border-radius:6px;background:transparent;color:var(--text);font-size:13px;font-weight:500;cursor:pointer;text-decoration:none;transition:background 150ms;font-family:var(--sans)}
+.btn-ghost:hover{background:rgba(255,255,255,0.06)}
+.btn-gold{padding:10px 22px;border-radius:6px;background:var(--gold);color:#031119;font-size:14px;font-weight:500;border:none;cursor:pointer;text-decoration:none;font-family:var(--sans);transition:opacity 150ms;display:inline-flex;align-items:center;gap:6px}
+.btn-gold:hover{opacity:0.9}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:120px clamp(24px,5vw,80px) 80px;overflow:hidden}
+.hero-aurora{position:absolute;inset:0;background:
+  radial-gradient(ellipse at 15% 55%,rgba(1,180,175,0.50) 0%,transparent 58%),
+  radial-gradient(ellipse at 75% 25%,rgba(255,177,0,0.38) 0%,transparent 52%),
+  radial-gradient(ellipse at 55% 95%,rgba(27,53,79,0.65) 0%,transparent 68%);
+background-color:var(--bg)}
+.grain{position:absolute;inset:0;opacity:0.045;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px}
+.hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;width:100%;max-width:1280px}
+.badge{display:inline-flex;align-items:center;gap:7px;padding:4px 14px;border-radius:999px;background:rgba(1,180,175,0.10);border:0.5px solid rgba(1,180,175,0.38);color:var(--teal);font-size:12px;font-weight:500;margin-bottom:28px}
+.hero h1{font-size:clamp(44px,5.5vw,72px);font-weight:500;line-height:1.06;letter-spacing:-0.03em;margin-bottom:12px}
+.hero h1 em{font-family:var(--serif);font-style:italic;font-weight:400;background:linear-gradient(135deg,var(--teal) 20%,#7ff8f6 80%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:17px;color:var(--body);max-width:480px;margin-bottom:36px;line-height:1.7}
+.hero-sub strong{color:var(--text);font-weight:500}
+.hero-ctas{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:48px}
+.hero-human-note{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted)}
+.hero-human-note::before{content:'';display:block;width:20px;height:0.5px;background:var(--muted)}
+.hero-right{position:relative}
+
+/* TESTIMONIAL CARD in hero */
+.testimonial-float{background:rgba(27,53,79,0.55);border:0.5px solid rgba(255,255,255,0.10);border-radius:16px;padding:28px 32px;backdrop-filter:blur(12px);position:relative}
+.testimonial-float::before{content:'';position:absolute;inset:0;border-radius:16px;background:linear-gradient(135deg,rgba(1,180,175,0.06),transparent 60%)}
+.quote-mark{font-family:var(--serif);font-size:48px;line-height:1;color:var(--teal);opacity:0.6;margin-bottom:4px;display:block}
+.testimonial-float blockquote{font-family:var(--serif);font-size:17px;font-style:italic;color:var(--body);line-height:1.65;margin-bottom:20px}
+.testimonial-float blockquote strong{font-style:normal;color:var(--text);font-family:var(--sans);font-weight:500;font-size:15px}
+.t-attr{display:flex;align-items:center;gap:12px}
+.t-avatar{width:40px;height:40px;border-radius:50%;background:rgba(1,180,175,0.15);border:0.5px solid rgba(1,180,175,0.35);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;color:var(--teal);flex-shrink:0}
+.t-name{font-size:13px;font-weight:500;color:var(--text)}
+.t-role{font-size:12px;color:var(--muted)}
+.partner-badge-float{position:absolute;top:-14px;right:24px;display:flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;background:rgba(255,177,0,0.12);border:0.5px solid rgba(255,177,0,0.42);color:var(--gold);font-size:11px;font-weight:500}
+
+/* PROOF BAR */
+.proof-bar{padding:24px clamp(24px,5vw,80px);border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border);display:flex;align-items:center;gap:40px;flex-wrap:wrap}
+.proof-label{font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.proof-logos{display:flex;align-items:center;gap:40px;flex-wrap:wrap}
+.proof-logo{font-size:13px;color:rgba(247,247,247,0.38);font-weight:500;letter-spacing:0.01em}
+
+/* STORY SECTION — human moment */
+.story-section{padding:96px clamp(24px,5vw,80px);display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.story-text .eyebrow{font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.story-text h2{font-size:clamp(28px,3.5vw,44px);font-weight:500;letter-spacing:-0.02em;line-height:1.15;margin-bottom:20px}
+.story-text h2 em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--teal)}
+.story-text p{font-size:16px;color:var(--body);line-height:1.75;margin-bottom:16px;max-width:480px}
+.story-text p:last-child{margin-bottom:0}
+.story-visual{display:flex;flex-direction:column;gap:16px}
+.story-stat{background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:24px 28px;transition:border-color 200ms}
+.story-stat:hover{border-color:var(--border-hover)}
+.story-stat-num{font-size:36px;font-weight:500;letter-spacing:-0.03em;color:var(--text);line-height:1}
+.story-stat-label{font-size:13px;color:var(--muted);margin-top:6px}
+.story-stat-delta{font-size:12px;color:var(--teal);margin-top:4px}
+.story-stat-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+/* FEATURES — with human tone */
+.features-section{padding:0 clamp(24px,5vw,80px) 96px}
+.features-intro{margin-bottom:56px}
+.eyebrow{font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.section-h{font-size:clamp(28px,3.5vw,44px);font-weight:500;letter-spacing:-0.02em;line-height:1.15;margin-bottom:16px}
+.section-h em{font-family:var(--serif);font-style:italic;font-weight:400}
+.section-lead{font-size:17px;color:var(--body);max-width:520px;line-height:1.7}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+.f-card{background:var(--bg);padding:40px 32px;border-left:4px solid var(--teal);border-bottom:none}
+.f-card-icon{width:40px;height:40px;border-radius:10px;background:rgba(1,180,175,0.10);border:0.5px solid rgba(1,180,175,0.25);display:flex;align-items:center;justify-content:center;margin-bottom:20px}
+.f-card-icon svg{width:18px;height:18px;stroke:var(--teal);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.f-card h3{font-size:19px;font-weight:500;color:var(--text);margin-bottom:10px;letter-spacing:-0.01em}
+.f-card p{font-size:15px;color:var(--body);line-height:1.7}
+
+/* HUMAN STORY ROW */
+.human-row{padding:96px clamp(24px,5vw,80px);border-top:0.5px solid var(--border)}
+.human-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+.pull-quote{font-family:var(--serif);font-size:clamp(22px,2.5vw,30px);font-style:italic;font-weight:400;color:var(--text);line-height:1.45;letter-spacing:-0.01em;border-left:3px solid var(--teal);padding-left:28px;margin-bottom:28px}
+.pull-attr{font-size:14px;color:var(--muted);padding-left:31px}
+.pull-attr strong{color:var(--body);font-weight:500}
+.human-right p{font-size:16px;color:var(--body);line-height:1.75;margin-bottom:16px}
+.human-right p:last-child{margin-bottom:0}
+.bvuk-card{background:var(--surface);border:0.5px solid var(--border);border-radius:12px;padding:24px;margin-top:28px;display:flex;align-items:center;gap:16px}
+.bvuk-icon{width:48px;height:48px;border-radius:50%;background:rgba(1,180,175,0.12);border:0.5px solid rgba(1,180,175,0.35);display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--teal);flex-shrink:0}
+.bvuk-text p{font-size:14px;font-weight:500;color:var(--text)}
+.bvuk-text span{font-size:13px;color:var(--muted)}
+
+/* AI SECTION */
+.ai-section{padding:96px clamp(24px,5vw,80px);background:radial-gradient(ellipse at 30% 60%,rgba(99,153,255,0.42) 0%,transparent 55%),radial-gradient(ellipse at 70% 20%,rgba(180,120,255,0.38) 0%,transparent 58%),radial-gradient(ellipse at 50% 100%,rgba(1,180,175,0.30) 0%,transparent 60%);background-color:#060c12;border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border)}
+.ai-inner{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.ai-badge{display:inline-flex;align-items:center;gap:7px;padding:4px 14px;border-radius:999px;background:rgba(99,153,255,0.12);border:0.5px solid rgba(99,153,255,0.38);color:#94b8ff;font-size:12px;font-weight:500;margin-bottom:24px}
+.code-block{background:rgba(3,17,25,0.85);border:0.5px solid rgba(255,255,255,0.08);border-left:4px solid var(--teal);border-radius:12px;padding:24px;font-family:var(--mono);font-size:13px;color:var(--body);line-height:1.8}
+.ck{color:#7ff8f6}.cs{color:rgba(255,177,0,0.9)}.cn{color:rgba(247,247,247,0.92)}.cc{color:rgba(1,180,175,0.55)}
+
+/* USE CASES */
+.usecases{padding:96px clamp(24px,5vw,80px)}
+.uc-row{display:grid;grid-template-columns:55fr 45fr;gap:72px;align-items:center;margin-bottom:80px;padding-bottom:80px;border-bottom:0.5px solid var(--border)}
+.uc-row:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.uc-row.flip{grid-template-columns:45fr 55fr}
+.uc-row.flip .uc-text{order:2}
+.uc-row.flip .uc-img{order:1}
+.uc-text .sector-badge{display:inline-flex;align-items:center;gap:5px;padding:3px 10px;border-radius:999px;background:rgba(1,180,175,0.10);border:0.5px solid rgba(1,180,175,0.35);color:var(--teal);font-size:11px;font-weight:500;margin-bottom:16px}
+.uc-text h3{font-size:clamp(22px,2.8vw,32px);font-weight:500;letter-spacing:-0.02em;color:var(--text);margin-bottom:12px;line-height:1.2}
+.uc-text h3 em{font-family:var(--serif);font-style:italic;font-weight:400}
+.uc-text p{font-size:16px;color:var(--body);line-height:1.75;margin-bottom:20px}
+.uc-link{color:var(--teal);font-size:14px;text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:gap 150ms}
+.uc-link:hover{gap:8px}
+.uc-img{border-radius:12px;background:var(--surface);border:0.5px solid var(--border);height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;position:relative;overflow:hidden}
+.uc-img::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(1,180,175,0.06),rgba(27,53,79,0.3))}
+.uc-img-label{font-size:13px;color:var(--muted);position:relative;z-index:1}
+.uc-img-icon{font-size:32px;position:relative;z-index:1;opacity:0.35}
+
+/* PRICING */
+.pricing{padding:96px clamp(24px,5vw,80px);border-top:0.5px solid var(--border)}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:56px}
+.p-card{border-radius:12px;padding:32px;background:var(--surface);border:0.5px solid var(--border);transition:border-color 200ms;display:flex;flex-direction:column}
+.p-card:hover{border-color:var(--border-hover)}
+.p-card.featured{border-color:var(--teal)}
+.p-tier{font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.p-card.featured .p-tier{color:var(--teal)}
+.p-name{font-size:22px;font-weight:500;color:var(--text);margin-bottom:8px;letter-spacing:-0.01em}
+.p-desc{font-size:14px;color:var(--body);margin-bottom:28px;min-height:44px;line-height:1.6}
+.p-features{list-style:none;display:flex;flex-direction:column;gap:10px;flex:1}
+.p-features li{font-size:14px;color:var(--body);display:flex;align-items:flex-start;gap:8px;line-height:1.5}
+.p-features li::before{content:'→';color:var(--teal);font-size:12px;flex-shrink:0;margin-top:2px}
+
+/* CTA */
+.cta-final{padding:128px clamp(24px,5vw,80px);text-align:center;position:relative;overflow:hidden;border-top:0.5px solid var(--border)}
+.cta-final::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(1,180,175,0.18) 0%,transparent 65%)}
+.cta-final h2{font-size:clamp(32px,5vw,56px);font-weight:500;letter-spacing:-0.03em;line-height:1.1;margin-bottom:16px;position:relative;z-index:1}
+.cta-final h2 em{font-family:var(--serif);font-style:italic;font-weight:400}
+.cta-final p{font-size:18px;color:var(--body);margin-bottom:40px;position:relative;z-index:1}
+.cta-row{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;position:relative;z-index:1}
+
+/* FOOTER */
+footer{padding:64px clamp(24px,5vw,80px) 40px;border-top:0.5px solid var(--border)}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+.footer-brand-name{font-size:17px;font-weight:500;color:var(--text)}
+.footer-brand-tagline{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--muted);margin-top:8px;line-height:1.6;max-width:240px}
+.footer-addr{font-size:13px;color:var(--muted);margin-top:16px;line-height:1.7}
+.footer-col h4{font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:16px}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.footer-col a{font-size:14px;color:rgba(247,247,247,0.45);text-decoration:none;transition:color 150ms}
+.footer-col a:hover{color:var(--text)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;border-top:0.5px solid var(--border);padding-top:24px}
+.footer-bottom p,.footer-socials a{font-size:13px;color:var(--muted);text-decoration:none}
+.footer-socials{display:flex;gap:20px}
+.footer-socials a:hover{color:var(--text)}
+
+/* REVEAL ANIMATIONS */
+@media(prefers-reduced-motion:no-preference){
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 600ms ease-out,transform 600ms ease-out}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:100ms}
+.reveal-delay-2{transition-delay:200ms}
+.reveal-delay-3{transition-delay:300ms}
+}
+*:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#" class="nav-logo">TouchPulse</a>
+  <ul class="nav-links">
+    <li><a href="#" class="active">Home</a></li>
+    <li><a href="#">For Business ›</a></li>
+    <li><a href="#">Tiera</a></li>
+    <li><a href="#">Partners</a></li>
+    <li><a href="#">Blog</a></li>
+  </ul>
+  <a href="#" class="btn-ghost">Book demo ↗</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-aurora"></div>
+  <div class="grain"></div>
+  <div class="hero-inner">
+    <div class="reveal">
+      <div class="badge">✦ AI-powered navigation</div>
+      <h1>Every person.<br>Every <em>journey.</em><br>With confidence.</h1>
+      <p class="hero-sub">TouchPulse gives people with sight loss the freedom to move independently through any building or street — no guessing, no getting stuck, no asking for help.</p>
+      <div class="hero-ctas">
+        <a href="#" class="btn-gold">Get started ↗</a>
+        <a href="#" class="btn-ghost">See how it works →</a>
+      </div>
+      <div class="hero-human-note">2.4M routes completed. Real people. Real independence.</div>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <div class="testimonial-float">
+        <div class="partner-badge-float">✦ Blind Veterans UK</div>
+        <span class="quote-mark">"</span>
+        <blockquote>As a user, I have experienced how much more confident and informed a journey can feel when technology is designed around <strong>real needs.</strong></blockquote>
+        <div class="t-attr">
+          <div class="t-avatar">RJ</div>
+          <div>
+            <div class="t-name">Richard Jenkins</div>
+            <div class="t-role">Technology leader & sight loss advocate</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF BAR -->
+<div class="proof-bar">
+  <span class="proof-label">Trusted by</span>
+  <div class="proof-logos">
+    <span class="proof-logo">Blind Veterans UK</span>
+    <span class="proof-logo">NS</span>
+    <span class="proof-logo">Radboud UMC</span>
+    <span class="proof-logo">TU/e</span>
+    <span class="proof-logo">ProRail</span>
+  </div>
+</div>
+
+<!-- STORY SECTION -->
+<section class="story-section reveal">
+  <div class="story-text">
+    <p class="eyebrow">The problem</p>
+    <h2 class="section-h">Busy places can feel <em>isolating</em> with sight loss.</h2>
+    <p>Airports. Hospitals. Shopping centres. These are places designed for everyone — yet for the 2.2 billion people worldwide living with vision impairment, they can feel impossible to navigate alone.</p>
+    <p>The stress of getting lost, the reliance on staff, the loss of independence — these aren't small inconveniences. They shape how people move through the world.</p>
+    <p style="margin-top:24px"><a href="#" class="uc-link">Read the research →</a></p>
+  </div>
+  <div class="story-visual">
+    <div class="story-stat-row">
+      <div class="story-stat">
+        <div class="story-stat-num">2.2B</div>
+        <div class="story-stat-label">People with vision impairment globally</div>
+      </div>
+      <div class="story-stat">
+        <div class="story-stat-num">97%</div>
+        <div class="story-stat-label">Navigation accuracy with Tiera</div>
+        <div class="story-stat-delta">↑ 3pts vs last quarter</div>
+      </div>
+    </div>
+    <div class="story-stat">
+      <div class="story-stat-num">2.4M</div>
+      <div class="story-stat-label">Routes completed across all partner locations</div>
+      <div class="story-stat-delta">↑ 18% this month</div>
+    </div>
+    <div class="story-stat">
+      <div class="story-stat-num">24/7</div>
+      <div class="story-stat-label">Human guide support — always a real person as backup</div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section">
+  <div class="features-intro reveal">
+    <p class="eyebrow">How it works</p>
+    <h2 class="section-h">Three layers. <em>No one left stranded.</em></h2>
+    <p class="section-lead">Tiera combines AI precision with human warmth to make every environment navigable — for every person, every time.</p>
+  </div>
+  <div class="features-grid">
+    <div class="f-card reveal">
+      <div class="f-card-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+      </div>
+      <h3>Safe navigation</h3>
+      <p>Tiera knows exactly where you are. It delivers precise, step-by-step guidance so people can move through any space on their own terms — no guessing, no stress.</p>
+    </div>
+    <div class="f-card reveal reveal-delay-1">
+      <div class="f-card-icon">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <h3>Human support</h3>
+      <p>A real person is always just a tap away. Professional guides available 24/7 — for the moments that need more than technology, there's a human voice ready to help.</p>
+    </div>
+    <div class="f-card reveal reveal-delay-2">
+      <div class="f-card-icon">
+        <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      </div>
+      <h3>AI vision</h3>
+      <p>On-device intelligence spots obstacles, reads signs, and identifies landmarks in real time. Tiera sees the world so you can move through it freely.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HUMAN STORY — Richard Jenkins -->
+<section class="human-row">
+  <div class="human-inner reveal">
+    <div>
+      <p class="eyebrow">Partnership</p>
+      <div class="pull-quote">"What has impressed me most about Tiera is that this is not innovation for its own sake."</div>
+      <div class="pull-attr"><strong>Richard Jenkins</strong> — Technology leader & sight loss advocate, Blind Veterans UK</div>
+      <div class="bvuk-card" style="margin-top:28px">
+        <div class="bvuk-icon">✦</div>
+        <div class="bvuk-text">
+          <p>Blind Veterans UK</p>
+          <span>Official partner — supporting veterans with sight loss since 2024</span>
+        </div>
+      </div>
+    </div>
+    <div class="human-right">
+      <p>Richard joined the Royal Navy straight from school. A degenerative optic nerve condition ended his service — but not his ambition. After rehabilitation, he rebuilt his career in technology, working with global organisations on AI and digital transformation.</p>
+      <p>Today he combines that experience with lived expertise in sight loss, helping shape technology that reflects real needs rather than assumptions. He sees in Tiera something rare: a team that listens, learns fast, and builds with genuine purpose.</p>
+      <p>That's why Blind Veterans UK chose to partner with us. It's not about the technology. It's about what the technology makes possible for real people.</p>
+      <p style="margin-top:28px"><a href="#" class="uc-link">Read Richard's full story →</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- AI SECTION -->
+<section class="ai-section">
+  <div class="ai-inner">
+    <div class="reveal">
+      <div class="ai-badge">✦ Intelligence layer</div>
+      <h2 class="section-h" style="margin-top:20px">Real-time routing.<br><em>Zero guesswork.</em></h2>
+      <p class="section-lead" style="margin-bottom:32px">Tiera processes live spatial data, user context and environment mapping to deliver guidance that adapts as conditions change. Built for real buildings, with real people in mind.</p>
+      <a href="#" class="btn-ghost">View documentation →</a>
+    </div>
+    <div class="reveal reveal-delay-1">
+      <div class="code-block">
+<span class="cc">// Tiera live navigation</span><br>
+{<br>
+&nbsp;&nbsp;<span class="ck">"session"</span>: <span class="cs">"tp_7f3a9c"</span>,<br>
+&nbsp;&nbsp;<span class="ck">"user"</span>: { <span class="ck">"name"</span>: <span class="cs">"Sarah"</span>, <span class="ck">"mode"</span>: <span class="cs">"audio"</span> },<br>
+&nbsp;&nbsp;<span class="ck">"location"</span>: {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">"lat"</span>: <span class="cn">51.4416</span>, <span class="ck">"lng"</span>: <span class="cn">5.4697</span>,<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="ck">"floor"</span>: <span class="cn">2</span>, <span class="ck">"confidence"</span>: <span class="cn">0.97</span><br>
+&nbsp;&nbsp;},<br>
+&nbsp;&nbsp;<span class="ck">"instruction"</span>: <span class="cs">"Turn left in 4 metres"</span>,<br>
+&nbsp;&nbsp;<span class="ck">"obstacle_detected"</span>: <span class="cn">false</span>,<br>
+&nbsp;&nbsp;<span class="ck">"human_available"</span>: <span class="cn">true</span><br>
+}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section class="usecases">
+  <div class="reveal" style="margin-bottom:64px">
+    <p class="eyebrow">Built for busy places</p>
+    <h2 class="section-h">Wherever people go,<br><em>Tiera goes with them.</em></h2>
+  </div>
+  <div class="uc-row reveal">
+    <div class="uc-text">
+      <div class="sector-badge">● Retail</div>
+      <h3>Shop <em>independently.</em></h3>
+      <p>Tiera allows blind and low vision visitors to find exactly what they need without searching for a member of staff. A better experience for customers — and less pressure on your team.</p>
+      <a href="#" class="uc-link">Tiera for Retail →</a>
+    </div>
+    <div class="uc-img"><div class="uc-img-icon">🛍</div><span class="uc-img-label">Retail environment</span></div>
+  </div>
+  <div class="uc-row flip reveal">
+    <div class="uc-img"><div class="uc-img-icon">🚉</div><span class="uc-img-label">Transit hub</span></div>
+    <div class="uc-text">
+      <div class="sector-badge">● Public transport</div>
+      <h3>Travel without <em>worry.</em></h3>
+      <p>Busy platforms, crowded concourses, unfamiliar stations. Tiera makes them navigable — so every traveller can get where they're going with confidence.</p>
+      <a href="#" class="uc-link">Tiera for Transport →</a>
+    </div>
+  </div>
+  <div class="uc-row reveal">
+    <div class="uc-text">
+      <div class="sector-badge">● Hospital</div>
+      <h3>Arrive <em>calmly.</em></h3>
+      <p>Seamless wayfinding from entrance to care spaces. A better patient experience, and fewer staff needed for escorts — helping everyone do their job better.</p>
+      <a href="#" class="uc-link">Tiera for Hospital →</a>
+    </div>
+    <div class="uc-img"><div class="uc-img-icon">🏥</div><span class="uc-img-label">Hospital wayfinding</span></div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing reveal">
+  <p class="eyebrow">Pricing</p>
+  <h2 class="section-h">Straightforward tiers.<br><em>No hidden extras.</em></h2>
+  <div class="pricing-grid">
+    <div class="p-card">
+      <div class="p-tier">Standard</div>
+      <div class="p-name">Starter</div>
+      <div class="p-desc">The starting point — unlimited access to Tiera so no visitor is ever left stuck.</div>
+      <ul class="p-features">
+        <li>Access to the Tiera app</li>
+        <li>Monthly analytics + reporting</li>
+        <li>Standard support</li>
+      </ul>
+    </div>
+    <div class="p-card featured">
+      <div class="p-tier">Most popular</div>
+      <div class="p-name">Professional</div>
+      <div class="p-desc">Tiera learns your building — entrances, lifts, toilets and every important detail.</div>
+      <ul class="p-features">
+        <li>Everything in Starter</li>
+        <li>Location-specific training</li>
+        <li>Staff workflow integration</li>
+        <li>Priority support</li>
+      </ul>
+    </div>
+    <div class="p-card">
+      <div class="p-tier">Enterprise</div>
+      <div class="p-name">Custom</div>
+      <div class="p-desc">Workflow integration, detailed indoor guidance, or API connections. Let's talk.</div>
+      <ul class="p-features">
+        <li>Everything in Professional</li>
+        <li>Custom API integration</li>
+        <li>Dedicated account manager</li>
+        <li>SLA guarantee</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-final reveal">
+  <h2>Ready to make your<br>space <em>truly</em> accessible?</h2>
+  <p>Tiera is deployed in days, not months. Let's talk about what's possible.</p>
+  <div class="cta-row">
+    <a href="#" class="btn-gold">Book a demo ↗</a>
+    <a href="#" class="btn-ghost">Talk to sales →</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">TouchPulse</div>
+      <div class="footer-brand-tagline">Navigation intelligence for a more accessible, independent world.</div>
+      <div class="footer-addr">Het Eeuwsel 57, 5612 AS<br>Eindhoven, Netherlands<br><br>info@touchpulse.nl</div>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <ul>
+        <li><a href="#">Tiera app</a></li>
+        <li><a href="#">For retail</a></li>
+        <li><a href="#">For transport</a></li>
+        <li><a href="#">For hospital</a></li>
+        <li><a href="#">For university</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">Team</a></li>
+        <li><a href="#">Partners</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="#">Privacy policy</a></li>
+        <li><a href="#">Terms of service</a></li>
+        <li><a href="#">Accessibility</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 TouchPulse B.V. (kvk 98689371)</p>
+    <div class="footer-socials">
+      <a href="#">Instagram</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Facebook</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>48));
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}}),{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
+</script>
+</body>
+</html>
