@@ -59,6 +59,35 @@ export default function CTABanner() {
             Talk to sales →
           </Link>
         </div>
+
+        {/* O&M Studio strip */}
+        <motion.div
+          className="mt-16 border-t border-[var(--border)] pt-10"
+          {...(prefersReduced
+            ? {}
+            : {
+                initial: { opacity: 0, y: 16 },
+                whileInView: { opacity: 1, y: 0 },
+                viewport: { once: true },
+                transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as [number, number, number, number], delay: 0.2 },
+              })}
+        >
+          <p className="text-[13px] text-[var(--muted)] mb-4 tracking-wide uppercase">Powered by</p>
+          <a
+            href="https://studio.touchpulse.ai"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex items-center gap-3 px-6 py-3 rounded-[10px] border border-[rgba(1,180,175,0.30)] bg-[rgba(1,180,175,0.05)] no-underline hover:border-[rgba(1,180,175,0.65)] hover:bg-[rgba(1,180,175,0.10)] transition-all duration-300"
+          >
+            <span className="w-2 h-2 rounded-full bg-[var(--teal)] animate-pulse-glow" aria-hidden="true" />
+            <span className="text-[15px] font-medium text-[var(--text)] tracking-[-0.01em]">
+              O&amp;M Studio
+            </span>
+            <span className="text-[13px] text-[var(--muted)] group-hover:text-[var(--teal)] transition-colors duration-200">
+              studio.touchpulse.ai ↗
+            </span>
+          </a>
+        </motion.div>
       </motion.div>
     </section>
   )

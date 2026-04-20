@@ -22,6 +22,14 @@ export default function Hero() {
     >
       <div className="hero-aurora" aria-hidden="true" />
       <div className="grain" aria-hidden="true" />
+      {/* scan line */}
+      {!prefersReduced && (
+        <div
+          aria-hidden="true"
+          className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-[rgba(1,180,175,0.4)] to-transparent pointer-events-none"
+          style={{ animation: 'scan 8s linear infinite', top: 0, zIndex: 1 }}
+        />
+      )}
 
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-[80px] items-center w-full max-w-[1280px]">
         {/* Left */}

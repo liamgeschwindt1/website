@@ -87,8 +87,11 @@ export default function Features() {
                   viewport: { once: true },
                   transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number, number, number, number], delay: i * 0.1 },
                 })}
-            className="bg-[var(--bg)] p-10 border-l-4 border-l-[var(--teal)]"
+            className="group relative bg-[var(--bg)] p-10 border-l-4 border-l-[var(--teal)] overflow-hidden cursor-default"
+            whileHover={prefersReduced ? {} : { y: -4, transition: { duration: 0.25, ease: [0.16, 1, 0.3, 1] } }}
           >
+            {/* hover shimmer */}
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ background: 'linear-gradient(135deg, rgba(1,180,175,0.06) 0%, transparent 60%)' }} aria-hidden="true" />
             <div className="w-10 h-10 rounded-[10px] bg-[rgba(1,180,175,0.10)] border border-[rgba(1,180,175,0.25)] flex items-center justify-center mb-5">
               {card.icon}
             </div>

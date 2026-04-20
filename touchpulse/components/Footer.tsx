@@ -105,7 +105,15 @@ export default function Footer() {
       {/* Bottom bar */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-t border-[var(--border)] pt-6">
         <p className="text-[13px] text-[var(--muted)]">
-          &copy; 2026 TouchPulse B.V. (kvk 98689371)
+          &copy; 2026 TouchPulse B.V. (kvk 98689371) &mdash; Built by{' '}
+          <a
+            href="https://studio.touchpulse.ai"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[var(--teal)] hover:opacity-80 transition-opacity duration-150 no-underline"
+          >
+            O&amp;M Studio
+          </a>
         </p>
         <nav aria-label="Social links" className="flex gap-5">
           {['Instagram', 'LinkedIn', 'Facebook'].map((social) => (
