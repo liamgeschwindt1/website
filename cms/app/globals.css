@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #031119;
+  --surface: rgba(27, 53, 79, 0.50);
+  --text: #F7F7F7;
+  --body: rgba(247, 247, 247, 0.75);
+  --muted: rgba(247, 247, 247, 0.45);
+  --teal: #01B4AF;
+  --gold: #FFB100;
+  --border: rgba(255, 255, 255, 0.08);
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+
+/* Editor textarea */
+.prose-editor {
+  font-family: 'JetBrains Mono', 'Menlo', monospace;
+  font-size: 13px;
+  line-height: 1.8;
+  resize: vertical;
+}
