@@ -1,11 +1,7 @@
-import { redirect } from 'next/navigation'
 import Link from 'next/link'
-import { getSession } from '@/lib/session'
 import { prisma } from '@/lib/prisma'
 
 export default async function AdminDashboard() {
-  const session = await getSession()
-  if (!session.isLoggedIn) redirect('/admin/login')
 
   const posts = await prisma.post.findMany({
     orderBy: { updatedAt: 'desc' },
@@ -27,15 +23,6 @@ export default async function AdminDashboard() {
             CMS
           </span>
         </div>
-        <form action="/api/auth/logout" method="POST">
-          <button
-            type="submit"
-            className="text-[13px] transition-colors duration-150"
-            style={{ color: 'var(--muted)' }}
-          >
-            Sign out
-          </button>
-        </form>
       </header>
 
       <div className="max-w-4xl mx-auto px-6 py-10">

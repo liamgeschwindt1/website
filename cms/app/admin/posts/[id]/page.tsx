@@ -1,5 +1,4 @@
-import { redirect, notFound } from 'next/navigation'
-import { getSession } from '@/lib/session'
+import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import PostForm from '@/components/PostForm'
 
@@ -8,9 +7,6 @@ interface Props {
 }
 
 export default async function EditPostPage({ params }: Props) {
-  const session = await getSession()
-  if (!session.isLoggedIn) redirect('/admin/login')
-
   const post = await prisma.post.findUnique({ where: { id: params.id } })
   if (!post) notFound()
 
