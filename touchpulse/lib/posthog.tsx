@@ -34,6 +34,14 @@ export function PostHogProvider({ children }: { children: ReactNode }) {
   const searchParams = useSearchParams()
 
   useEffect(() => {
+    // Initialize on mount if consent was already given in a previous visit
+    if (typeof window !== 'undefined') {
+      const consent = localStorage.getItem('tp_cookie_consent')
+      if (consent === 'all') initPostHog()
+    }
+  }, [])
+
+  useEffect(() => {
     // Page view tracking
     if (typeof window !== 'undefined' && posthog.__loaded) {
       const url = window.location.href
