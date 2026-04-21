@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     const referrer = req.headers.get('referer') ?? null
 
     // Save to CMS database
-    const cmsUrl = process.env.CMS_URL
+    const cmsUrl = process.env.CMS_URL ?? process.env.NEXT_PUBLIC_CMS_URL
     const cmsSecret = process.env.SUBMISSIONS_SECRET
     if (cmsUrl) {
       await fetch(`${cmsUrl}/api/submissions`, {
