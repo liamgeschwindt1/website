@@ -103,7 +103,8 @@ export default function ProfileDrawer({ contact, onClose }: ProfileDrawerProps) 
       addToast('Please enter a description for this touch point.', 'error')
       return
     }
-    logTouchPoint(contact!.id, tpType, tpNote.trim())
+    if (!contact) return
+    logTouchPoint(contact.id, tpType, tpNote.trim())
     setTpNote('')
   }
 

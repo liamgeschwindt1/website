@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { Contact, useCRM, healthColor, healthState, Segment } from '@/context/CRMContext'
 import Plumbob from './Plumbob'
 
@@ -17,6 +17,17 @@ export default function ContactTable({ contacts, onSelect }: ContactTableProps) 
   const [hoverId, setHoverId] = useState<string | null>(null)
   const [quickNoteId, setQuickNoteId] = useState<string | null>(null)
   const [quickNoteDraft, setQuickNoteDraft] = useState('')
+  const selectAllRef = useRef<HTMLInputElement>(null)
+
+  const allChecked = selected.size > 0 && selected.size === contacts.length
+  const someChecked = selected.size > 0 && selected.size < contacts.length
+
+  // Sync the indeterminate state via useEffect to avoid ref callback timing issues
+  useEffect(() => {
+    if (selectAllRef.current) {
+      selectAllRef.current.indeterminate = someChecked
+    }
+  }, [someChecked])
 
   function toggleSelect(id: string) {
     setSelected((prev) => {
@@ -55,9 +66,6 @@ export default function ContactTable({ contacts, onSelect }: ContactTableProps) 
     setQuickNoteDraft('')
   }
 
-  const allChecked = selected.size > 0 && selected.size === contacts.length
-  const someChecked = selected.size > 0 && selected.size < contacts.length
-
   return (
     <div className="flex flex-col gap-0 relative">
       {/* Table */}
@@ -69,7 +77,7 @@ export default function ContactTable({ contacts, onSelect }: ContactTableProps) 
                 <input
                   type="checkbox"
                   checked={allChecked}
-                  ref={(el) => { if (el) el.indeterminate = someChecked }}
+                  ref={selectAllRef}
                   onChange={toggleAll}
                   className="accent-teal cursor-pointer"
                   aria-label="Select all"
