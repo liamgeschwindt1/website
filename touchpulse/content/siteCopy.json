@@ -1,0 +1,30 @@
+{
+  "hero": {
+    "badge": "AI-powered navigation",
+    "headingLine1": "Every person.",
+    "headingHighlight": "journey.",
+    "headingLine2": "With confidence.",
+    "lead": "TouchPulse turns any building or street into a clear, confident path — powered by Tiera AI and real human backup.",
+    "primaryCta": "Get started ↗",
+    "secondaryCta": "See how it works →",
+    "proofLine": "2.4M routes completed. Real people. Real independence."
+  },
+  "proofBar": {
+    "trustedByLabel": "Trusted by",
+    "stats": [
+      { "number": "2.4M", "label": "Routes completed" },
+      { "number": "2.2B", "label": "People with vision loss globally" },
+      { "number": "97%", "label": "User satisfaction" },
+      { "number": "24/7", "label": "Human support available" }
+    ]
+  },
+  "ctaBanner": {
+    "heading": "Be part of building something that matters.",
+    "body": "Whether you join now or wait for December — your involvement makes Tiera better for everyone who needs it.",
+    "primaryButton": "Get early access ↗",
+    "secondaryButton": "Join the waitlist →",
+    "earlyAccessMessage": "I'd like early access to the Tiera development app.",
+    "waitlistMessage": "I'd like to join the waitlist for the December Tiera launch.",
+    "poweredByLabel": "Powered by"
+  }
+}

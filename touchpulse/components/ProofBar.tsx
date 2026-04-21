@@ -1,15 +1,10 @@
 'use client'
 
 import { motion } from 'framer-motion'
-
-const stats = [
-  { number: '2.4M', label: 'Routes completed' },
-  { number: '2.2B', label: 'People with vision loss globally' },
-  { number: '97%', label: 'User satisfaction' },
-  { number: '24/7', label: 'Human support available' },
-]
+import siteCopy from '@/content/siteCopy.json'
 
 export default function ProofBar() {
+  const stats = siteCopy.proofBar.stats
   const logos = ['Blind Veterans UK', 'NS', 'Radboud UMC', 'TU/e', 'ProRail', 'Blind Veterans UK', 'NS', 'Radboud UMC', 'TU/e', 'ProRail']
 
   return (
@@ -20,7 +15,7 @@ export default function ProofBar() {
         <div className="absolute right-0 top-0 bottom-0 w-20 z-10 pointer-events-none" style={{ background: 'linear-gradient(to left, var(--bg), transparent)' }} aria-hidden="true" />
 
         <span className="flex-shrink-0 text-[11px] font-medium tracking-[0.08em] uppercase text-[var(--muted)] whitespace-nowrap pl-[clamp(24px,5vw,80px)] z-20">
-          Trusted by
+          {siteCopy.proofBar.trustedByLabel}
         </span>
 
         <div className="overflow-hidden flex-1" aria-label="Partner logos">

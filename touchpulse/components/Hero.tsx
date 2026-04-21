@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useRef } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { useSectionView } from '@/lib/posthog'
+import siteCopy from '@/content/siteCopy.json'
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -16,6 +17,7 @@ export default function Hero() {
   const prefersReduced = useReducedMotion()
   const sectionRef = useRef<HTMLElement>(null)
   useSectionView(sectionRef, 'hero')
+  const copy = siteCopy.hero
 
   const motionProps = prefersReduced ? {} : fadeUp
 
@@ -36,14 +38,14 @@ export default function Hero() {
         {/* Left */}
         <motion.div {...motionProps}>
           <div className="inline-flex items-center gap-[7px] px-[14px] py-1 rounded-full bg-[rgba(1,180,175,0.10)] border border-[rgba(1,180,175,0.38)] text-[var(--teal)] text-[12px] font-medium mb-7">
-            ✦ AI-powered navigation
+            ✦ {copy.badge}
           </div>
 
           <h1
             className="text-[clamp(44px,5.5vw,72px)] font-medium leading-[1.06] tracking-[-0.03em] mb-3"
             style={{ fontFamily: 'var(--font-inter)' }}
           >
-            Every person.<br />
+            {copy.headingLine1}<br />
             Every{' '}
             <em
               className="not-italic"
@@ -57,15 +59,14 @@ export default function Hero() {
                 backgroundClip: 'text',
               }}
             >
-              journey.
+              {copy.headingHighlight}
             </em>
             <br />
-            With confidence.
+            {copy.headingLine2}
           </h1>
 
           <p className="text-[17px] text-[var(--body)] max-w-[480px] mb-9 leading-[1.7]">
-            TouchPulse turns any building or street into a clear,
-            confident path — powered by Tiera AI and real human backup.
+            {copy.lead}
           </p>
 
           <div className="flex items-center gap-[14px] flex-wrap mb-12">
@@ -73,19 +74,19 @@ export default function Hero() {
               href="#contact"
               className="inline-flex items-center gap-[6px] px-[22px] py-[10px] rounded-[6px] bg-[var(--gold)] text-[#031119] text-[14px] font-medium no-underline hover:opacity-90 transition-opacity duration-150 min-h-[44px]"
             >
-              Get started ↗
+              {copy.primaryCta}
             </Link>
             <Link
               href="#features"
               className="inline-flex items-center px-4 py-2 min-h-[44px] border border-[rgba(255,255,255,0.6)] rounded-[6px] text-[var(--text)] text-[13px] font-medium no-underline hover:bg-[rgba(255,255,255,0.06)] transition-colors duration-150"
             >
-              See how it works →
+              {copy.secondaryCta}
             </Link>
           </div>
 
           <div className="flex items-center gap-[10px] text-[13px] text-[var(--muted)]">
             <span className="block w-5 h-px bg-[var(--muted)]" aria-hidden="true" />
-            2.4M routes completed. Real people. Real independence.
+            {copy.proofLine}
           </div>
         </motion.div>
 

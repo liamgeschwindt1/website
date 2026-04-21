@@ -1,9 +1,7 @@
 'use client'
 
 import { motion, useReducedMotion } from 'framer-motion'
-
-const earlyAccessMsg = "I'd like early access to the Tiera development app."
-const waitlistMsg = "I'd like to join the waitlist for the December Tiera launch."
+import siteCopy from '@/content/siteCopy.json'
 
 interface CTABannerProps {
   onSetMessage: (msg: string) => void
@@ -11,6 +9,7 @@ interface CTABannerProps {
 
 export default function CTABanner({ onSetMessage }: CTABannerProps) {
   const prefersReduced = useReducedMotion()
+  const copy = siteCopy.ctaBanner
 
   return (
     <section
@@ -39,35 +38,34 @@ export default function CTABanner({ onSetMessage }: CTABannerProps) {
           id="cta-heading"
           className="text-[clamp(32px,5vw,56px)] font-medium tracking-[-0.03em] leading-[1.1] mb-4"
         >
-          Be part of building something that matters.
+          {copy.heading}
         </h2>
         <p className="text-[18px] text-[var(--body)] mb-10">
-          Whether you join now or wait for December —{' '}
-          your involvement makes Tiera better for everyone who needs it.
+          {copy.body}
         </p>
 
         <div className="flex justify-center gap-4 flex-wrap">
           <button
             type="button"
             onClick={() => {
-              onSetMessage(earlyAccessMsg)
+              onSetMessage(copy.earlyAccessMessage)
               const el = document.getElementById('contact')
               if (el) el.scrollIntoView({ behavior: 'smooth' })
             }}
             className="inline-flex items-center gap-[6px] px-[22px] py-[10px] min-h-[44px] rounded-[6px] bg-[var(--gold)] text-[#031119] text-[14px] font-medium hover:opacity-90 transition-opacity duration-150"
           >
-            Get early access ↗
+            {copy.primaryButton}
           </button>
           <button
             type="button"
             onClick={() => {
-              onSetMessage(waitlistMsg)
+              onSetMessage(copy.waitlistMessage)
               const el = document.getElementById('contact')
               if (el) el.scrollIntoView({ behavior: 'smooth' })
             }}
             className="inline-flex items-center px-4 py-2 min-h-[44px] border border-[rgba(255,255,255,0.6)] rounded-[6px] text-[var(--text)] text-[13px] font-medium hover:bg-[rgba(255,255,255,0.06)] transition-colors duration-150"
           >
-            Join the waitlist →
+            {copy.secondaryButton}
           </button>
         </div>
 
@@ -83,7 +81,7 @@ export default function CTABanner({ onSetMessage }: CTABannerProps) {
                 transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as [number, number, number, number], delay: 0.2 },
               })}
         >
-          <p className="text-[13px] text-[var(--muted)] mb-4 tracking-wide uppercase">Powered by</p>
+          <p className="text-[13px] text-[var(--muted)] mb-4 tracking-wide uppercase">{copy.poweredByLabel}</p>
           <a
             href="https://studio.touchpulse.ai"
             target="_blank"
