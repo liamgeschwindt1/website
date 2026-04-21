@@ -109,6 +109,8 @@ const SEED_CONTACTS: Contact[] = [
 ]
 
 const STORAGE_KEY = 'tp_crm_v1'
+const DAILY_DECAY_RATE = 5      // points lost per day without contact
+const INITIAL_CONTACT_SCORE = 60 // starting score for all imported contacts
 
 function uid() {
   return Math.random().toString(36).slice(2, 10)
@@ -137,7 +139,7 @@ function applyDecay(contacts: Contact[]): Contact[] {
   return contacts.map((c) => {
     const lastMs = new Date(c.lastContactedDate).getTime()
     const daysPassed = Math.floor((now - lastMs) / (24 * 60 * 60 * 1000))
-    const decayed = Math.max(0, c.health - daysPassed * 5)
+    const decayed = Math.max(0, c.health - daysPassed * DAILY_DECAY_RATE)
     return decayed !== c.health ? { ...c, health: decayed } : c
   })
 }
@@ -184,12 +186,12 @@ export function CRMProvider({ children }: { children: React.ReactNode }) {
             newContacts.push({
               ...raw_c,
               id: uid(),
-              health: 60,
+              health: INITIAL_CONTACT_SCORE,
               lastContactedDate: new Date().toISOString(),
-              social: 60,
-              energy: 60,
-              hygiene: 60,
-              fun: 60,
+              social: INITIAL_CONTACT_SCORE,
+              energy: INITIAL_CONTACT_SCORE,
+              hygiene: INITIAL_CONTACT_SCORE,
+              fun: INITIAL_CONTACT_SCORE,
               activityLog: [
                 {
                   id: uid(),
