@@ -52,6 +52,7 @@ export function AccessibilityProvider({ children }: { children: React.ReactNode 
         // Invalid JSON stored — clear it to self-heal
         localStorage.removeItem('tp-a11y')
       }
+    }
   }, [])
 
   useEffect(() => {
@@ -69,7 +70,7 @@ export function AccessibilityProvider({ children }: { children: React.ReactNode 
   }, [accessibilityMode])
 
   useEffect(() => {
-    const html = document.documentElement
+    const html = document.documentElement;
     (['dark', 'contrast-dark', 'contrast-light', 'sepia'] as ColorScheme[]).forEach(s => {
       html.classList.remove(`a11y-scheme-${s}`)
     })
