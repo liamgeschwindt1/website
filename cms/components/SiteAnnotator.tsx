@@ -36,8 +36,23 @@ export default function SiteAnnotator() {
   useEffect(() => {
     function onMessage(e: MessageEvent) {
       if (e.data?.type === 'ANNOTATION_CLICK') {
-        setAnnotation({ x: e.data.x, y: e.data.y, xpath: e.data.xpath, label: e.data.label })
+        const ann: Annotation = { x: e.data.x, y: e.data.y, xpath: e.data.xpath, label: e.data.label }
+        setAnnotation(ann)
         setClickMode(false)
+        setDetails(prev => {
+          const locationBlock = [
+            `**Element:** ${ann.label}`,
+            `**XPath:** \`${ann.xpath}\``,
+            `**Position:** ${ann.x}% from left, ${ann.y}% from top`,
+          ].join('\n')
+          // Replace any previous location block or append fresh
+          const marker = '**Element:**'
+          const idx = prev.indexOf(marker)
+          if (idx !== -1) {
+            return prev.slice(0, idx).trimEnd() + (prev.slice(0, idx).trim() ? '\n\n' : '') + locationBlock
+          }
+          return prev.trim() ? prev.trimEnd() + '\n\n' + locationBlock : locationBlock
+        })
       }
     }
     window.addEventListener('message', onMessage)
@@ -101,9 +116,6 @@ export default function SiteAnnotator() {
         '',
         '---',
         `**Page:** ${SITE_URL}${currentPath}`,
-        annotation ? `**Element:** ${annotation.label}` : '',
-        annotation ? `**XPath:** \`${annotation.xpath}\`` : '',
-        annotation ? `**Position:** ${annotation.x}% from left, ${annotation.y}% from top` : '',
       ].filter(Boolean).join('\n')
 
       const res = await fetch('/api/github/issue', {
