@@ -19,7 +19,7 @@ const nav = [
     label: 'Marketing',
     items: [
       { href: '/admin/campaigns', label: 'Campaigns', icon: '◎' },
-      { href: '/admin/email', label: 'Email Outreach', icon: '✉' },
+      { href: '/admin/email', label: 'Newsletters', icon: '✉' },
     ],
   },
   {

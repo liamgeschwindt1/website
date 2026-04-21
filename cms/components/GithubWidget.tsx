@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, FormEvent } from 'react'
+import { useEffect, useState, FormEvent } from 'react'
 import { createGithubIssue, toggleButtonStyle } from '@/lib/utils'
 
 const LABELS = ['bug', 'feature-request', 'content', 'question', 'urgent']
@@ -14,6 +14,16 @@ const PAGE_OPTIONS = [
   { label: 'Cookies', value: '/cookies' },
 ]
 
+type PrefillDetail = {
+  target?: Target
+  pagePath?: string
+  location?: string
+  pinX?: string
+  pinY?: string
+  title?: string
+  body?: string
+}
+
 export default function GithubWidget() {
   const [open, setOpen] = useState(false)
   const [title, setTitle] = useState('')
@@ -26,6 +36,25 @@ export default function GithubWidget() {
   const [pinY, setPinY] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
+
+  useEffect(() => {
+    const handler = (event: Event) => {
+      const customEvent = event as CustomEvent<PrefillDetail>
+      const detail = customEvent.detail ?? {}
+      if (detail.target) setTarget(detail.target)
+      if (detail.pagePath) setPagePath(detail.pagePath)
+      if (detail.location !== undefined) setLocation(detail.location)
+      if (detail.pinX !== undefined) setPinX(detail.pinX)
+      if (detail.pinY !== undefined) setPinY(detail.pinY)
+      if (detail.title !== undefined) setTitle(detail.title)
+      if (detail.body !== undefined) setBody(detail.body)
+      setOpen(true)
+      setStatus('idle')
+    }
+
+    window.addEventListener('tp-prefill-dev-request', handler as EventListener)
+    return () => window.removeEventListener('tp-prefill-dev-request', handler as EventListener)
+  }, [])
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
@@ -63,7 +92,6 @@ export default function GithubWidget() {
 
   return (
     <>
-      {/* Floating button */}
       <button
         type="button"
         onClick={() => { setOpen(true); setStatus('idle') }}
@@ -77,13 +105,11 @@ export default function GithubWidget() {
         Request to devs
       </button>
 
-      {/* Panel */}
       {open && (
         <div
           className="fixed bottom-20 right-6 z-50 w-[360px] rounded-[14px] border shadow-[0_8px_48px_rgba(0,0,0,0.7)] overflow-hidden"
           style={{ background: 'rgba(5,18,28,0.98)', borderColor: 'rgba(255,255,255,0.12)' }}
         >
-          {/* Header */}
           <div className="flex items-center justify-between px-5 py-4 border-b" style={{ borderColor: 'var(--border)' }}>
             <div>
               <p className="text-[14px] font-semibold" style={{ color: 'var(--text)' }}>Send to developers</p>
@@ -110,7 +136,6 @@ export default function GithubWidget() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="p-5 flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto">
-              {/* Target */}
               <div>
                 <label className="block text-[11px] font-medium mb-2 uppercase tracking-wide" style={{ color: 'var(--muted)' }}>
                   For
@@ -130,7 +155,6 @@ export default function GithubWidget() {
                 </div>
               </div>
 
-              {/* Location */}
               {target === 'frontend' && (
                 <div>
                   <label className="block text-[11px] font-medium mb-2 uppercase tracking-wide" style={{ color: 'var(--muted)' }}>
@@ -158,7 +182,7 @@ export default function GithubWidget() {
                     type="text"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
-                    placeholder="e.g. Home → Hero, /for-business pricing table"
+                    placeholder="e.g. home hero, pricing cards"
                     className={inputClass}
                     style={inputStyle}
                   />
@@ -182,7 +206,6 @@ export default function GithubWidget() {
                 </div>
               )}
 
-              {/* Type */}
               <div>
                 <label className="block text-[11px] font-medium mb-2 uppercase tracking-wide" style={{ color: 'var(--muted)' }}>
                   Type
@@ -202,7 +225,6 @@ export default function GithubWidget() {
                 </div>
               </div>
 
-              {/* Title */}
               <div>
                 <label className="block text-[11px] font-medium mb-2 uppercase tracking-wide" style={{ color: 'var(--muted)' }}>
                   Title <span aria-hidden="true">*</span>
@@ -218,7 +240,6 @@ export default function GithubWidget() {
                 />
               </div>
 
-              {/* Details */}
               <div>
                 <label className="block text-[11px] font-medium mb-2 uppercase tracking-wide" style={{ color: 'var(--muted)' }}>
                   Details
