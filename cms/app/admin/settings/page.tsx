@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 const ENV_VARS = [
   { key: 'GITHUB_TOKEN', desc: 'Personal access token for creating GitHub issues. Needs repo scope (or Issues: Read & write for fine-grained tokens).', required: true },
   { key: 'GITHUB_REPO', desc: 'Target repo for issues (format: owner/repo). Defaults to liamgeschwindt1/website.', required: false },
-  { key: 'NEXT_PUBLIC_SITE_URL', desc: 'Live site URL loaded in the Site Annotator iframe. Defaults to https://touchpulse-production.up.railway.app.', required: false },
+  { key: 'NEXT_PUBLIC_SITE_URL', desc: 'Live site URL referenced when sending frontend requests. Defaults to https://touchpulse-production.up.railway.app.', required: false },
   { key: 'NEXTAUTH_SECRET', desc: 'NextAuth session signing secret (≥32 chars).', required: true },
   { key: 'NEXTAUTH_URL', desc: 'Full URL of this CMS (no trailing slash).', required: true },
   { key: 'DATABASE_URL', desc: 'PostgreSQL connection string. Auto-injected by Railway.', required: true },
@@ -54,7 +54,7 @@ export default function SettingsPage() {
       <section className="mb-10">
         <h2 className="text-[15px] font-semibold mb-1" style={{ color: 'var(--text)' }}>Issue handling</h2>
         <p className="text-[13px] mb-5" style={{ color: 'var(--muted)' }}>
-          Configure how GitHub issues created from the Site Annotator and dev request widget are assigned and handled.
+          Configure how GitHub issues created from the dev request widget are assigned and handled.
         </p>
 
         <div className="p-5 rounded-[12px] border flex flex-col gap-5" style={{ borderColor: 'var(--border)', background: 'rgba(27,53,79,0.18)' }}>

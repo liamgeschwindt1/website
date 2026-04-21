@@ -1,5 +1,6 @@
 import { NextAuthOptions } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
+import { getRoleForEmail } from '@/lib/adminRoles'
 
 const ALLOWED_DOMAIN = 'touchpulse.nl'
 
@@ -42,10 +43,15 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (session.user) {
         (session.user as { id?: string }).id = token.sub
+        ;(session.user as { role?: string }).role = typeof token.role === 'string' ? token.role : 'editor'
       }
       return session
     },
-    async jwt({ token }) {
+    async jwt({ token, user, profile }) {
+      const email = user?.email ?? token.email ?? (profile as { email?: string } | undefined)?.email
+      if (email) {
+        token.role = await getRoleForEmail(email)
+      }
       return token
     },
   },

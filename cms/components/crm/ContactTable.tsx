@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useRef, useEffect } from 'react'
-import { Contact, useCRM, healthColor, healthState, Segment } from '@/context/CRMContext'
+import { Contact, useCRM, healthColor, contactSegmentLabel, Segment } from '@/context/CRMContext'
 import Plumbob from './Plumbob'
 
 const SEGMENTS: Segment[] = ['BLV Community', 'Instructor', 'Enterprise', 'Champion', 'General']
@@ -12,11 +12,12 @@ interface ContactTableProps {
 }
 
 export default function ContactTable({ contacts, onSelect }: ContactTableProps) {
-  const { updateContact, deleteContacts, addToast } = useCRM()
+  const { updateContact, deleteContacts, assignContactsToCampaign, addToast } = useCRM()
   const [selected, setSelected] = useState<Set<string>>(new Set())
   const [hoverId, setHoverId] = useState<string | null>(null)
   const [quickNoteId, setQuickNoteId] = useState<string | null>(null)
   const [quickNoteDraft, setQuickNoteDraft] = useState('')
+  const [columnFilters, setColumnFilters] = useState({ name: '', email: '', segment: '' })
   const selectAllRef = useRef<HTMLInputElement>(null)
 
   const allChecked = selected.size > 0 && selected.size === contacts.length
@@ -58,6 +59,14 @@ export default function ContactTable({ contacts, onSelect }: ContactTableProps) 
     setSelected(new Set())
   }
 
+  function handleAddToCampaign(contactIds: string[]) {
+    const targetId = prompt('Enter campaign ID to assign')?.trim()
+    if (!targetId) return
+    const assigned = assignContactsToCampaign(contactIds, targetId)
+    if (assigned > 0) addToast(`${assigned} contact${assigned !== 1 ? 's' : ''} added to campaign ${targetId}.`, 'success')
+    else addToast('Those contacts are already in that campaign.', 'info')
+  }
+
   function submitQuickNote(contact: Contact) {
     if (!quickNoteDraft.trim()) return
     updateContact(contact.id, { notes: quickNoteDraft.trim() })
@@ -65,6 +74,13 @@ export default function ContactTable({ contacts, onSelect }: ContactTableProps) 
     setQuickNoteId(null)
     setQuickNoteDraft('')
   }
+
+  const visibleContacts = contacts.filter((contact) => {
+    const nameMatch = !columnFilters.name || contact.name.toLowerCase().includes(columnFilters.name.toLowerCase())
+    const emailMatch = !columnFilters.email || contact.email.toLowerCase().includes(columnFilters.email.toLowerCase())
+    const segmentMatch = !columnFilters.segment || contactSegmentLabel(contact).toLowerCase().includes(columnFilters.segment.toLowerCase())
+    return nameMatch && emailMatch && segmentMatch
+  })
 
   return (
     <div className="flex flex-col gap-0 relative">
@@ -90,16 +106,25 @@ export default function ContactTable({ contacts, onSelect }: ContactTableProps) 
               <th className="text-left px-3 py-3 font-medium hidden lg:table-cell" style={{ color: 'rgba(247,247,247,0.5)' }}>Persona</th>
               <th className="w-20 px-3 py-3" />
             </tr>
+            <tr style={{ background: 'rgba(255,255,255,0.02)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+              <th className="px-3 py-2" />
+              <th className="px-3 py-2" />
+              <th className="px-3 py-2"><input value={columnFilters.name} onChange={(e) => setColumnFilters((prev) => ({ ...prev, name: e.target.value }))} placeholder="Filter" className="w-full px-2 py-1 rounded-md text-xs border" style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#F7F7F7' }} /></th>
+              <th className="px-3 py-2 hidden md:table-cell"><input value={columnFilters.email} onChange={(e) => setColumnFilters((prev) => ({ ...prev, email: e.target.value }))} placeholder="Filter" className="w-full px-2 py-1 rounded-md text-xs border" style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#F7F7F7' }} /></th>
+              <th className="px-3 py-2 hidden lg:table-cell"><input value={columnFilters.segment} onChange={(e) => setColumnFilters((prev) => ({ ...prev, segment: e.target.value }))} placeholder="Filter" className="w-full px-2 py-1 rounded-md text-xs border" style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)', color: '#F7F7F7' }} /></th>
+              <th className="px-3 py-2 hidden lg:table-cell" />
+              <th className="px-3 py-2" />
+            </tr>
           </thead>
           <tbody>
-            {contacts.length === 0 ? (
+            {visibleContacts.length === 0 ? (
               <tr>
                 <td colSpan={7} className="px-4 py-10 text-center text-sm" style={{ color: 'rgba(247,247,247,0.35)' }}>
                   No contacts found. Import some or add one manually.
                 </td>
               </tr>
             ) : (
-              contacts.map((contact, i) => {
+              visibleContacts.map((contact, i) => {
                 const hColor = healthColor(contact.health)
                 const isSelected = selected.has(contact.id)
                 const isHovered = hoverId === contact.id
@@ -158,7 +183,7 @@ export default function ContactTable({ contacts, onSelect }: ContactTableProps) 
                             color: '#01B4AF',
                           }}
                         >
-                          {contact.segment}
+                          {contactSegmentLabel(contact)}
                         </span>
                       </td>
 
@@ -187,7 +212,7 @@ export default function ContactTable({ contacts, onSelect }: ContactTableProps) 
                           </button>
                           {/* Add to Campaign (placeholder) */}
                           <button
-                            onClick={() => addToast(`${contact.name} added to campaign.`, 'info')}
+                            onClick={() => handleAddToCampaign([contact.id])}
                             title="Add to Campaign"
                             className="w-7 h-7 flex items-center justify-center rounded-lg transition-colors hover:bg-white/10 text-base"
                             aria-label="Add to Campaign"
@@ -259,7 +284,7 @@ export default function ContactTable({ contacts, onSelect }: ContactTableProps) 
           </span>
           <div className="h-4 w-px" style={{ background: 'rgba(255,255,255,0.12)' }} />
           <button
-            onClick={() => addToast(`${selected.size} contact${selected.size !== 1 ? 's' : ''} added to campaign.`, 'info')}
+            onClick={() => handleAddToCampaign(Array.from(selected))}
             className="px-3 py-1.5 rounded-lg text-xs font-semibold transition-colors hover:opacity-90"
             style={{ background: 'rgba(1,180,175,0.15)', border: '1px solid rgba(1,180,175,0.3)', color: '#01B4AF' }}
           >

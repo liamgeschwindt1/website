@@ -163,6 +163,7 @@ export default function ImportWizard({ onClose }: ImportWizardProps) {
       email: r.mapped.email,
       phone: r.mapped.phone,
       segment: (r.mapped.segment as Segment) || 'General',
+      campaignIds: [],
       persona: r.mapped.persona,
     }))
 

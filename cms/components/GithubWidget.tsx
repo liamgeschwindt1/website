@@ -5,6 +5,14 @@ import { createGithubIssue, toggleButtonStyle } from '@/lib/utils'
 
 const LABELS = ['bug', 'feature-request', 'content', 'question', 'urgent']
 type Target = 'suite' | 'frontend'
+const PAGE_OPTIONS = [
+  { label: 'Home', value: '/' },
+  { label: 'For Business', value: '/for-business' },
+  { label: 'Partners', value: '/partners' },
+  { label: 'Tiera', value: '/tiera' },
+  { label: 'Privacy', value: '/privacy' },
+  { label: 'Cookies', value: '/cookies' },
+]
 
 export default function GithubWidget() {
   const [open, setOpen] = useState(false)
@@ -13,6 +21,9 @@ export default function GithubWidget() {
   const [label, setLabel] = useState('feature-request')
   const [target, setTarget] = useState<Target>('suite')
   const [location, setLocation] = useState('')
+  const [pagePath, setPagePath] = useState('/')
+  const [pinX, setPinX] = useState('')
+  const [pinY, setPinY] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
 
@@ -21,7 +32,14 @@ export default function GithubWidget() {
     if (!title.trim()) return
     setStatus('loading')
     setErrorMsg('')
-    const locationLine = location.trim() ? `\n**Location:** ${location.trim()}` : ''
+    const frontendLocationLines = []
+    if (target === 'frontend') {
+      const pageLabel = PAGE_OPTIONS.find((option) => option.value === pagePath)?.label ?? pagePath
+      frontendLocationLines.push(`**Page:** ${pageLabel} (${pagePath})`)
+      if (location.trim()) frontendLocationLines.push(`**Section:** ${location.trim()}`)
+      if (pinX.trim() || pinY.trim()) frontendLocationLines.push(`**Pin:** ${pinX || '?'}% from left, ${pinY || '?'}% from top`)
+    }
+    const locationLine = frontendLocationLines.length > 0 ? `\n${frontendLocationLines.join('\n')}` : location.trim() ? `\n**Location:** ${location.trim()}` : ''
     const fullBody = `**Target:** ${target === 'suite' ? '🟦 Suite (CMS)' : '🌐 Frontend (Site)'}${locationLine}\n\n${body}`
     try {
       await createGithubIssue({ title, body: fullBody, label })
@@ -30,6 +48,9 @@ export default function GithubWidget() {
       setBody('')
       setLabel('feature-request')
       setLocation('')
+      setPagePath('/')
+      setPinX('')
+      setPinY('')
       setTimeout(() => { setStatus('idle'); setOpen(false) }, 2500)
     } catch (err) {
       setStatus('error')
@@ -113,7 +134,25 @@ export default function GithubWidget() {
               {target === 'frontend' && (
                 <div>
                   <label className="block text-[11px] font-medium mb-2 uppercase tracking-wide" style={{ color: 'var(--muted)' }}>
-                    Page / Location
+                    Page
+                  </label>
+                  <select
+                    value={pagePath}
+                    onChange={(e) => setPagePath(e.target.value)}
+                    className={inputClass}
+                    style={inputStyle}
+                  >
+                    {PAGE_OPTIONS.map((option) => (
+                      <option key={option.value} value={option.value} style={{ background: '#031119' }}>{option.label}</option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              {target === 'frontend' && (
+                <div>
+                  <label className="block text-[11px] font-medium mb-2 uppercase tracking-wide" style={{ color: 'var(--muted)' }}>
+                    Section / Location
                   </label>
                   <input
                     type="text"
@@ -123,6 +162,23 @@ export default function GithubWidget() {
                     className={inputClass}
                     style={inputStyle}
                   />
+                </div>
+              )}
+
+              {target === 'frontend' && (
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <label className="block text-[11px] font-medium mb-2 uppercase tracking-wide" style={{ color: 'var(--muted)' }}>
+                      Pin X %
+                    </label>
+                    <input type="number" min="0" max="100" value={pinX} onChange={(e) => setPinX(e.target.value)} className={inputClass} style={inputStyle} placeholder="e.g. 42" />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] font-medium mb-2 uppercase tracking-wide" style={{ color: 'var(--muted)' }}>
+                      Pin Y %
+                    </label>
+                    <input type="number" min="0" max="100" value={pinY} onChange={(e) => setPinY(e.target.value)} className={inputClass} style={inputStyle} placeholder="e.g. 18" />
+                  </div>
                 </div>
               )}
 

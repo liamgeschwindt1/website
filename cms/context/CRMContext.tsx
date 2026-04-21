@@ -12,6 +12,8 @@ export type Contact = {
   email: string
   phone?: string
   segment: Segment
+  customSegment?: string
+  campaignIds: string[]
   persona?: string
   health: number
   lastContactedDate: string // ISO string
@@ -20,6 +22,17 @@ export type Contact = {
   hygiene: number   // 0-100 Sims need
   fun: number       // 0-100 Sims need
   activityLog: ActivityEntry[]
+  notes?: string
+}
+
+export type ContactDraft = {
+  name: string
+  email: string
+  phone?: string
+  segment: Segment
+  customSegment?: string
+  campaignIds?: string[]
+  persona?: string
   notes?: string
 }
 
@@ -41,10 +54,14 @@ export type ToastMessage = {
 type CRMContextType = {
   contacts: Contact[]
   toasts: ToastMessage[]
-  importContacts: (newContacts: Omit<Contact, 'id' | 'health' | 'lastContactedDate' | 'social' | 'energy' | 'hygiene' | 'fun' | 'activityLog'>[]) => { added: number; skipped: number }
+  importContacts: (newContacts: ContactDraft[]) => { added: number; skipped: number }
   updateContact: (id: string, updates: Partial<Contact>) => void
+  createContact: (contact: ContactDraft) => boolean
   deleteContacts: (ids: string[]) => void
   logTouchPoint: (id: string, type: ActivityEntry['type'], description: string) => void
+  getSegments: () => string[]
+  renameSegment: (currentName: string, nextName: string) => boolean
+  assignContactsToCampaign: (contactIds: string[], campaignId: string) => number
   addToast: (text: string, type?: ToastMessage['type']) => void
   removeToast: (id: string) => void
 }
@@ -60,6 +77,7 @@ const SEED_CONTACTS: Contact[] = [
     email: 'alex@blvcommunity.org',
     phone: '+1 555 0101',
     segment: 'BLV Community',
+    campaignIds: ['c1'],
     persona: 'Alex',
     health: 88,
     lastContactedDate: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(),
@@ -78,6 +96,7 @@ const SEED_CONTACTS: Contact[] = [
     email: 'jacky@instructor.edu',
     phone: '+1 555 0202',
     segment: 'Instructor',
+    campaignIds: ['c3'],
     persona: 'Jacky',
     health: 52,
     lastContactedDate: new Date(Date.now() - 9 * 24 * 60 * 60 * 1000).toISOString(),
@@ -95,6 +114,7 @@ const SEED_CONTACTS: Contact[] = [
     email: 'dm@enterprise.com',
     phone: '+1 555 0303',
     segment: 'Enterprise',
+    campaignIds: ['c2'],
     persona: 'Decision Maker',
     health: 14,
     lastContactedDate: new Date(Date.now() - 25 * 24 * 60 * 60 * 1000).toISOString(),
@@ -132,11 +152,35 @@ function saveToStorage(contacts: Contact[]) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(contacts))
 }
 
+type NormalizableContact = ContactDraft & Pick<Contact, 'id' | 'health' | 'lastContactedDate' | 'social' | 'energy' | 'hygiene' | 'fun' | 'activityLog'>
+
+function normalizeContact(contact: Contact | NormalizableContact): Contact {
+  const customSegment = contact.customSegment?.trim() || undefined
+  return {
+    ...contact,
+    campaignIds: Array.isArray(contact.campaignIds) ? contact.campaignIds : [],
+    customSegment,
+  }
+}
+
+function getContactSegmentLabel(contact: Contact): string {
+  return contact.customSegment?.trim() || contact.segment
+}
+
+function collectSegments(contacts: Contact[]): string[] {
+  const unique = new Set<string>()
+  for (const contact of contacts) {
+    unique.add(getContactSegmentLabel(contact))
+  }
+  return Array.from(unique).sort((left, right) => left.localeCompare(right))
+}
+
 // ─── Health Decay ───────────────────────────────────────────────────────────
 
 function applyDecay(contacts: Contact[]): Contact[] {
   const now = Date.now()
-  return contacts.map((c) => {
+  return contacts.map((rawContact) => {
+    const c = normalizeContact(rawContact)
     const lastMs = new Date(c.lastContactedDate).getTime()
     const daysPassed = Math.floor((now - lastMs) / (24 * 60 * 60 * 1000))
     const decayed = Math.max(0, c.health - daysPassed * DAILY_DECAY_RATE)
@@ -169,7 +213,7 @@ export function CRMProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const importContacts = useCallback(
-    (raw: Omit<Contact, 'id' | 'health' | 'lastContactedDate' | 'social' | 'energy' | 'hygiene' | 'fun' | 'activityLog'>[]) => {
+    (raw: ContactDraft[]) => {
       let added = 0
       let skipped = 0
 
@@ -186,6 +230,8 @@ export function CRMProvider({ children }: { children: React.ReactNode }) {
             newContacts.push({
               ...raw_c,
               id: uid(),
+              customSegment: raw_c.customSegment?.trim() || undefined,
+              campaignIds: raw_c.campaignIds ?? [],
               health: INITIAL_CONTACT_SCORE,
               lastContactedDate: new Date().toISOString(),
               social: INITIAL_CONTACT_SCORE,
@@ -214,12 +260,88 @@ export function CRMProvider({ children }: { children: React.ReactNode }) {
     []
   )
 
-  const updateContact = useCallback((id: string, updates: Partial<Contact>) => {
+  const createContact = useCallback((contact: ContactDraft) => {
+    let created = false
     setContacts((prev) => {
-      const updated = prev.map((c) => (c.id === id ? { ...c, ...updates } : c))
+      if (prev.some((existing) => existing.email.toLowerCase() === contact.email.toLowerCase())) {
+        return prev
+      }
+
+      created = true
+      const nextContact: Contact = normalizeContact({
+        ...contact,
+        id: uid(),
+        health: INITIAL_CONTACT_SCORE,
+        lastContactedDate: new Date().toISOString(),
+        social: INITIAL_CONTACT_SCORE,
+        energy: INITIAL_CONTACT_SCORE,
+        hygiene: INITIAL_CONTACT_SCORE,
+        fun: INITIAL_CONTACT_SCORE,
+        activityLog: [
+          {
+            id: uid(),
+            type: 'Import',
+            timestamp: new Date().toISOString(),
+            description: 'Contact added manually from CRM.',
+          },
+        ],
+      })
+      const updated = [...prev, nextContact]
       saveToStorage(updated)
       return updated
     })
+    return created
+  }, [])
+
+  const updateContact = useCallback((id: string, updates: Partial<Contact>) => {
+    setContacts((prev) => {
+      const updated = prev.map((c) => (c.id === id ? normalizeContact({ ...c, ...updates }) : c))
+      saveToStorage(updated)
+      return updated
+    })
+  }, [])
+
+  const getSegments = useCallback(() => collectSegments(contacts), [contacts])
+
+  const renameSegment = useCallback((currentName: string, nextName: string) => {
+    const trimmedCurrent = currentName.trim()
+    const trimmedNext = nextName.trim()
+    if (!trimmedCurrent || !trimmedNext) return false
+
+    let changed = false
+    setContacts((prev) => {
+      const updated = prev.map((contact) => {
+        if (getContactSegmentLabel(contact) !== trimmedCurrent) return contact
+        changed = true
+        const isDefaultSegment = (['BLV Community', 'Instructor', 'Enterprise', 'Champion', 'General'] as string[]).includes(trimmedNext)
+        return normalizeContact({
+          ...contact,
+          segment: isDefaultSegment ? (trimmedNext as Segment) : contact.segment,
+          customSegment: isDefaultSegment ? undefined : trimmedNext,
+        })
+      })
+
+      if (changed) saveToStorage(updated)
+      return updated
+    })
+    return changed
+  }, [])
+
+  const assignContactsToCampaign = useCallback((contactIds: string[], campaignId: string) => {
+    const idSet = new Set(contactIds)
+    let updatedCount = 0
+
+    setContacts((prev) => {
+      const updated = prev.map((contact) => {
+        if (!idSet.has(contact.id) || contact.campaignIds.includes(campaignId)) return contact
+        updatedCount++
+        return normalizeContact({ ...contact, campaignIds: [...contact.campaignIds, campaignId] })
+      })
+      if (updatedCount > 0) saveToStorage(updated)
+      return updated
+    })
+
+    return updatedCount
   }, [])
 
   const deleteContacts = useCallback((ids: string[]) => {
@@ -258,10 +380,14 @@ export function CRMProvider({ children }: { children: React.ReactNode }) {
   )
 
   return (
-    <CRMContext.Provider value={{ contacts, toasts, importContacts, updateContact, deleteContacts, logTouchPoint, addToast, removeToast }}>
+    <CRMContext.Provider value={{ contacts, toasts, importContacts, updateContact, createContact, deleteContacts, logTouchPoint, getSegments, renameSegment, assignContactsToCampaign, addToast, removeToast }}>
       {children}
     </CRMContext.Provider>
   )
+}
+
+export function contactSegmentLabel(contact: Contact): string {
+  return getContactSegmentLabel(contact)
 }
 
 export function useCRM() {

@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { useCRM } from '@/context/CRMContext'
+import { useMemo, useState } from 'react'
+import { contactSegmentLabel, useCRM } from '@/context/CRMContext'
 import ToastStack from '@/components/crm/ToastStack'
 
 type CampaignStatus = 'draft' | 'active' | 'paused' | 'completed'
@@ -70,11 +70,13 @@ const TYPE_ICON: Record<CampaignType, string> = {
 }
 
 export default function CampaignsPage() {
-  const { contacts } = useCRM()
-  const [campaigns] = useState<Campaign[]>(MOCK_CAMPAIGNS)
+  const { contacts, addToast } = useCRM()
+  const [campaigns, setCampaigns] = useState<Campaign[]>(MOCK_CAMPAIGNS)
   const [filter, setFilter] = useState<'all' | CampaignStatus>('all')
+  const [draft, setDraft] = useState({ name: '', type: 'email' as CampaignType, audience: 'BLV Community', targetCount: '10' })
 
   const filtered = filter === 'all' ? campaigns : campaigns.filter((c) => c.status === filter)
+  const audiences = useMemo(() => Array.from(new Set(contacts.map((contact) => contactSegmentLabel(contact)))), [contacts])
 
   const stats = [
     { label: 'Total campaigns', value: campaigns.length },
@@ -91,14 +93,43 @@ export default function CampaignsPage() {
           <h1 className="text-[22px] font-semibold" style={{ color: 'var(--text)' }}>Campaigns</h1>
           <p className="text-[13px] mt-0.5" style={{ color: 'var(--muted)' }}>Manage outreach campaigns across your CRM segments.</p>
         </div>
-        <button
-          disabled
-          title="Campaign builder — coming soon"
-          className="px-4 py-2 rounded-[7px] text-[13px] font-medium opacity-50 cursor-not-allowed"
-          style={{ background: 'var(--teal)', color: '#031119' }}
-        >
-          + New Campaign
-        </button>
+        <div className="grid grid-cols-4 gap-2 rounded-[10px] border p-3" style={{ borderColor: 'var(--border)', background: 'rgba(27,53,79,0.18)' }}>
+          <input value={draft.name} onChange={(e) => setDraft((prev) => ({ ...prev, name: e.target.value }))} placeholder="Campaign name" className="px-3 py-2 rounded-[7px] text-[13px] border col-span-2" style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'var(--border)', color: 'var(--text)' }} />
+          <select value={draft.type} onChange={(e) => setDraft((prev) => ({ ...prev, type: e.target.value as CampaignType }))} className="px-3 py-2 rounded-[7px] text-[13px] border" style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'var(--border)', color: 'var(--text)' }}>
+            {(['email', 'outreach', 'event', 'content'] as CampaignType[]).map((type) => <option key={type} value={type}>{type}</option>)}
+          </select>
+          <input value={draft.targetCount} onChange={(e) => setDraft((prev) => ({ ...prev, targetCount: e.target.value }))} placeholder="Target" className="px-3 py-2 rounded-[7px] text-[13px] border" style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'var(--border)', color: 'var(--text)' }} />
+          <select value={draft.audience} onChange={(e) => setDraft((prev) => ({ ...prev, audience: e.target.value }))} className="px-3 py-2 rounded-[7px] text-[13px] border col-span-2" style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'var(--border)', color: 'var(--text)' }}>
+            {audiences.map((audience) => <option key={audience} value={audience}>{audience}</option>)}
+          </select>
+          <button
+            type="button"
+            onClick={() => {
+              if (!draft.name.trim()) return
+              const targetCount = Number.parseInt(draft.targetCount, 10) || contacts.filter((contact) => contactSegmentLabel(contact) === draft.audience).length
+              setCampaigns((prev) => [
+                {
+                  id: `c-${Date.now()}`,
+                  name: draft.name.trim(),
+                  type: draft.type,
+                  status: 'draft',
+                  audience: draft.audience,
+                  targetCount,
+                  sentCount: 0,
+                  openRate: 0,
+                  createdAt: new Date().toISOString(),
+                },
+                ...prev,
+              ])
+              addToast(`Campaign "${draft.name.trim()}" created.`, 'success')
+              setDraft({ name: '', type: 'email', audience: draft.audience, targetCount: '10' })
+            }}
+            className="px-4 py-2 rounded-[7px] text-[13px] font-medium col-span-2"
+            style={{ background: 'var(--teal)', color: '#031119' }}
+          >
+            + New Campaign
+          </button>
+        </div>
       </div>
 
       {/* Stats */}
@@ -185,12 +216,29 @@ export default function CampaignsPage() {
                     </td>
                     <td className="px-5 py-3 text-right">
                       <button
-                        disabled
-                        title="Campaign editor — coming soon"
-                        className="text-[12px] opacity-40 cursor-not-allowed"
+                        onClick={() => {
+                          setCampaigns((prev) =>
+                            prev.map((existing) =>
+                              existing.id === campaign.id
+                                ? {
+                                    ...existing,
+                                    status:
+                                      existing.status === 'draft'
+                                        ? 'active'
+                                        : existing.status === 'active'
+                                        ? 'paused'
+                                        : existing.status === 'paused'
+                                        ? 'completed'
+                                        : 'draft',
+                                  }
+                                : existing
+                            )
+                          )
+                        }}
+                        className="text-[12px]"
                         style={{ color: 'var(--teal)' }}
                       >
-                        Edit
+                        Cycle status
                       </button>
                     </td>
                   </tr>

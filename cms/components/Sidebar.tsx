@@ -20,7 +20,6 @@ const nav = [
     items: [
       { href: '/admin/campaigns', label: 'Campaigns', icon: '◎' },
       { href: '/admin/email', label: 'Email Outreach', icon: '✉' },
-      { href: '/admin/automation', label: 'Automation', icon: '⇄' },
     ],
   },
   {
@@ -41,6 +40,7 @@ const nav = [
   {
     label: 'System',
     items: [
+      { href: '/admin/admin', label: 'Admin', icon: '⚑' },
       { href: '/admin/integrations', label: 'Integrations', icon: '⎇' },
       { href: '/admin/settings', label: 'Settings', icon: '⚙' },
     ],
@@ -51,6 +51,12 @@ export default function Sidebar() {
   const pathname = usePathname()
   const { data: session } = useSession()
   const [collapsed, setCollapsed] = useState(false)
+  const role = (session?.user as { role?: string } | undefined)?.role ?? 'editor'
+
+  const visibleNav = nav.map((group) => ({
+    ...group,
+    items: group.items.filter((item) => item.href !== '/admin/admin' || role === 'admin'),
+  }))
 
   function toggle() {
     setCollapsed(c => {
@@ -101,7 +107,7 @@ export default function Sidebar() {
 
       {/* Nav */}
       <nav className="flex-1 overflow-y-auto py-4" style={{ paddingLeft: collapsed ? 6 : 12, paddingRight: collapsed ? 6 : 12 }}>
-        {nav.map((group) => (
+        {visibleNav.map((group) => (
           <div key={group.label} className="mb-5">
             {!collapsed && (
               <p className="text-[10px] font-semibold tracking-[0.1em] uppercase px-2 mb-2" style={{ color: 'var(--muted)' }}>
@@ -188,6 +194,9 @@ export default function Sidebar() {
           <div className="flex-1 min-w-0">
             <p className="text-[12px] font-medium truncate" style={{ color: 'var(--text)' }}>
               {session?.user?.name ?? 'Admin'}
+            </p>
+            <p className="text-[11px] truncate" style={{ color: 'var(--muted)' }}>
+              {role}
             </p>
             <button
               type="button"
