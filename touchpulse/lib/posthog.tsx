@@ -42,10 +42,20 @@ export function PostHogProvider({ children }: { children: ReactNode }) {
   }, [])
 
   useEffect(() => {
-    // Page view tracking
-    if (typeof window !== 'undefined' && posthog.__loaded) {
-      const url = window.location.href
+    // Page view tracking — wait for posthog to be ready
+    if (typeof window === 'undefined') return
+    const url = window.location.href
+    if (posthog.__loaded) {
       posthog.capture('$pageview', { $current_url: url })
+    } else {
+      // posthog may still be initialising; wait for loaded callback
+      const interval = setInterval(() => {
+        if (posthog.__loaded) {
+          clearInterval(interval)
+          posthog.capture('$pageview', { $current_url: url })
+        }
+      }, 100)
+      return () => clearInterval(interval)
     }
   }, [pathname, searchParams])
 
