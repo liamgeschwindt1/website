@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { useSession, signOut } from 'next-auth/react'
 
@@ -45,7 +46,7 @@ export default function Sidebar() {
     >
       {/* Logo */}
       <div className="flex items-center gap-2 px-5 h-14 border-b flex-shrink-0" style={{ borderColor: 'var(--border)' }}>
-        <span className="text-[15px] font-semibold tracking-tight" style={{ color: 'var(--teal)' }}>TouchPulse</span>
+        <Image src="/touchpulse-logo.png" alt="TouchPulse" width={120} height={28} className="object-contain" style={{ maxHeight: 28 }} />
         <span
           className="text-[10px] px-1.5 py-0.5 rounded border font-medium"
           style={{ color: 'var(--muted)', borderColor: 'var(--border)' }}

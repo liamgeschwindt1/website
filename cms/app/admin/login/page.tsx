@@ -2,6 +2,7 @@
 
 import { signIn, useSession } from 'next-auth/react'
 import { useEffect, Suspense } from 'react'
+import Image from 'next/image'
 import { useRouter, useSearchParams } from 'next/navigation'
 
 function LoginForm() {
@@ -33,7 +34,9 @@ function LoginForm() {
       style={{ borderColor: 'var(--border)', background: 'rgba(27,53,79,0.30)' }}
     >
       <div className="mb-8 text-center">
-        <div className="text-[15px] font-semibold" style={{ color: 'var(--teal)' }}>TouchPulse</div>
+        <div className="flex justify-center mb-2">
+          <Image src="/touchpulse-logo.png" alt="TouchPulse" width={140} height={34} className="object-contain" />
+        </div>
         <div className="text-[12px] mt-1" style={{ color: 'var(--muted)' }}>CMS · Admin access</div>
       </div>
 
