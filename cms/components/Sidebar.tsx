@@ -30,9 +30,9 @@ const nav = [
     ],
   },
   {
-    label: 'Creative',
+    label: 'Website',
     items: [
-      { href: '/admin/content', label: 'Content', icon: '✍' },
+      { href: '/admin/content', label: 'Content', icon: '▤' },
       { href: '/admin/design', label: 'Design', icon: '⬡' },
       { href: '/admin/media', label: 'Media', icon: '▣' },
     ],

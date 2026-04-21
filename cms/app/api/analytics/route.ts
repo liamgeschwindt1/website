@@ -45,6 +45,7 @@ export async function GET(req: NextRequest) {
     // Parallel fetch
     const [
       trendData,
+      uniqueVisitors,
       topPages,
       topReferrers,
       topCountries,
@@ -64,6 +65,12 @@ export async function GET(req: NextRequest) {
         dateRange: { date_from: dateFrom },
         interval: 'day',
       }),
+
+      // Unique visitors (HogQL)
+      phQuery({
+        kind: 'HogQLQuery',
+        query: `SELECT uniq(distinct_id) AS visitors FROM events WHERE event = '$pageview' AND timestamp >= '${dateFrom}'`,
+      }).catch(() => null),
 
       // Top pages
       phFetch(`/api/projects/${POSTHOG_PROJECT_ID}/insights/?insight=PATHS&date_from=-${days}d&limit=10`).catch(() =>
@@ -141,6 +148,7 @@ export async function GET(req: NextRequest) {
       configured: true,
       days,
       trend: trendData,
+      uniqueVisitors,
       topPages,
       topReferrers,
       topCountries,

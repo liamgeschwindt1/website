@@ -73,21 +73,7 @@ export function PostHogProvider({ children }: { children: ReactNode }) {
   }, [])
 
   useEffect(() => {
-    const url = window.location.href
-    const waitAndCapture = () => {
-      if (posthog.__loaded) {
-        posthog.capture('$pageview', { $current_url: url })
-      } else {
-        const interval = setInterval(() => {
-          if (posthog.__loaded) {
-            clearInterval(interval)
-            posthog.capture('$pageview', { $current_url: url })
-          }
-        }, 100)
-        return () => clearInterval(interval)
-      }
-    }
-    return waitAndCapture()
+    posthog.capture('$pageview', { $current_url: window.location.href })
   }, [pathname, searchParams])
 
   if (!POSTHOG_KEY) return <>{children}</>

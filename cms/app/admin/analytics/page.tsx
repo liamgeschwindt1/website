@@ -26,6 +26,7 @@ interface AnalyticsData {
   topCountries?: { results?: Array<{ label: string; data: number[] }> }
   topBrowsers?: { results?: Array<{ label: string; data: number[] }> }
   topDevices?: { results?: Array<{ label: string; data: number[] }> }
+  uniqueVisitors?: { results?: Array<Array<number>> }
   sectionViews?: { results?: Array<{ label: string; data: number[] }> }
   scrollDepth?: { results?: Array<{ label: string; data: number[] }> }
   formFunnel?: { results?: Array<{ label: string; data: number[] }> }
@@ -115,6 +116,7 @@ export default function AnalyticsPage() {
   const trendResults = data?.trend?.results ?? []
   const pageviews = sumSeries(trendResults.filter(r => r.label === 'Pageviews'))
   const sessions = sumSeries(trendResults.filter(r => r.label === 'Sessions'))
+  const uniqueVisitors = data?.uniqueVisitors?.results?.[0]?.[0] ?? null
   const labels = trendResults[0]?.days ?? []
 
   const pvSeries: TrendSeries = { label: 'Pageviews', data: trendResults.find(r => r.label === 'Pageviews')?.data ?? [], labels }
@@ -188,7 +190,7 @@ export default function AnalyticsPage() {
         {[
           { label: 'Pageviews', value: loading ? '…' : pageviews.toLocaleString() },
           { label: 'Sessions', value: loading ? '…' : sessions.toLocaleString() },
-          { label: 'Unique visitors', value: loading ? '…' : '—' },
+          { label: 'Unique visitors', value: loading ? '…' : uniqueVisitors !== null ? Number(uniqueVisitors).toLocaleString() : '—' },
           { label: 'Avg. session', value: '—' },
         ].map(card => (
           <div key={card.label} className="p-5 rounded-[12px] border" style={{ borderColor: 'var(--border)', background: 'rgba(27,53,79,0.18)' }}>
