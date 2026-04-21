@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import CookieResetButton from './CookieResetButton'
 
 const productLinks = [
   { label: 'Tiera app', href: '#ai' },
@@ -16,8 +17,8 @@ const companyLinks = [
 ]
 
 const legalLinks = [
-  { label: 'Privacy policy', href: '#' },
-  { label: 'Terms of service', href: '#' },
+  { label: 'Privacy policy', href: '/privacy' },
+  { label: 'Cookie policy', href: '/cookies' },
   { label: 'Accessibility', href: '#' },
 ]
 
@@ -115,18 +116,21 @@ export default function Footer() {
             O&amp;M Studio
           </a>
         </p>
-        <nav aria-label="Social links" className="flex gap-5">
-          {['Instagram', 'LinkedIn', 'Facebook'].map((social) => (
-            <a
-              key={social}
-              href="#"
-              aria-label={`TouchPulse on ${social}`}
-              className="text-[13px] text-[var(--muted)] no-underline hover:text-[var(--text)] transition-colors duration-150"
-            >
-              {social}
-            </a>
-          ))}
-        </nav>
+        <div className="flex items-center gap-5">
+          <CookieResetButton variant="link" />
+          <nav aria-label="Social links" className="flex gap-5">
+            {['Instagram', 'LinkedIn', 'Facebook'].map((social) => (
+              <a
+                key={social}
+                href="#"
+                aria-label={`TouchPulse on ${social}`}
+                className="text-[13px] text-[var(--muted)] no-underline hover:text-[var(--text)] transition-colors duration-150"
+              >
+                {social}
+              </a>
+            ))}
+          </nav>
+        </div>
       </div>
     </footer>
   )

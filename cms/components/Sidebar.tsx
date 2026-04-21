@@ -13,6 +13,13 @@ const nav = [
       { href: '/admin/posts', label: 'Blog Posts', icon: '✍' },
       { href: '/admin/pages', label: 'Pages', icon: '⬕' },
       { href: '/admin/media', label: 'Media Library', icon: '⊞' },
+      { href: '/admin/submissions', label: 'Form Submissions', icon: '✉' },
+    ],
+  },
+  {
+    label: 'Insights',
+    items: [
+      { href: '/admin/analytics', label: 'Analytics', icon: '◎' },
     ],
   },
   {

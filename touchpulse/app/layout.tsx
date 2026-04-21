@@ -1,6 +1,9 @@
 import type { Metadata } from 'next'
 import { inter, lora, jetbrainsMono } from './fonts'
 import { AccessibilityProvider } from '@/components/AccessibilityProvider'
+import { PostHogProvider } from '@/lib/posthog'
+import CookieBanner from '@/components/CookieBanner'
+import { Suspense } from 'react'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -28,7 +31,14 @@ export default function RootLayout({
       className={`${inter.variable} ${lora.variable} ${jetbrainsMono.variable}`}
     >
       <body>
-        <AccessibilityProvider>{children}</AccessibilityProvider>
+        <AccessibilityProvider>
+          <Suspense>
+            <PostHogProvider>
+              {children}
+            </PostHogProvider>
+          </Suspense>
+        </AccessibilityProvider>
+        <CookieBanner />
       </body>
     </html>
   )

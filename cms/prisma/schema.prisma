@@ -54,3 +54,16 @@ model SiteContent {
   value     String   // JSON string
   updatedAt DateTime @updatedAt
 }
+
+model ContactSubmission {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  company   String?
+  message   String
+  source    String?  // e.g. "contact-form", "get-involved"
+  ipAddress String?
+  userAgent String?
+  referrer  String?
+  createdAt DateTime @default(now())
+}

@@ -3,25 +3,44 @@ import { NextRequest, NextResponse } from 'next/server'
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { name, email, company, message } = body
+    const { name, email, company, message, source } = body
 
     if (!name || !email || !message) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
-    const webhookUrl = process.env.N8N_WEBHOOK_URL
-    if (!webhookUrl) {
-      return NextResponse.json({ error: 'Webhook not configured' }, { status: 500 })
+    // Collect metadata for CMS (stripped of personal data risks)
+    const ipAddress = (req.headers.get('x-forwarded-for') ?? '').split(',')[0].trim() || null
+    const userAgent = req.headers.get('user-agent') ?? null
+    const referrer = req.headers.get('referer') ?? null
+
+    // Save to CMS database
+    const cmsUrl = process.env.CMS_URL
+    const cmsSecret = process.env.SUBMISSIONS_SECRET
+    if (cmsUrl) {
+      await fetch(`${cmsUrl}/api/submissions`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(cmsSecret ? { Authorization: `Bearer ${cmsSecret}` } : {}),
+        },
+        body: JSON.stringify({ name, email, company, message, source: source ?? 'contact-form', ipAddress, userAgent, referrer }),
+      }).catch(() => {
+        // Non-blocking — don't fail the form submission if CMS is unreachable
+      })
     }
 
-    const response = await fetch(webhookUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, company, message }),
-    })
-
-    if (!response.ok) {
-      return NextResponse.json({ error: 'Failed' }, { status: 502 })
+    // Forward to n8n webhook (existing)
+    const webhookUrl = process.env.N8N_WEBHOOK_URL
+    if (webhookUrl) {
+      const response = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, company, message }),
+      })
+      if (!response.ok) {
+        return NextResponse.json({ error: 'Failed' }, { status: 502 })
+      }
     }
 
     return NextResponse.json({ success: true })
@@ -29,3 +48,4 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Failed' }, { status: 500 })
   }
 }
+
