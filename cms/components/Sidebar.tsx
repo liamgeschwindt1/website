@@ -7,32 +7,40 @@ import { useSession, signOut } from 'next-auth/react'
 
 const nav = [
   {
-    label: 'Content',
+    label: 'Overview',
     items: [
       { href: '/admin', label: 'Dashboard', icon: '⊞' },
-      { href: '/admin/posts', label: 'Blog Posts', icon: '✍' },
-      { href: '/admin/pages', label: 'Pages', icon: '⬕' },
-      { href: '/admin/media', label: 'Media Library', icon: '⊞' },
-      { href: '/admin/submissions', label: 'Form Submissions', icon: '✉' },
+      { href: '/admin/analytics', label: 'Analytics', icon: '⌇' },
+      { href: '/admin/roadmap', label: 'Roadmap', icon: '◈' },
     ],
   },
   {
-    label: 'Insights',
+    label: 'Marketing',
     items: [
-      { href: '/admin/analytics', label: 'Analytics', icon: '◎' },
+      { href: '/admin/campaigns', label: 'Campaigns', icon: '◎' },
+      { href: '/admin/email', label: 'Email Outreach', icon: '✉' },
+      { href: '/admin/automation', label: 'Automation', icon: '⇄' },
     ],
   },
   {
-    label: 'Site',
+    label: 'Customers',
     items: [
-      { href: '/admin/site', label: 'Site Content', icon: '◈' },
-      { href: '/admin/site/nav', label: 'Navigation', icon: '≡' },
+      { href: '/admin/crm', label: 'CRM', icon: '◑' },
+      { href: '/admin/submissions', label: 'Submissions', icon: '⬕' },
+    ],
+  },
+  {
+    label: 'Creative',
+    items: [
+      { href: '/admin/content', label: 'Content', icon: '✍' },
+      { href: '/admin/design', label: 'Design', icon: '⬡' },
+      { href: '/admin/media', label: 'Media', icon: '▣' },
     ],
   },
   {
     label: 'System',
     items: [
-      { href: '/admin/pulls', label: 'Pull Requests', icon: '⎇' },
+      { href: '/admin/integrations', label: 'Integrations', icon: '⎇' },
       { href: '/admin/settings', label: 'Settings', icon: '⚙' },
     ],
   },
@@ -59,7 +67,7 @@ export default function Sidebar() {
           className="text-[10px] px-1.5 py-0.5 rounded border font-medium"
           style={{ color: 'var(--muted)', borderColor: 'var(--border)' }}
         >
-          CMS
+          Suite
         </span>
       </div>
 
