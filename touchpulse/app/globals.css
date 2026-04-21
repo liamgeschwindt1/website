@@ -56,12 +56,15 @@ html.a11y-mode .hero-aurora {
   background: #000000 !important;
   animation: none !important;
 }
+html.a11y-mode .hero-aurora-blob {
+  display: none;
+}
 html.a11y-mode .grain {
   display: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-aurora { animation: none !important; }
+  .hero-aurora-blob { animation: none !important; }
 }
 
 /* Simplify decorative blurs that reduce readability */
@@ -103,43 +106,56 @@ body {
 .hero-aurora {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse at 15% 55%, rgba(1,180,175,0.50) 0%, transparent 58%),
-    radial-gradient(ellipse at 75% 25%, rgba(255,177,0,0.38) 0%, transparent 52%),
-    radial-gradient(ellipse at 55% 95%, rgba(27,53,79,0.65) 0%, transparent 68%);
+  overflow: hidden;
   background-color: var(--bg);
-  animation: aurora-drift 18s ease-in-out infinite alternate;
 }
 
-@keyframes aurora-drift {
-  0% {
-    background:
-      radial-gradient(ellipse at 15% 55%, rgba(1,180,175,0.50) 0%, transparent 58%),
-      radial-gradient(ellipse at 75% 25%, rgba(255,177,0,0.38) 0%, transparent 52%),
-      radial-gradient(ellipse at 55% 95%, rgba(27,53,79,0.65) 0%, transparent 68%);
-    background-color: var(--bg);
-  }
-  33% {
-    background:
-      radial-gradient(ellipse at 25% 45%, rgba(1,180,175,0.44) 0%, transparent 60%),
-      radial-gradient(ellipse at 68% 35%, rgba(255,177,0,0.32) 0%, transparent 55%),
-      radial-gradient(ellipse at 48% 88%, rgba(27,53,79,0.60) 0%, transparent 65%);
-    background-color: var(--bg);
-  }
-  66% {
-    background:
-      radial-gradient(ellipse at 10% 62%, rgba(1,180,175,0.48) 0%, transparent 56%),
-      radial-gradient(ellipse at 80% 18%, rgba(255,177,0,0.35) 0%, transparent 50%),
-      radial-gradient(ellipse at 60% 90%, rgba(27,53,79,0.62) 0%, transparent 70%);
-    background-color: var(--bg);
-  }
-  100% {
-    background:
-      radial-gradient(ellipse at 20% 50%, rgba(1,180,175,0.46) 0%, transparent 62%),
-      radial-gradient(ellipse at 72% 30%, rgba(255,177,0,0.34) 0%, transparent 54%),
-      radial-gradient(ellipse at 52% 92%, rgba(27,53,79,0.58) 0%, transparent 66%);
-    background-color: var(--bg);
-  }
+.hero-aurora-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  will-change: transform;
+}
+
+.hero-aurora-blob:nth-child(1) {
+  width: 70%; height: 70%;
+  top: 20%; left: -10%;
+  background: rgba(1,180,175,0.38);
+  animation: blob-drift-1 20s ease-in-out infinite alternate;
+}
+
+.hero-aurora-blob:nth-child(2) {
+  width: 55%; height: 60%;
+  top: -20%; right: -5%;
+  background: rgba(255,177,0,0.28);
+  animation: blob-drift-2 24s ease-in-out infinite alternate;
+}
+
+.hero-aurora-blob:nth-child(3) {
+  width: 50%; height: 55%;
+  bottom: -20%; left: 30%;
+  background: rgba(27,53,79,0.70);
+  animation: blob-drift-3 18s ease-in-out infinite alternate;
+}
+
+@keyframes blob-drift-1 {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(6%, -8%) scale(1.06); }
+  66%  { transform: translate(-4%, 10%) scale(0.96); }
+  100% { transform: translate(8%, 4%) scale(1.03); }
+}
+
+@keyframes blob-drift-2 {
+  0%   { transform: translate(0, 0) scale(1); }
+  40%  { transform: translate(-7%, 10%) scale(1.08); }
+  70%  { transform: translate(5%, -5%) scale(0.94); }
+  100% { transform: translate(-4%, 6%) scale(1.05); }
+}
+
+@keyframes blob-drift-3 {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(-6%, -8%) scale(1.1); }
+  100% { transform: translate(8%, 3%) scale(0.95); }
 }
 
 .grain {

@@ -3,6 +3,7 @@
 import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import ImagePicker from '@/components/ImagePicker'
 
 interface Page {
   id: string
@@ -33,6 +34,7 @@ export default function PageForm({ mode, page }: Props) {
   const [seoTitle, setSeoTitle] = useState(page?.seoTitle ?? '')
   const [seoDesc, setSeoDesc] = useState(page?.seoDesc ?? '')
   const [published, setPublished] = useState(page?.published ?? false)
+  const [coverImage, setCoverImage] = useState('')
   const [tab, setTab] = useState<'content' | 'seo'>('content')
   const [loading, setLoading] = useState(false)
   const [deleting, setDeleting] = useState(false)
@@ -52,7 +54,7 @@ export default function PageForm({ mode, page }: Props) {
       const res = await fetch(url, {
         method: mode === 'new' ? 'POST' : 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, slug, content, excerpt, seoTitle, seoDesc, published }),
+        body: JSON.stringify({ title, slug, content, excerpt, coverImage, seoTitle, seoDesc, published }),
       })
       if (!res.ok) { const d = await res.json(); setError(d.error ?? 'Failed'); return }
       router.push('/admin/pages')
@@ -137,6 +139,7 @@ export default function PageForm({ mode, page }: Props) {
               <label className="block text-[11px] uppercase tracking-wide mb-2 font-medium" style={{ color: 'var(--muted)' }}>Excerpt</label>
               <textarea className={inputClass} style={{ ...inputStyle, resize: 'vertical' }} rows={2} value={excerpt} onChange={e => setExcerpt(e.target.value)} placeholder="Short description shown in listings…" />
             </div>
+            <ImagePicker value={coverImage} onChange={setCoverImage} />
             <div>
               <label className="block text-[11px] uppercase tracking-wide mb-2 font-medium" style={{ color: 'var(--muted)' }}>Content *</label>
               <textarea

@@ -1,12 +1,10 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 
-interface Annotation {
-  x: number
-  y: number
-  xpath: string
-  label: string
+interface Pin {
+  x: number  // percent of iframe width
+  y: number  // percent of iframe height
 }
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://touchpulse-production.up.railway.app'
@@ -24,88 +22,33 @@ const TYPES = ['bug', 'feature-request', 'content', 'design', 'copy', 'question'
 export default function SiteAnnotator() {
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const [currentPath, setCurrentPath] = useState('/')
-  const [annotation, setAnnotation] = useState<Annotation | null>(null)
+  const [pin, setPin] = useState<Pin | null>(null)
   const [title, setTitle] = useState('')
   const [details, setDetails] = useState('')
   const [label, setLabel] = useState('content')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [clickMode, setClickMode] = useState(false)
-  const overlayRef = useRef<HTMLDivElement>(null)
 
-  // Listen for click messages from the annotator script injected via postMessage
-  useEffect(() => {
-    function onMessage(e: MessageEvent) {
-      if (e.data?.type === 'ANNOTATION_CLICK') {
-        const ann: Annotation = { x: e.data.x, y: e.data.y, xpath: e.data.xpath, label: e.data.label }
-        setAnnotation(ann)
-        setClickMode(false)
-        setDetails(prev => {
-          const locationBlock = [
-            `**Element:** ${ann.label}`,
-            `**XPath:** \`${ann.xpath}\``,
-            `**Position:** ${ann.x}% from left, ${ann.y}% from top`,
-          ].join('\n')
-          // Replace any previous location block or append fresh
-          const marker = '**Element:**'
-          const idx = prev.indexOf(marker)
-          if (idx !== -1) {
-            return prev.slice(0, idx).trimEnd() + (prev.slice(0, idx).trim() ? '\n\n' : '') + locationBlock
-          }
-          return prev.trim() ? prev.trimEnd() + '\n\n' + locationBlock : locationBlock
-        })
-      }
-    }
-    window.addEventListener('message', onMessage)
-    return () => window.removeEventListener('message', onMessage)
-  }, [])
-
-  // Inject the click capture script into the iframe when click mode is enabled
-  useEffect(() => {
+  function handleOverlayClick(e: React.MouseEvent<HTMLDivElement>) {
     if (!clickMode) return
-    const iframe = iframeRef.current
-    if (!iframe) return
-    try {
-      const doc = iframe.contentDocument
-      if (!doc) return
-      const script = doc.createElement('script')
-      script.id = '__annotator__'
-      script.textContent = `
-        (function() {
-          if (window.__annotatorActive) return;
-          window.__annotatorActive = true;
-          document.body.style.cursor = 'crosshair';
-          function getXPath(el) {
-            if (!el || el.nodeType !== 1) return '';
-            if (el.id) return '//*[@id="' + el.id + '"]';
-            const parts = [];
-            while (el && el.nodeType === 1) {
-              let idx = 1;
-              let sib = el.previousSibling;
-              while (sib) { if (sib.nodeType === 1 && sib.tagName === el.tagName) idx++; sib = sib.previousSibling; }
-              parts.unshift(el.tagName.toLowerCase() + (idx > 1 ? '[' + idx + ']' : ''));
-              el = el.parentElement;
-            }
-            return '/' + parts.join('/');
-          }
-          function onClick(e) {
-            e.preventDefault(); e.stopPropagation();
-            const rect = document.documentElement.getBoundingClientRect();
-            const x = ((e.clientX - rect.left) / document.documentElement.scrollWidth * 100).toFixed(1);
-            const y = ((e.clientY + window.scrollY) / document.documentElement.scrollHeight * 100).toFixed(1);
-            const label = e.target.textContent?.trim().slice(0, 60) || e.target.tagName;
-            window.parent.postMessage({ type: 'ANNOTATION_CLICK', x: parseFloat(x), y: parseFloat(y), xpath: getXPath(e.target), label }, '*');
-            document.body.style.cursor = '';
-            window.__annotatorActive = false;
-            document.removeEventListener('click', onClick, true);
-          }
-          document.addEventListener('click', onClick, true);
-        })();
-      `
-      doc.body.appendChild(script)
-    } catch {
-      // Cross-origin — can't inject script. Show message.
-    }
-  }, [clickMode])
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = parseFloat(((e.clientX - rect.left) / rect.width * 100).toFixed(1))
+    const y = parseFloat(((e.clientY - rect.top) / rect.height * 100).toFixed(1))
+    setPin({ x, y })
+    setClickMode(false)
+
+    const pageName = PAGES.find(p => p.path === currentPath)?.label ?? currentPath
+    const locationBlock = `**Location:** ${x}% from left, ${y}% from top (${pageName})`
+    setDetails(prev => {
+      const marker = '**Location:**'
+      const idx = prev.indexOf(marker)
+      if (idx !== -1) {
+        const before = prev.slice(0, idx).trimEnd()
+        return before + (before ? '\n\n' : '') + locationBlock
+      }
+      return prev.trim() ? prev.trimEnd() + '\n\n' + locationBlock : locationBlock
+    })
+  }
 
   async function handleSubmit() {
     if (!title.trim()) return
@@ -116,6 +59,7 @@ export default function SiteAnnotator() {
         '',
         '---',
         `**Page:** ${SITE_URL}${currentPath}`,
+        pin ? `**Pin:** ${pin.x}% from left, ${pin.y}% from top` : '',
       ].filter(Boolean).join('\n')
 
       const res = await fetch('/api/github/issue', {
@@ -125,7 +69,7 @@ export default function SiteAnnotator() {
       })
       if (!res.ok) throw new Error()
       setStatus('success')
-      setAnnotation(null)
+      setPin(null)
       setTitle('')
       setDetails('')
       setTimeout(() => setStatus('idle'), 3000)
@@ -141,7 +85,7 @@ export default function SiteAnnotator() {
         <div className="p-5 border-b" style={{ borderColor: 'var(--border)' }}>
           <h2 className="text-[14px] font-semibold mb-1" style={{ color: 'var(--text)' }}>Site Annotator</h2>
           <p className="text-[12px] leading-[1.5]" style={{ color: 'var(--muted)' }}>
-            Click anywhere on the site preview to pin a request to that element.
+            Click &ldquo;Pin a location&rdquo; then click anywhere on the preview. The position is added to the issue automatically.
           </p>
         </div>
 
@@ -153,7 +97,7 @@ export default function SiteAnnotator() {
               <button
                 key={p.path}
                 type="button"
-                onClick={() => { setCurrentPath(p.path); setAnnotation(null) }}
+                onClick={() => { setCurrentPath(p.path); setPin(null) }}
                 className="text-left px-3 py-1.5 rounded-[6px] text-[13px] transition-colors duration-150"
                 style={currentPath === p.path
                   ? { background: 'rgba(1,180,175,0.12)', color: 'var(--teal)' }
@@ -166,22 +110,23 @@ export default function SiteAnnotator() {
           </div>
         </div>
 
-        {/* Click to annotate */}
+        {/* Pin button */}
         <div className="p-4 border-b" style={{ borderColor: 'var(--border)' }}>
           <button
             type="button"
-            onClick={() => { setClickMode(true); setAnnotation(null) }}
+            onClick={() => setClickMode(c => !c)}
             className="w-full py-2.5 rounded-[7px] text-[13px] font-medium border transition-all duration-150"
             style={clickMode
               ? { background: 'rgba(1,180,175,0.15)', borderColor: 'var(--teal)', color: 'var(--teal)' }
               : { background: 'rgba(255,255,255,0.04)', borderColor: 'var(--border)', color: 'var(--text)' }
             }
           >
-            {clickMode ? '🎯 Click an element…' : '+ Click to select element'}
+            {clickMode ? '🎯 Click the preview…' : '+ Pin a location'}
           </button>
-          {annotation && (
-            <div className="mt-3 p-3 rounded-[7px] border text-[11px]" style={{ borderColor: 'rgba(1,180,175,0.3)', background: 'rgba(1,180,175,0.06)', color: 'var(--teal)' }}>
-              ✓ Element selected: <span className="font-medium">{annotation.label}</span>
+          {pin && (
+            <div className="mt-3 p-3 rounded-[7px] border text-[11px] flex items-center justify-between" style={{ borderColor: 'rgba(1,180,175,0.3)', background: 'rgba(1,180,175,0.06)', color: 'var(--teal)' }}>
+              <span>✓ Pinned at {pin.x}%, {pin.y}%</span>
+              <button type="button" className="opacity-60 hover:opacity-100 ml-2" onClick={() => setPin(null)}>✕</button>
             </div>
           )}
         </div>
@@ -223,7 +168,7 @@ export default function SiteAnnotator() {
               value={details}
               onChange={e => setDetails(e.target.value)}
               placeholder="What needs to change and why…"
-              rows={4}
+              rows={5}
               className="w-full px-3 py-2 rounded-[6px] text-[13px] border focus:outline-none focus:border-[var(--teal)] transition-colors resize-y"
               style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'var(--border)', color: 'var(--text)' }}
             />
@@ -252,15 +197,53 @@ export default function SiteAnnotator() {
         </div>
       </div>
 
-      {/* iframe preview */}
-      <div className="flex-1 relative overflow-hidden" ref={overlayRef}>
-        {clickMode && (
-          <div className="absolute inset-0 z-10 pointer-events-none flex items-start justify-center pt-4">
-            <div className="px-4 py-2 rounded-full text-[12px] font-medium shadow-lg" style={{ background: 'var(--teal)', color: '#031119' }}>
-              🎯 Click any element on the page
+      {/* iframe + overlay */}
+      <div className="flex-1 relative overflow-hidden">
+        {/* Transparent overlay — captures clicks in clickMode, shows pin */}
+        <div
+          onClick={handleOverlayClick}
+          className="absolute inset-0 z-20"
+          style={{ cursor: clickMode ? 'crosshair' : 'default', pointerEvents: clickMode || pin ? 'all' : 'none' }}
+        >
+          {clickMode && (
+            <div className="absolute top-4 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full text-[12px] font-medium shadow-lg pointer-events-none" style={{ background: 'var(--teal)', color: '#031119' }}>
+              🎯 Click anywhere to pin a location
             </div>
-          </div>
-        )}
+          )}
+          {pin && (
+            <div
+              className="absolute pointer-events-none"
+              style={{ left: `${pin.x}%`, top: `${pin.y}%`, transform: 'translate(-50%, -50%)' }}
+            >
+              {/* Pulse ring */}
+              <div className="absolute rounded-full" style={{
+                width: 36, height: 36,
+                top: '50%', left: '50%',
+                transform: 'translate(-50%, -50%)',
+                background: 'rgba(1,180,175,0.12)',
+                border: '1.5px solid rgba(1,180,175,0.45)',
+                animation: 'pin-pulse 2s ease-in-out infinite',
+              }} />
+              {/* Dot */}
+              <div className="relative rounded-full" style={{
+                width: 14, height: 14,
+                background: 'var(--teal)',
+                border: '2.5px solid #fff',
+                boxShadow: '0 0 0 2px rgba(1,180,175,0.5), 0 2px 10px rgba(0,0,0,0.5)',
+              }} />
+              {/* Label */}
+              <div className="absolute text-[10px] font-medium whitespace-nowrap px-2 py-0.5 rounded-full" style={{
+                bottom: '110%', left: '50%', transform: 'translateX(-50%)',
+                background: 'rgba(3,12,19,0.92)',
+                color: 'var(--teal)',
+                border: '1px solid rgba(1,180,175,0.3)',
+              }}>
+                {pin.x}%, {pin.y}%
+              </div>
+            </div>
+          )}
+        </div>
+
         <iframe
           ref={iframeRef}
           src={`${SITE_URL}${currentPath}`}
@@ -269,6 +252,13 @@ export default function SiteAnnotator() {
           sandbox="allow-scripts allow-same-origin"
         />
       </div>
+
+      <style>{`
+        @keyframes pin-pulse {
+          0%, 100% { transform: translate(-50%,-50%) scale(1); opacity: 0.7; }
+          50% { transform: translate(-50%,-50%) scale(1.6); opacity: 0.15; }
+        }
+      `}</style>
     </div>
   )
 }

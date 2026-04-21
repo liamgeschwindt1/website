@@ -3,6 +3,7 @@
 import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import ImagePicker from '@/components/ImagePicker'
 
 interface Post {
   id: string
@@ -196,19 +197,7 @@ export default function PostForm({ mode, post }: Props) {
           </div>
 
           {/* Cover image */}
-          <div>
-            <label className="block text-[12px] font-medium mb-2" style={{ color: 'var(--muted)' }}>
-              Cover image URL
-            </label>
-            <input
-              type="url"
-              value={coverImage}
-              onChange={(e) => setCoverImage(e.target.value)}
-              placeholder="https://…"
-              className="w-full px-4 py-2.5 rounded-[8px] border bg-transparent text-[14px]"
-              style={{ borderColor: 'var(--border)', color: 'var(--text)' }}
-            />
-          </div>
+          <ImagePicker value={coverImage} onChange={setCoverImage} />
 
           {/* Content */}
           <div>

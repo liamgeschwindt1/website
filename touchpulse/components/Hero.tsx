@@ -20,7 +20,11 @@ export default function Hero() {
       aria-label="Hero"
       className="relative min-h-screen flex items-center px-[clamp(24px,5vw,80px)] pt-[120px] pb-[80px] overflow-hidden"
     >
-      <div className="hero-aurora" aria-hidden="true" />
+      <div className="hero-aurora" aria-hidden="true">
+        <div className="hero-aurora-blob" />
+        <div className="hero-aurora-blob" />
+        <div className="hero-aurora-blob" />
+      </div>
       <div className="grain" aria-hidden="true" />
 
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-[80px] items-center w-full max-w-[1280px]">
