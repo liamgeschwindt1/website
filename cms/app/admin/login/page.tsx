@@ -19,8 +19,12 @@ function LoginForm() {
   const errorMessage =
     error === 'AccessDenied'
       ? 'Access denied. Only @touchpulse.nl Google accounts are allowed.'
+      : error === 'Configuration'
+      ? 'Google sign-in is not yet configured. Set GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, and NEXTAUTH_SECRET in Railway environment variables.'
+      : error === 'OAuthSignin' || error === 'OAuthCallback' || error === 'OAuthCreateAccount'
+      ? 'Google sign-in failed. Please try again.'
       : error
-      ? 'Sign-in failed. Please try again.'
+      ? `Sign-in error: ${error}`
       : null
 
   return (

@@ -3,20 +3,25 @@ import GoogleProvider from 'next-auth/providers/google'
 
 const ALLOWED_DOMAIN = 'touchpulse.nl'
 
-export const authOptions: NextAuthOptions = {
-  providers: [
+const providers: NextAuthOptions['providers'] = []
+
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+  providers.push(
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       authorization: {
         params: {
-          // Hint the account chooser to show only the org domain
           hd: ALLOWED_DOMAIN,
           prompt: 'select_account',
         },
       },
-    }),
-  ],
+    })
+  )
+}
+
+export const authOptions: NextAuthOptions = {
+  providers,
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: '/admin/login',
