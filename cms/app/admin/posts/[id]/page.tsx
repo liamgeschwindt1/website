@@ -2,6 +2,8 @@ import { notFound } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
 import PostForm from '@/components/PostForm'
 
+export const dynamic = 'force-dynamic'
+
 interface Props {
   params: { id: string }
 }
