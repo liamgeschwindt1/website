@@ -31,3 +31,24 @@ body {
   line-height: 1.8;
   resize: vertical;
 }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 3px; }
+
+/* Plumbob (Sims health diamond) animations */
+@keyframes plumbob-bob {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+@keyframes plumbob-pulse-green {
+  0%, 100% { filter: drop-shadow(0 0 6px #22c55e) drop-shadow(0 0 2px #22c55e); }
+  50% { filter: drop-shadow(0 0 14px #22c55e) drop-shadow(0 0 6px #22c55e); }
+}
+@keyframes plumbob-pulse-red {
+  0%, 100% { filter: drop-shadow(0 0 6px #DC2626) drop-shadow(0 0 2px #DC2626); }
+  50% { filter: drop-shadow(0 0 14px #DC2626) drop-shadow(0 0 6px #DC2626); }
+}
+.animate-plumbob-bob { animation: plumbob-bob 2s ease-in-out infinite; }
+.animate-plumbob-pulse-green { animation: plumbob-pulse-green 1.2s ease-in-out infinite; }
+.animate-plumbob-pulse-red { animation: plumbob-pulse-red 1.2s ease-in-out infinite; }
