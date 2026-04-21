@@ -6,11 +6,11 @@ import './globals.css'
 export const metadata: Metadata = {
   title: 'Touchpulse — Navigation Intelligence Platform',
   description: 'Touchpulse gives people with sight loss the freedom to move independently. Powered by Tiera AI and 24/7 human support.',
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://touchpulse.nl'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://touchpulse-production.up.railway.app'),
   openGraph: {
     title: 'Touchpulse — Navigation Intelligence Platform',
     description: 'AI-powered navigation for people with sight loss.',
-    url: 'https://touchpulse.nl',
+    url: 'https://touchpulse-production.up.railway.app',
     siteName: 'Touchpulse',
     locale: 'en_NL',
     type: 'website',

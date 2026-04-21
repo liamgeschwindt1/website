@@ -101,7 +101,7 @@ export default function Sidebar() {
       {/* Quick links */}
       <div className="px-3 pb-2 border-t pt-3" style={{ borderColor: 'var(--border)' }}>
         <a
-          href="https://touchpulse.nl"
+          href="https://touchpulse-production.up.railway.app"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2 px-2 py-1.5 rounded-[6px] text-[12px] no-underline transition-colors duration-150 mb-1"

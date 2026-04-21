@@ -9,7 +9,7 @@ interface Annotation {
   label: string
 }
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://touchpulse.nl'
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://touchpulse-production.up.railway.app'
 
 const PAGES = [
   { label: 'Home', path: '/' },
