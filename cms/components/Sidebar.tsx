@@ -25,6 +25,7 @@ const nav = [
   {
     label: 'System',
     items: [
+      { href: '/admin/pulls', label: 'Pull Requests', icon: '⎇' },
       { href: '/admin/settings', label: 'Settings', icon: '⚙' },
     ],
   },
