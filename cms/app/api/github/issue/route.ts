@@ -22,6 +22,7 @@ export async function POST(req: NextRequest) {
         title: title.trim(),
         body: body ?? '',
         labels: label ? [label] : [],
+        assignees: ['copilot'],
       }),
     })
 
