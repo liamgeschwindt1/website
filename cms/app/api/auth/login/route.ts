@@ -1,20 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server'
-import { getSession } from '@/lib/session'
+import { NextResponse } from 'next/server'
 
-export async function POST(req: NextRequest) {
-  try {
-    const { password } = await req.json()
-
-    if (!password || password !== process.env.CMS_PASSWORD) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
-    const session = await getSession()
-    session.isLoggedIn = true
-    await session.save()
-
-    return NextResponse.json({ ok: true })
-  } catch {
-    return NextResponse.json({ error: 'Bad request' }, { status: 400 })
-  }
+// Auth is now handled by NextAuth Google OAuth — this route is deprecated.
+export async function POST() {
+  return NextResponse.json({ error: 'Use Google sign-in via /api/auth/signin' }, { status: 410 })
 }
