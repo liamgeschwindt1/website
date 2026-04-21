@@ -16,6 +16,7 @@ FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 ENV HOSTNAME=0.0.0.0
+RUN apk add --no-cache openssl
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/public ./public
@@ -25,4 +26,4 @@ COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 COPY --from=builder /app/node_modules/prisma ./node_modules/prisma
 EXPOSE 8080
 ENV PORT=8080
-CMD ["sh", "-c", "./node_modules/prisma/build/index.js db push && node server.js"]
+CMD ["node", "server.js"]
