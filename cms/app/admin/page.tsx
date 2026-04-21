@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { prisma } from '@/lib/prisma'
+import AdminHeader from '@/components/AdminHeader'
 
 export const dynamic = 'force-dynamic'
 
@@ -12,20 +13,7 @@ export default async function AdminDashboard() {
 
   return (
     <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
-      {/* Header */}
-      <header
-        className="flex items-center justify-between px-8 h-14 border-b"
-        style={{ borderColor: 'var(--border)', background: 'rgba(3,17,25,0.95)' }}
-      >
-        <div className="flex items-center gap-3">
-          <span className="text-[15px] font-semibold tracking-tight" style={{ color: 'var(--teal)' }}>
-            TouchPulse
-          </span>
-          <span className="text-[11px] px-2 py-0.5 rounded-full border" style={{ color: 'var(--muted)', borderColor: 'var(--border)' }}>
-            CMS
-          </span>
-        </div>
-      </header>
+      <AdminHeader />
 
       <div className="max-w-4xl mx-auto px-6 py-10">
         {/* Top bar */}

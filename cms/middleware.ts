@@ -1,6 +1,11 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { withAuth } from 'next-auth/middleware'
 
-export function middleware(_req: NextRequest) {
-  return NextResponse.next()
+export default withAuth({
+  pages: {
+    signIn: '/admin/login',
+  },
+})
+
+export const config = {
+  matcher: ['/admin/:path*'],
 }
