@@ -157,7 +157,10 @@ export default function AnalyticsPage() {
     <div className="px-8 py-8">
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-[24px] font-semibold" style={{ color: 'var(--text)' }}>Analytics</h1>
+          <div className="flex items-center gap-3">
+            <h1 className="text-[24px] font-semibold" style={{ color: 'var(--text)' }}>Analytics</h1>
+            <a href="https://eu.posthog.com" target="_blank" rel="noopener noreferrer" className="text-[11px] font-medium no-underline px-2 py-0.5 rounded border" style={{ color: 'var(--teal)', borderColor: 'rgba(1,180,175,0.3)', background: 'rgba(1,180,175,0.06)' }}>PostHog ↗</a>
+          </div>
           <p className="text-[13px] mt-1" style={{ color: 'var(--muted)' }}>Site traffic — touchpulse-production.up.railway.app</p>
         </div>
         <div className="flex gap-1">
@@ -243,22 +246,7 @@ export default function AnalyticsPage() {
           </div>
         ))}
 
-        {/* PostHog app link */}
-        <div className="p-5 rounded-[12px] border flex flex-col justify-between" style={{ borderColor: 'rgba(1,180,175,0.2)', background: 'rgba(1,180,175,0.04)' }}>
-          <div>
-            <p className="text-[13px] font-semibold mb-2" style={{ color: 'var(--teal)' }}>Full PostHog dashboard</p>
-            <p className="text-[12px] leading-[1.6]" style={{ color: 'var(--muted)' }}>Session recordings, heatmaps, funnels, and more available in PostHog directly.</p>
-          </div>
-          <a
-            href="https://eu.posthog.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 inline-flex items-center gap-1.5 text-[12px] font-medium no-underline"
-            style={{ color: 'var(--teal)' }}
-          >
-            Open PostHog ↗
-          </a>
-        </div>
+
       </div>
 
       {/* Section engagement + scroll depth + form funnel */}

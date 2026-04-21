@@ -11,10 +11,15 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://touchpulse-product
 
 const PAGES = [
   { label: 'Home', path: '/' },
-  { label: 'Get Involved', path: '/#get-involved' },
-  { label: 'Pricing', path: '/#pricing' },
-  { label: 'AI Section', path: '/#ai' },
-  { label: 'Use Cases', path: '/#usecases' },
+  { label: 'Home — Get Involved', path: '/#get-involved' },
+  { label: 'Home — Pricing', path: '/#pricing' },
+  { label: 'Home — AI Section', path: '/#ai' },
+  { label: 'Home — Use Cases', path: '/#usecases' },
+  { label: 'For Business', path: '/for-business' },
+  { label: 'Tiera', path: '/tiera' },
+  { label: 'Partners', path: '/partners' },
+  { label: 'Privacy', path: '/privacy' },
+  { label: 'Cookies', path: '/cookies' },
 ]
 
 const TYPES = ['bug', 'feature-request', 'content', 'design', 'copy', 'question', 'urgent']
@@ -92,22 +97,16 @@ export default function SiteAnnotator() {
         {/* Page selector */}
         <div className="p-4 border-b" style={{ borderColor: 'var(--border)' }}>
           <p className="text-[10px] uppercase tracking-wide font-medium mb-3" style={{ color: 'var(--muted)' }}>Page</p>
-          <div className="flex flex-col gap-1">
+          <select
+            value={currentPath}
+            onChange={e => { setCurrentPath(e.target.value); setPin(null) }}
+            className="w-full px-3 py-2 rounded-[6px] text-[13px] border focus:outline-none focus:border-[var(--teal)] transition-colors"
+            style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'var(--border)', color: 'var(--text)' }}
+          >
             {PAGES.map(p => (
-              <button
-                key={p.path}
-                type="button"
-                onClick={() => { setCurrentPath(p.path); setPin(null) }}
-                className="text-left px-3 py-1.5 rounded-[6px] text-[13px] transition-colors duration-150"
-                style={currentPath === p.path
-                  ? { background: 'rgba(1,180,175,0.12)', color: 'var(--teal)' }
-                  : { color: 'var(--muted)' }
-                }
-              >
-                {p.label}
-              </button>
+              <option key={p.path} value={p.path} style={{ background: '#031119' }}>{p.label}</option>
             ))}
-          </div>
+          </select>
         </div>
 
         {/* Pin button */}

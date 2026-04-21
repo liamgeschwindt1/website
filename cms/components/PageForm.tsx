@@ -57,7 +57,7 @@ export default function PageForm({ mode, page }: Props) {
         body: JSON.stringify({ title, slug, content, excerpt, coverImage, seoTitle, seoDesc, published }),
       })
       if (!res.ok) { const d = await res.json(); setError(d.error ?? 'Failed'); return }
-      router.push('/admin/pages')
+      router.push('/admin/content')
       router.refresh()
     } catch { setError('Network error') } finally { setLoading(false) }
   }

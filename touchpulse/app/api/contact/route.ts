@@ -17,17 +17,21 @@ export async function POST(req: NextRequest) {
     // Save to CMS database
     const cmsUrl = process.env.CMS_URL ?? process.env.NEXT_PUBLIC_CMS_URL
     const cmsSecret = process.env.SUBMISSIONS_SECRET
+    let cmsSaved = false
     if (cmsUrl) {
-      await fetch(`${cmsUrl}/api/submissions`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(cmsSecret ? { Authorization: `Bearer ${cmsSecret}` } : {}),
-        },
-        body: JSON.stringify({ name, email, company, message, source: source ?? 'contact-form', ipAddress, userAgent, referrer }),
-      }).catch(() => {
-        // Non-blocking — don't fail the form submission if CMS is unreachable
-      })
+      try {
+        const cmsRes = await fetch(`${cmsUrl}/api/submissions`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(cmsSecret ? { Authorization: `Bearer ${cmsSecret}` } : {}),
+          },
+          body: JSON.stringify({ name, email, company, message, source: source ?? 'contact-form', ipAddress, userAgent, referrer }),
+        })
+        if (cmsRes.ok) cmsSaved = true
+      } catch {
+        // CMS unreachable — fall through to n8n
+      }
     }
 
     // Forward to n8n webhook (existing)
@@ -41,6 +45,12 @@ export async function POST(req: NextRequest) {
       if (!response.ok) {
         return NextResponse.json({ error: 'Failed' }, { status: 502 })
       }
+      return NextResponse.json({ success: true })
+    }
+
+    // If no n8n webhook, require CMS save to have worked
+    if (!cmsSaved) {
+      return NextResponse.json({ error: 'Failed to save submission' }, { status: 502 })
     }
 
     return NextResponse.json({ success: true })
