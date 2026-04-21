@@ -17,7 +17,7 @@
 
 /* ─── Accessibility Mode ─────────────────────────────────────────── */
 html.a11y-mode {
-  /* Override text colours for maximum contrast */
+  /* Default scheme: high-contrast dark */
   --text: #ffffff;
   --body: rgba(255, 255, 255, 0.92);
   --muted: rgba(255, 255, 255, 0.75);
@@ -27,8 +27,52 @@ html.a11y-mode {
   --border-hover: rgba(1, 180, 175, 0.7);
 }
 
+/* Color schemes — applied alongside a11y-mode */
+html.a11y-mode.a11y-scheme-dark {
+  --text: #ffffff;
+  --body: rgba(255, 255, 255, 0.88);
+  --muted: rgba(255, 255, 255, 0.65);
+  --bg: #071520;
+  --surface: rgba(1, 180, 175, 0.08);
+  --border: rgba(1, 180, 175, 0.2);
+  --border-hover: rgba(1, 180, 175, 0.55);
+}
+
+html.a11y-mode.a11y-scheme-contrast-dark {
+  --text: #ffff00;
+  --body: #ffffff;
+  --muted: #cccccc;
+  --bg: #000000;
+  --surface: #111111;
+  --border: #555555;
+  --border-hover: #ffff00;
+}
+
+html.a11y-mode.a11y-scheme-contrast-light {
+  --text: #000000;
+  --body: #111111;
+  --muted: #444444;
+  --bg: #ffffff;
+  --surface: #f0f0f0;
+  --border: #aaaaaa;
+  --border-hover: #000000;
+  --teal: #006d6a;
+}
+
+html.a11y-mode.a11y-scheme-sepia {
+  --text: #2c1a08;
+  --body: #3a2410;
+  --muted: #7a5c3a;
+  --bg: #f5e6c8;
+  --surface: #ede0c4;
+  --border: #c8a96e;
+  --border-hover: #8a6030;
+  --teal: #4a7c70;
+}
+
 html.a11y-mode body {
-  background: #000000;
+  background: var(--bg);
+  font-family: var(--font-atkinson), 'Atkinson Hyperlegible', Georgia, serif;
   font-size: calc(18px * var(--a11y-font-scale));
   line-height: 1.8;
   letter-spacing: 0.01em;
@@ -53,7 +97,7 @@ html.a11y-mode *:focus-visible {
 
 /* Remove motion / grain overlays */
 html.a11y-mode .hero-aurora {
-  background: #000000 !important;
+  background: var(--bg) !important;
   animation: none !important;
 }
 html.a11y-mode .hero-aurora-blob {
@@ -76,6 +120,12 @@ html.a11y-mode [class*="blur"] {
 html.a11y-mode a,
 html.a11y-mode button {
   text-underline-offset: 3px;
+}
+
+/* High contrast light: darken body text */
+html.a11y-mode.a11y-scheme-contrast-light body,
+html.a11y-mode.a11y-scheme-sepia body {
+  color: var(--body);
 }
 
 /* Increase spacing for readability */
@@ -223,27 +273,10 @@ body {
   text-shadow: 0 0 20px rgba(1,180,175,0.5), 0 0 60px rgba(1,180,175,0.2);
 }
 
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 3px; }
-
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(1,180,175,0.35); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(1,180,175,0.6); }
 
 /* Plumbob (Sims health diamond) animations */
 @keyframes plumbob-bob {

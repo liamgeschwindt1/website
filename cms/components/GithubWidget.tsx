@@ -3,12 +3,15 @@
 import { useState, FormEvent } from 'react'
 
 const LABELS = ['bug', 'feature-request', 'content', 'question', 'urgent']
+type Target = 'suite' | 'frontend'
 
 export default function GithubWidget() {
   const [open, setOpen] = useState(false)
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
   const [label, setLabel] = useState('feature-request')
+  const [target, setTarget] = useState<Target>('suite')
+  const [location, setLocation] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [errorMsg, setErrorMsg] = useState('')
 
@@ -17,11 +20,13 @@ export default function GithubWidget() {
     if (!title.trim()) return
     setStatus('loading')
     setErrorMsg('')
+    const locationLine = location.trim() ? `\n**Location:** ${location.trim()}` : ''
+    const fullBody = `**Target:** ${target === 'suite' ? '🟦 Suite (CMS)' : '🌐 Frontend (Site)'}${locationLine}\n\n${body}`
     try {
       const res = await fetch('/api/github/issue', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, body, label }),
+        body: JSON.stringify({ title, body: fullBody, label }),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.error ?? 'Failed')
@@ -29,6 +34,7 @@ export default function GithubWidget() {
       setTitle('')
       setBody('')
       setLabel('feature-request')
+      setLocation('')
       setTimeout(() => { setStatus('idle'); setOpen(false) }, 2500)
     } catch (err) {
       setStatus('error')
@@ -88,6 +94,45 @@ export default function GithubWidget() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="p-5 flex flex-col gap-4">
+              {/* Target */}
+              <div>
+                <label className="block text-[11px] font-medium mb-2 uppercase tracking-wide" style={{ color: 'var(--muted)' }}>
+                  For
+                </label>
+                <div className="flex gap-2">
+                  {([['suite', '🟦 Suite (CMS)'], ['frontend', '🌐 Frontend (Site)']] as [Target, string][]).map(([t, lbl]) => (
+                    <button
+                      key={t}
+                      type="button"
+                      onClick={() => setTarget(t)}
+                      className="flex-1 py-1.5 rounded-[6px] text-[12px] font-medium border transition-all"
+                      style={target === t
+                        ? { background: 'rgba(1,180,175,0.15)', borderColor: 'var(--teal)', color: 'var(--teal)' }
+                        : { background: 'transparent', borderColor: 'var(--border)', color: 'var(--muted)' }}
+                    >
+                      {lbl}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Location */}
+              {target === 'frontend' && (
+                <div>
+                  <label className="block text-[11px] font-medium mb-2 uppercase tracking-wide" style={{ color: 'var(--muted)' }}>
+                    Page / Location
+                  </label>
+                  <input
+                    type="text"
+                    value={location}
+                    onChange={(e) => setLocation(e.target.value)}
+                    placeholder="e.g. Home → Hero, /for-business pricing table"
+                    className={inputClass}
+                    style={inputStyle}
+                  />
+                </div>
+              )}
+
               {/* Type */}
               <div>
                 <label className="block text-[11px] font-medium mb-2 uppercase tracking-wide" style={{ color: 'var(--muted)' }}>

@@ -63,6 +63,7 @@ export default function SiteAnnotator() {
         details,
         '',
         '---',
+        `**Target:** 🌐 Frontend (Site)`,
         `**Page:** ${SITE_URL}${currentPath}`,
         pin ? `**Pin:** ${pin.x}% from left, ${pin.y}% from top` : '',
       ].filter(Boolean).join('\n')

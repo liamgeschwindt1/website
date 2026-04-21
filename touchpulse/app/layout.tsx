@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { inter, lora, jetbrainsMono } from './fonts'
+import { inter, lora, jetbrainsMono, atkinsonHyperlegible } from './fonts'
 import { AccessibilityProvider } from '@/components/AccessibilityProvider'
 import { PostHogProvider } from '@/lib/posthog'
 import CookieBanner from '@/components/CookieBanner'
@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${lora.variable} ${jetbrainsMono.variable}`}
+      className={`${inter.variable} ${lora.variable} ${jetbrainsMono.variable} ${atkinsonHyperlegible.variable}`}
     >
       <body>
         <AccessibilityProvider>

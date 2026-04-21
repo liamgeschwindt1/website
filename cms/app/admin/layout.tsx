@@ -17,7 +17,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     <CRMProvider>
       <div className="flex min-h-screen">
         <Sidebar />
-        <div className="flex-1 ml-[220px] min-w-0">
+        <div className="flex-1 min-w-0" style={{ marginLeft: 'var(--sidebar-w, 220px)', transition: 'margin-left 0.2s' }}>
           {children}
         </div>
         <GithubWidget />

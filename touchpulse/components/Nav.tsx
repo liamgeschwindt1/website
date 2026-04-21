@@ -3,12 +3,12 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useAccessibility } from './AccessibilityProvider'
+import { useAccessibility, type ColorScheme } from './AccessibilityProvider'
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false)
   const [a11yPanelOpen, setA11yPanelOpen] = useState(false)
-  const { accessibilityMode, toggleAccessibilityMode, fontSize, increaseFontSize, decreaseFontSize, resetFontSize } = useAccessibility()
+  const { accessibilityMode, toggleAccessibilityMode, colorScheme, setColorScheme, fontSize, increaseFontSize, decreaseFontSize, resetFontSize } = useAccessibility()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 48)
@@ -168,6 +168,37 @@ export default function Nav() {
                   <p className="text-[11px] text-[var(--muted)]">
                     Tip: text size resets when you turn off accessibility mode.
                   </p>
+                  {/* Color scheme */}
+                  <div className="border-t border-[rgba(255,255,255,0.08)] pt-3 mt-1">
+                    <p className="text-[12px] font-medium text-[var(--text)] mb-2">Colour Scheme</p>
+                    <div className="grid grid-cols-2 gap-2">
+                      {([
+                        ['dark', 'Dark Teal', '#071520', '#01B4AF'],
+                        ['contrast-dark', 'High Contrast', '#000', '#ffff00'],
+                        ['contrast-light', 'Light', '#fff', '#000'],
+                        ['sepia', 'Warm Sepia', '#f5e6c8', '#2c1a08'],
+                      ] as [ColorScheme, string, string, string][]).map(([s, label, bg, fg]) => (
+                        <button
+                          key={s}
+                          type="button"
+                          onClick={() => setColorScheme(s)}
+                          aria-pressed={colorScheme === s}
+                          className="flex items-center gap-2 px-2 py-2 rounded-lg border text-[11px] font-medium transition-all"
+                          style={colorScheme === s
+                            ? { borderColor: 'var(--teal)', color: 'var(--teal)', background: 'rgba(1,180,175,0.1)' }
+                            : { borderColor: 'rgba(255,255,255,0.12)', color: 'var(--muted)', background: 'transparent' }
+                          }
+                        >
+                          <span
+                            className="w-5 h-5 rounded-full border flex-shrink-0"
+                            style={{ background: bg, borderColor: fg }}
+                            aria-hidden="true"
+                          />
+                          {label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               )}
             </div>

@@ -76,6 +76,16 @@ export default function MediaLibraryClient({ initialMedia }: Props) {
   }
 
   const isImage = (mime: string) => mime.startsWith('image/')
+  const isVideo = (mime: string) => mime.startsWith('video/')
+  const isAudio = (mime: string) => mime.startsWith('audio/')
+
+  const [filter, setFilter] = useState<'all' | 'image' | 'video' | 'audio' | 'document'>('all')
+
+  const filtered = filter === 'all' ? media
+    : filter === 'image' ? media.filter(m => isImage(m.mimeType))
+    : filter === 'video' ? media.filter(m => isVideo(m.mimeType))
+    : filter === 'audio' ? media.filter(m => isAudio(m.mimeType))
+    : media.filter(m => !isImage(m.mimeType) && !isVideo(m.mimeType) && !isAudio(m.mimeType))
 
   return (
     <div className="flex h-[calc(100vh-56px)]">
@@ -113,13 +123,31 @@ export default function MediaLibraryClient({ initialMedia }: Props) {
           Drop files here to upload
         </div>
 
+        {/* Filter tabs */}
+        <div className="flex gap-2 px-8 mb-4 flex-shrink-0">
+          {(['all', 'image', 'video', 'audio', 'document'] as const).map(f => (
+            <button
+              key={f}
+              type="button"
+              onClick={() => setFilter(f)}
+              className="px-3 py-1 rounded-full text-[11px] font-medium border transition-all"
+              style={filter === f
+                ? { background: 'rgba(1,180,175,0.15)', borderColor: 'var(--teal)', color: 'var(--teal)' }
+                : { background: 'transparent', borderColor: 'var(--border)', color: 'var(--muted)' }
+              }
+            >
+              {f.charAt(0).toUpperCase() + f.slice(1)}
+            </button>
+          ))}
+        </div>
+
         {/* Grid */}
         <div className="flex-1 overflow-y-auto px-8 pb-8">
           {media.length === 0 ? (
             <div className="py-20 text-center" style={{ color: 'var(--muted)' }}>No files yet. Upload something above.</div>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-              {media.map(item => (
+              {filtered.map(item => (
                 <button
                   key={item.id}
                   type="button"
@@ -135,12 +163,22 @@ export default function MediaLibraryClient({ initialMedia }: Props) {
                   {isImage(item.mimeType) ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img src={item.url} alt={item.alt ?? item.filename} className="w-full h-full object-cover" />
+                  ) : isVideo(item.mimeType) ? (
+                    <div className="w-full h-full flex flex-col items-center justify-center gap-1 p-2">
+                      <span className="text-3xl">🎬</span>
+                      <span className="text-[10px] text-center truncate w-full" style={{ color: 'var(--muted)' }}>{item.filename}</span>
+                    </div>
+                  ) : isAudio(item.mimeType) ? (
+                    <div className="w-full h-full flex flex-col items-center justify-center gap-1 p-2">
+                      <span className="text-3xl">🎵</span>
+                      <span className="text-[10px] text-center truncate w-full" style={{ color: 'var(--muted)' }}>{item.filename}</span>
+                    </div>
                   ) : (
                     <div className="w-full h-full flex flex-col items-center justify-center gap-2 p-3">
                       <span className="text-3xl">📄</span>
                       <span className="text-[11px] text-center truncate w-full" style={{ color: 'var(--muted)' }}>{item.filename}</span>
                     </div>
-                  )}
+                  )} 
                   <div className="absolute bottom-0 left-0 right-0 px-2 py-1.5 opacity-0 group-hover:opacity-100 transition-opacity"
                     style={{ background: 'rgba(3,17,25,0.85)' }}>
                     <p className="text-[10px] truncate" style={{ color: 'var(--muted)' }}>{item.filename}</p>
@@ -164,6 +202,19 @@ export default function MediaLibraryClient({ initialMedia }: Props) {
               <div className="rounded-[8px] overflow-hidden border" style={{ borderColor: 'var(--border)' }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={selected.url} alt={selected.alt ?? selected.filename} className="w-full object-contain max-h-40" />
+              </div>
+            )}
+            {isVideo(selected.mimeType) && (
+              <div className="rounded-[8px] overflow-hidden border" style={{ borderColor: 'var(--border)' }}>
+                {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+                <video src={selected.url} controls className="w-full max-h-48" style={{ background: '#000' }} />
+              </div>
+            )}
+            {isAudio(selected.mimeType) && (
+              <div className="rounded-[8px] p-3 border" style={{ borderColor: 'var(--border)', background: 'rgba(1,180,175,0.05)' }}>
+                <div className="text-center text-3xl mb-2">🎵</div>
+                {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
+                <audio src={selected.url} controls className="w-full" />
               </div>
             )}
             <div>
