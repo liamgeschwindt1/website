@@ -12,6 +12,7 @@ export default async function MediaPage() {
   const items = media.map(m => ({
     ...m,
     url: `/api/media/${m.id}`,
+    folder: null as string | null,
     createdAt: m.createdAt.toISOString(),
   }))
 

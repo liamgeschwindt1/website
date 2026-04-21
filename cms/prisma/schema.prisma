@@ -46,6 +46,7 @@ model Media {
   url       String   // served via /api/media/[id]
   data      Bytes
   alt       String?
+  folder    String?  // null = root
   createdAt DateTime @default(now())
 }
 

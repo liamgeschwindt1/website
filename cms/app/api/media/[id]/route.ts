@@ -16,8 +16,12 @@ export async function GET(_req: NextRequest, { params }: Params) {
 }
 
 export async function PATCH(req: NextRequest, { params }: Params) {
-  const { alt } = await req.json()
-  const media = await prisma.media.update({ where: { id: params.id }, data: { alt } })
+  const body = await req.json()
+  const data: Record<string, unknown> = {}
+  if ('alt' in body) data.alt = body.alt
+  if ('folder' in body) data.folder = body.folder ?? null
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const media = await (prisma.media.update as any)({ where: { id: params.id }, data })
   return NextResponse.json({ media })
 }
 

@@ -6,7 +6,8 @@ export async function GET() {
     orderBy: { createdAt: 'desc' },
     select: { id: true, filename: true, mimeType: true, size: true, alt: true, createdAt: true },
   })
-  return NextResponse.json({ media: media.map(m => ({ ...m, url: `/api/media/${m.id}` })) })
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return NextResponse.json({ media: media.map(m => ({ ...m, folder: (m as any).folder ?? null, url: `/api/media/${m.id}` })) })
 }
 
 export async function POST(req: NextRequest) {
@@ -18,18 +19,21 @@ export async function POST(req: NextRequest) {
     const MAX = 10 * 1024 * 1024 // 10MB
     if (file.size > MAX) return NextResponse.json({ error: 'File too large (max 10MB)' }, { status: 413 })
 
+    const folder = (form.get('folder') as string | null) || null
     const buffer = Buffer.from(await file.arrayBuffer())
-    const media = await prisma.media.create({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const media = await (prisma.media.create as any)({
       data: {
         filename: file.name,
         mimeType: file.type || 'application/octet-stream',
         size: file.size,
-        url: '', // placeholder — we'll use /api/media/[id]
+        url: '',
         data: buffer,
+        ...(folder ? { folder } : {}),
       },
     })
     return NextResponse.json({
-      media: { id: media.id, filename: media.filename, mimeType: media.mimeType, size: media.size, alt: media.alt, createdAt: media.createdAt.toISOString(), url: `/api/media/${media.id}` },
+      media: { id: media.id, filename: media.filename, mimeType: media.mimeType, size: media.size, alt: media.alt, folder: folder, createdAt: new Date(media.createdAt).toISOString(), url: `/api/media/${media.id}` },
     }, { status: 201 })
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : 'Server error'
