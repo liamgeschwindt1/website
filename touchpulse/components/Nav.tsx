@@ -204,6 +204,15 @@ export default function Nav() {
         </li>
         <li>
           <Link
+            href="#get-involved"
+            className="text-[14px] no-underline hover:text-[var(--text)] transition-colors duration-150"
+            style={{ color: 'rgba(1,180,175,0.85)' }}
+          >
+            Get involved
+          </Link>
+        </li>
+        <li>
+          <Link
             href="#"
             className="text-[14px] text-[rgba(247,247,247,0.50)] no-underline hover:text-[var(--text)] transition-colors duration-150"
           >

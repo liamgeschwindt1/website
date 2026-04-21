@@ -1,14 +1,20 @@
 'use client'
 
-import Link from 'next/link'
 import { motion, useReducedMotion } from 'framer-motion'
 
-export default function CTABanner() {
+const earlyAccessMsg = "I'd like early access to the Tiera development app."
+const waitlistMsg = "I'd like to join the waitlist for the December Tiera launch."
+
+interface CTABannerProps {
+  onSetMessage: (msg: string) => void
+}
+
+export default function CTABanner({ onSetMessage }: CTABannerProps) {
   const prefersReduced = useReducedMotion()
 
   return (
     <section
-      id="contact"
+      id="cta-banner"
       aria-labelledby="cta-heading"
       className="relative px-[clamp(24px,5vw,80px)] py-[128px] text-center overflow-hidden border-t border-[var(--border)]"
     >
@@ -33,31 +39,36 @@ export default function CTABanner() {
           id="cta-heading"
           className="text-[clamp(32px,5vw,56px)] font-medium tracking-[-0.03em] leading-[1.1] mb-4"
         >
-          Ready to make your
-          <br />
-          space{' '}
-          <em style={{ fontFamily: 'var(--font-lora)', fontStyle: 'italic', fontWeight: 400 }}>
-            truly
-          </em>{' '}
-          accessible?
+          Be part of building something that matters.
         </h2>
         <p className="text-[18px] text-[var(--body)] mb-10">
-          Tiera is deployed in days, not months. Let&#39;s talk about what&#39;s possible.
+          Whether you join now or wait for December —{' '}
+          your involvement makes Tiera better for everyone who needs it.
         </p>
 
         <div className="flex justify-center gap-4 flex-wrap">
-          <Link
-            href="mailto:info@touchpulse.nl"
-            className="inline-flex items-center gap-[6px] px-[22px] py-[10px] min-h-[44px] rounded-[6px] bg-[var(--gold)] text-[#031119] text-[14px] font-medium no-underline hover:opacity-90 transition-opacity duration-150"
+          <button
+            type="button"
+            onClick={() => {
+              onSetMessage(earlyAccessMsg)
+              const el = document.getElementById('contact')
+              if (el) el.scrollIntoView({ behavior: 'smooth' })
+            }}
+            className="inline-flex items-center gap-[6px] px-[22px] py-[10px] min-h-[44px] rounded-[6px] bg-[var(--gold)] text-[#031119] text-[14px] font-medium hover:opacity-90 transition-opacity duration-150"
           >
-            Book a demo ↗
-          </Link>
-          <Link
-            href="mailto:info@touchpulse.nl"
-            className="inline-flex items-center px-4 py-2 min-h-[44px] border border-[rgba(255,255,255,0.6)] rounded-[6px] text-[var(--text)] text-[13px] font-medium no-underline hover:bg-[rgba(255,255,255,0.06)] transition-colors duration-150"
+            Get early access ↗
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              onSetMessage(waitlistMsg)
+              const el = document.getElementById('contact')
+              if (el) el.scrollIntoView({ behavior: 'smooth' })
+            }}
+            className="inline-flex items-center px-4 py-2 min-h-[44px] border border-[rgba(255,255,255,0.6)] rounded-[6px] text-[var(--text)] text-[13px] font-medium hover:bg-[rgba(255,255,255,0.06)] transition-colors duration-150"
           >
-            Talk to sales →
-          </Link>
+            Join the waitlist →
+          </button>
         </div>
 
         {/* O&M Studio strip */}

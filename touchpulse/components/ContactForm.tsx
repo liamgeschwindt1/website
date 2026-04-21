@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, FormEvent } from 'react'
+import { useState, useEffect, FormEvent } from 'react'
 
 interface FormState {
   name: string
@@ -9,14 +9,24 @@ interface FormState {
   message: string
 }
 
-export default function ContactForm() {
+interface ContactFormProps {
+  defaultMessage?: string
+}
+
+export default function ContactForm({ defaultMessage = '' }: ContactFormProps) {
   const [form, setForm] = useState<FormState>({
     name: '',
     email: '',
     company: '',
-    message: '',
+    message: defaultMessage,
   })
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+
+  useEffect(() => {
+    if (defaultMessage) {
+      setForm((prev) => ({ ...prev, message: defaultMessage }))
+    }
+  }, [defaultMessage])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -49,7 +59,7 @@ export default function ContactForm() {
 
   return (
     <section
-      id="contact-form"
+      id="contact"
       aria-labelledby="contact-form-heading"
       className="px-[clamp(24px,5vw,80px)] py-[96px] border-t border-[var(--border)]"
     >
