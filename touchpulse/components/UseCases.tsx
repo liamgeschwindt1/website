@@ -100,16 +100,23 @@ export default function UseCases() {
           </div>
 
           <div
-            className={`rounded-[12px] bg-[var(--surface)] border border-[var(--border)] h-[260px] flex flex-col items-center justify-center gap-[10px] relative overflow-hidden ${uc.flip ? 'lg:order-1' : ''}`}
+            className={`rounded-[12px] bg-[var(--surface)] border border-[var(--border)] h-[300px] relative overflow-hidden ${uc.flip ? 'lg:order-1' : ''}`}
             aria-label={uc.label}
           >
+            {/* Ambient gradient */}
             <div
               className="absolute inset-0"
-              style={{ background: 'linear-gradient(135deg, rgba(1,180,175,0.06), rgba(27,53,79,0.3))' }}
+              style={{ background: 'linear-gradient(135deg, rgba(1,180,175,0.08) 0%, rgba(3,17,25,0.6) 100%)' }}
               aria-hidden="true"
             />
-            <span className="text-[32px] relative z-10 opacity-35" aria-hidden="true">{uc.icon}</span>
-            <span className="text-[13px] text-[var(--muted)] relative z-10">{uc.label}</span>
+            {/* Decorative grid lines */}
+            <div className="absolute inset-0 opacity-[0.07]" style={{ backgroundImage: 'linear-gradient(var(--teal) 1px, transparent 1px), linear-gradient(90deg, var(--teal) 1px, transparent 1px)', backgroundSize: '40px 40px' }} aria-hidden="true" />
+            {/* Content */}
+            <div className="absolute inset-0 flex flex-col justify-end p-7">
+              <span className="text-[40px] mb-3" aria-hidden="true">{uc.icon}</span>
+              <p className="text-[13px] font-medium tracking-[0.06em] uppercase text-[var(--teal)] mb-1">{uc.sector}</p>
+              <p className="text-[15px] text-[var(--body)] leading-[1.5]">{uc.label}</p>
+            </div>
           </div>
         </motion.div>
       ))}

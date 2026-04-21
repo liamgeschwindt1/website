@@ -14,26 +14,23 @@ function scrollToContact() {
   if (el) el.scrollIntoView({ behavior: 'smooth' })
 }
 
-const col1Features = [
-  'Voice destination input',
-  'Turn-by-turn audio navigation',
-  '"Where am I?" and surroundings awareness',
-  'Off-route detection and rerouting',
-  'Saved places and navigation history',
-  'Metric and imperial units',
-  'Bluetooth headset support',
-  'Hands-free, screen-off navigation',
-]
-
-const col2Features = [
-  'Organisation membership codes',
-  'Human teleassistance (live operators)',
-  'VPS orientation and haptic feedback',
-  'Accessible high-contrast map view',
-  'Multi-language support',
-  'Custom instruction preferences',
-  'Route overview and ETA',
-  'Feedback submission',
+const capabilities = [
+  { label: 'Voice destination input', ready: true },
+  { label: 'Turn-by-turn audio navigation', ready: true },
+  { label: '"Where am I?" surroundings awareness', ready: true },
+  { label: 'Off-route detection and rerouting', ready: true },
+  { label: 'Saved places and navigation history', ready: true },
+  { label: 'Bluetooth headset &amp; hands-free mode', ready: true },
+  { label: 'Organisation membership codes', ready: true },
+  { label: 'Human teleassistance (live operators)', ready: true },
+  { label: 'Accessible high-contrast map view', ready: true },
+  { label: 'Multi-language support', ready: true },
+  { label: 'Custom instruction preferences', ready: true },
+  { label: 'Route overview and ETA', ready: true },
+  { label: 'O&amp;M Studio for certified instructors', ready: false },
+  { label: 'Full companion AI (context-aware)', ready: false },
+  { label: 'Offline support and positioning', ready: false },
+  { label: 'Verified instructor routes', ready: false },
 ]
 
 export default function GetInvolved({ onSetMessage }: GetInvolvedProps) {
@@ -182,44 +179,33 @@ export default function GetInvolved({ onSetMessage }: GetInvolvedProps) {
           <h3 className="text-[clamp(22px,2.8vw,36px)] font-medium tracking-[-0.02em] leading-[1.15] mb-10">
             Here&apos;s what Tiera can do right now.
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
-            <div className="flex flex-col gap-3">
-              {col1Features.map((feat) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[var(--border)] rounded-[12px] overflow-hidden mb-6">
+            {capabilities.map((cap) => (
+              <div
+                key={cap.label}
+                className="bg-[var(--surface)] px-5 py-4 flex items-start gap-3"
+              >
                 <span
-                  key={feat}
-                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full"
+                  className="mt-[2px] flex-shrink-0 w-[18px] h-[18px] rounded-full flex items-center justify-center text-[10px]"
                   style={{
-                    background: 'rgba(1,180,175,0.10)',
-                    border: '1px solid rgba(1,180,175,0.40)',
-                    fontSize: '12px',
-                    color: 'var(--text)',
+                    background: cap.ready ? 'rgba(1,180,175,0.15)' : 'rgba(255,255,255,0.06)',
+                    border: cap.ready ? '1px solid rgba(1,180,175,0.40)' : '1px solid rgba(255,255,255,0.12)',
+                    color: cap.ready ? 'var(--teal)' : 'var(--muted)',
                   }}
+                  aria-hidden="true"
                 >
-                  <span style={{ color: 'var(--teal)', flexShrink: 0 }} aria-hidden="true">●</span>
-                  {feat}
+                  {cap.ready ? '✓' : '·'}
                 </span>
-              ))}
-            </div>
-            <div className="flex flex-col gap-3">
-              {col2Features.map((feat) => (
                 <span
-                  key={feat}
-                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full"
-                  style={{
-                    background: 'rgba(1,180,175,0.10)',
-                    border: '1px solid rgba(1,180,175,0.40)',
-                    fontSize: '12px',
-                    color: 'var(--text)',
-                  }}
-                >
-                  <span style={{ color: 'var(--teal)', flexShrink: 0 }} aria-hidden="true">●</span>
-                  {feat}
-                </span>
-              ))}
-            </div>
+                  className="text-[13px] leading-[1.5]"
+                  style={{ color: cap.ready ? 'var(--text)' : 'var(--muted)' }}
+                  dangerouslySetInnerHTML={{ __html: cap.label }}
+                />
+              </div>
+            ))}
           </div>
           <p style={{ fontSize: '13px', color: 'var(--muted)', fontStyle: 'italic' }}>
-            More being added every week. Last updated June 2026.
+            ✓ Live today &nbsp;·&nbsp; · Coming in December 2025 &nbsp;·&nbsp; More added every week.
           </p>
         </div>
       </motion.div>

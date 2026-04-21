@@ -180,7 +180,7 @@ export default function Nav() {
         </li>
         <li>
           <Link
-            href="#usecases"
+            href="/for-business"
             className="text-[14px] text-[rgba(247,247,247,0.50)] no-underline hover:text-[var(--text)] transition-colors duration-150"
           >
             For Business
@@ -188,7 +188,7 @@ export default function Nav() {
         </li>
         <li>
           <Link
-            href="#ai"
+            href="/tiera"
             className="text-[14px] text-[rgba(247,247,247,0.50)] no-underline hover:text-[var(--text)] transition-colors duration-150"
           >
             Tiera
@@ -196,7 +196,7 @@ export default function Nav() {
         </li>
         <li>
           <Link
-            href="#partners"
+            href="/partners"
             className="text-[14px] text-[rgba(247,247,247,0.50)] no-underline hover:text-[var(--text)] transition-colors duration-150"
           >
             Partners
@@ -205,10 +205,10 @@ export default function Nav() {
         <li>
           <Link
             href="#get-involved"
-            className="text-[14px] no-underline hover:text-[var(--text)] transition-colors duration-150"
-            style={{ color: 'rgba(1,180,175,0.85)' }}
+            className="text-[13px] font-semibold px-4 py-1.5 rounded-full no-underline transition-all duration-200"
+            style={{ background: 'rgba(1,180,175,0.15)', color: 'var(--teal)', border: '1px solid rgba(1,180,175,0.45)' }}
           >
-            Get involved
+            Get involved ↗
           </Link>
         </li>
         <li>
