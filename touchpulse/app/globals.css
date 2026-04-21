@@ -12,7 +12,70 @@
   --gold: #FFB100;
   --border: rgba(255, 255, 255, 0.08);
   --border-hover: rgba(1, 180, 175, 0.35);
+  --a11y-font-scale: 1;
 }
+
+/* ─── Accessibility Mode ─────────────────────────────────────────── */
+html.a11y-mode {
+  /* Override text colours for maximum contrast */
+  --text: #ffffff;
+  --body: rgba(255, 255, 255, 0.92);
+  --muted: rgba(255, 255, 255, 0.75);
+  --bg: #000000;
+  --surface: rgba(30, 30, 30, 0.80);
+  --border: rgba(255, 255, 255, 0.25);
+  --border-hover: rgba(1, 180, 175, 0.7);
+}
+
+html.a11y-mode body {
+  background: #000000;
+  font-size: calc(18px * var(--a11y-font-scale));
+  line-height: 1.8;
+  letter-spacing: 0.01em;
+}
+
+/* Scale all text elements proportionally */
+html.a11y-mode h1,
+html.a11y-mode h2,
+html.a11y-mode h3,
+html.a11y-mode h4,
+html.a11y-mode h5,
+html.a11y-mode h6 {
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+/* Larger focus rings */
+html.a11y-mode *:focus-visible {
+  outline: 3px solid var(--teal);
+  outline-offset: 4px;
+}
+
+/* Remove motion / grain overlays */
+html.a11y-mode .hero-aurora {
+  background: #000000 !important;
+}
+html.a11y-mode .grain {
+  display: none;
+}
+
+/* Simplify decorative blurs that reduce readability */
+html.a11y-mode [class*="blur"] {
+  filter: none !important;
+}
+
+/* Make buttons and links more visible */
+html.a11y-mode a,
+html.a11y-mode button {
+  text-underline-offset: 3px;
+}
+
+/* Increase spacing for readability */
+html.a11y-mode p {
+  max-width: 65ch;
+  margin-bottom: 1em;
+}
+/* ─────────────────────────────────────────────────────────────────── */
 
 html {
   scroll-behavior: smooth;

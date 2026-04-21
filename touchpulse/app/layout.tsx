@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { inter, lora, jetbrainsMono } from './fonts'
+import { AccessibilityProvider } from '@/components/AccessibilityProvider'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -26,7 +27,9 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${lora.variable} ${jetbrainsMono.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <AccessibilityProvider>{children}</AccessibilityProvider>
+      </body>
     </html>
   )
 }
