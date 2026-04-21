@@ -24,4 +24,4 @@ COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
 COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 EXPOSE 8080
 ENV PORT=8080
-CMD ["sh", "-c", "npx prisma db push --skip-generate && node server.js"]
+CMD ["sh", "-c", "./node_modules/.bin/prisma db push && node server.js"]
