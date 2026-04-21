@@ -4,6 +4,7 @@ import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import ImagePicker from '@/components/ImagePicker'
+import { slugify } from '@/lib/utils'
 
 interface Post {
   id: string
@@ -18,15 +19,6 @@ interface Post {
 interface Props {
   mode: 'new' | 'edit'
   post?: Post
-}
-
-function slugify(str: string) {
-  return str
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .trim()
 }
 
 export default function PostForm({ mode, post }: Props) {
@@ -63,7 +55,7 @@ export default function PostForm({ mode, post }: Props) {
         setError(data.error ?? 'Failed to save')
         return
       }
-      router.push('/admin')
+      router.push('/admin/posts')
       router.refresh()
     } catch {
       setError('Network error')
@@ -77,7 +69,7 @@ export default function PostForm({ mode, post }: Props) {
     setDeleting(true)
     try {
       await fetch(`/api/posts/${post!.id}`, { method: 'DELETE' })
-      router.push('/admin')
+      router.push('/admin/posts')
       router.refresh()
     } catch {
       setError('Failed to delete.')

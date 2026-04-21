@@ -92,8 +92,9 @@ export default function CampaignsPage() {
           <p className="text-[13px] mt-0.5" style={{ color: 'var(--muted)' }}>Manage outreach campaigns across your CRM segments.</p>
         </div>
         <button
-          onClick={() => alert('Campaign builder — coming soon!')}
-          className="px-4 py-2 rounded-[7px] text-[13px] font-medium transition-all"
+          disabled
+          title="Campaign builder — coming soon"
+          className="px-4 py-2 rounded-[7px] text-[13px] font-medium opacity-50 cursor-not-allowed"
           style={{ background: 'var(--teal)', color: '#031119' }}
         >
           + New Campaign
@@ -184,8 +185,9 @@ export default function CampaignsPage() {
                     </td>
                     <td className="px-5 py-3 text-right">
                       <button
-                        onClick={() => alert('Campaign editor — coming soon!')}
-                        className="text-[12px] no-underline"
+                        disabled
+                        title="Campaign editor — coming soon"
+                        className="text-[12px] opacity-40 cursor-not-allowed"
                         style={{ color: 'var(--teal)' }}
                       >
                         Edit

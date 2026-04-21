@@ -48,8 +48,10 @@ export function AccessibilityProvider({ children }: { children: React.ReactNode 
         if (mode) setAccessibilityMode(true)
         if (size) setFontSize(size)
         if (scheme) setColorSchemeState(scheme)
-      } catch {}
-    }
+      } catch {
+        // Invalid JSON stored — clear it to self-heal
+        localStorage.removeItem('tp-a11y')
+      }
   }, [])
 
   useEffect(() => {

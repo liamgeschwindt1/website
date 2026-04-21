@@ -4,6 +4,7 @@ import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import ImagePicker from '@/components/ImagePicker'
+import { slugify } from '@/lib/utils'
 
 interface Page {
   id: string
@@ -19,10 +20,6 @@ interface Page {
 interface Props {
   mode: 'new' | 'edit'
   page?: Page
-}
-
-function slugify(str: string) {
-  return str.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/-+/g, '-').trim()
 }
 
 export default function PageForm({ mode, page }: Props) {

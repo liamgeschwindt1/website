@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, FormEvent } from 'react'
+import { createGithubIssue, toggleButtonStyle } from '@/lib/utils'
 
 const LABELS = ['bug', 'feature-request', 'content', 'question', 'urgent']
 type Target = 'suite' | 'frontend'
@@ -23,13 +24,7 @@ export default function GithubWidget() {
     const locationLine = location.trim() ? `\n**Location:** ${location.trim()}` : ''
     const fullBody = `**Target:** ${target === 'suite' ? '🟦 Suite (CMS)' : '🌐 Frontend (Site)'}${locationLine}\n\n${body}`
     try {
-      const res = await fetch('/api/github/issue', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, body: fullBody, label }),
-      })
-      const data = await res.json()
-      if (!res.ok) throw new Error(data.error ?? 'Failed')
+      await createGithubIssue({ title, body: fullBody, label })
       setStatus('success')
       setTitle('')
       setBody('')
@@ -106,9 +101,7 @@ export default function GithubWidget() {
                       type="button"
                       onClick={() => setTarget(t)}
                       className="flex-1 py-1.5 rounded-[6px] text-[12px] font-medium border transition-all"
-                      style={target === t
-                        ? { background: 'rgba(1,180,175,0.15)', borderColor: 'var(--teal)', color: 'var(--teal)' }
-                        : { background: 'transparent', borderColor: 'var(--border)', color: 'var(--muted)' }}
+                      style={toggleButtonStyle(target === t)}
                     >
                       {lbl}
                     </button>
@@ -145,11 +138,7 @@ export default function GithubWidget() {
                       type="button"
                       onClick={() => setLabel(l)}
                       className="px-3 py-1 rounded-full text-[11px] font-medium border transition-all duration-150"
-                      style={
-                        label === l
-                          ? { background: 'rgba(1,180,175,0.15)', borderColor: 'var(--teal)', color: 'var(--teal)' }
-                          : { background: 'transparent', borderColor: 'var(--border)', color: 'var(--muted)' }
-                      }
+                      style={toggleButtonStyle(label === l)}
                     >
                       {l.replace('-', ' ')}
                     </button>

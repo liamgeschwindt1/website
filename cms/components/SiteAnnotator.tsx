@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef } from 'react'
+import { createGithubIssue } from '@/lib/utils'
 
 interface Pin {
   x: number  // percent of iframe width
@@ -68,12 +69,7 @@ export default function SiteAnnotator() {
         pin ? `**Pin:** ${pin.x}% from left, ${pin.y}% from top` : '',
       ].filter(Boolean).join('\n')
 
-      const res = await fetch('/api/github/issue', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, body, label }),
-      })
-      if (!res.ok) throw new Error()
+      await createGithubIssue({ title, body, label })
       setStatus('success')
       setPin(null)
       setTitle('')

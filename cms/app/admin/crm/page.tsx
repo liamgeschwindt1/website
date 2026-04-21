@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { useCRM, Contact, healthState } from '@/context/CRMContext'
 import ContactTable from '@/components/crm/ContactTable'
 import ProfileDrawer from '@/components/crm/ProfileDrawer'
@@ -128,7 +128,7 @@ export default function CRMPage() {
               ↑ Import
             </button>
             <button
-              onClick={() => alert('Add Contact — coming soon!')}
+              onClick={() => setShowImport(true)}
               className="px-4 py-2 rounded-[7px] text-[13px] font-medium transition-all"
               style={{ background: 'var(--teal)', color: '#031119' }}
             >

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useCallback } from 'react'
+import { isImage, isVideo, isAudio, formatBytes, toggleButtonStyle } from '@/lib/utils'
 
 interface MediaItem {
   id: string
@@ -16,18 +17,14 @@ interface Props {
   initialMedia: MediaItem[]
 }
 
-function formatBytes(bytes: number) {
-  if (bytes < 1024) return `${bytes} B`
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
-}
-
 export default function MediaLibraryClient({ initialMedia }: Props) {
   const [media, setMedia] = useState<MediaItem[]>(initialMedia)
   const [selected, setSelected] = useState<MediaItem | null>(null)
   const [uploading, setUploading] = useState(false)
   const [dragOver, setDragOver] = useState(false)
   const [copiedId, setCopiedId] = useState<string | null>(null)
+  const [filter, setFilter] = useState<'all' | 'image' | 'video' | 'audio' | 'document'>('all')
+  const [mediaError, setMediaError] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
 
   async function uploadFile(file: File) {
@@ -56,17 +53,27 @@ export default function MediaLibraryClient({ initialMedia }: Props) {
 
   async function handleDelete(id: string) {
     if (!confirm('Delete this file permanently?')) return
-    await fetch(`/api/media/${id}`, { method: 'DELETE' })
-    setMedia(prev => prev.filter(m => m.id !== id))
-    if (selected?.id === id) setSelected(null)
+    try {
+      const res = await fetch(`/api/media/${id}`, { method: 'DELETE' })
+      if (!res.ok) throw new Error('Delete failed')
+      setMedia(prev => prev.filter(m => m.id !== id))
+      if (selected?.id === id) setSelected(null)
+    } catch {
+      setMediaError('Failed to delete file. Please try again.')
+    }
   }
 
   async function handleAltUpdate(id: string, alt: string) {
-    await fetch(`/api/media/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ alt }),
-    })
+    try {
+      const res = await fetch(`/api/media/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ alt }),
+      })
+      if (!res.ok) throw new Error('Update failed')
+    } catch {
+      setMediaError('Failed to save alt text.')
+    }
   }
 
   function copyUrl(item: MediaItem) {
@@ -74,12 +81,6 @@ export default function MediaLibraryClient({ initialMedia }: Props) {
     setCopiedId(item.id)
     setTimeout(() => setCopiedId(null), 1500)
   }
-
-  const isImage = (mime: string) => mime.startsWith('image/')
-  const isVideo = (mime: string) => mime.startsWith('video/')
-  const isAudio = (mime: string) => mime.startsWith('audio/')
-
-  const [filter, setFilter] = useState<'all' | 'image' | 'video' | 'audio' | 'document'>('all')
 
   const filtered = filter === 'all' ? media
     : filter === 'image' ? media.filter(m => isImage(m.mimeType))
@@ -108,6 +109,13 @@ export default function MediaLibraryClient({ initialMedia }: Props) {
           <input ref={inputRef} type="file" multiple accept="image/*,video/*,application/pdf" className="hidden" onChange={e => handleFiles(e.target.files)} />
         </div>
 
+        {mediaError && (
+          <div className="mx-8 mb-2 px-4 py-3 rounded-[8px] text-[13px] flex items-center justify-between" style={{ background: 'rgba(248,113,113,0.1)', color: '#f87171', border: '1px solid rgba(248,113,113,0.3)' }}>
+            {mediaError}
+            <button type="button" onClick={() => setMediaError('')} className="ml-4 text-[16px] leading-none opacity-70 hover:opacity-100">×</button>
+          </div>
+        )}
+
         {/* Drop zone */}
         <div
           className="mx-8 mb-5 rounded-[10px] border-2 border-dashed flex items-center justify-center py-6 text-[13px] transition-all duration-200 flex-shrink-0"
@@ -131,10 +139,7 @@ export default function MediaLibraryClient({ initialMedia }: Props) {
               type="button"
               onClick={() => setFilter(f)}
               className="px-3 py-1 rounded-full text-[11px] font-medium border transition-all"
-              style={filter === f
-                ? { background: 'rgba(1,180,175,0.15)', borderColor: 'var(--teal)', color: 'var(--teal)' }
-                : { background: 'transparent', borderColor: 'var(--border)', color: 'var(--muted)' }
-              }
+              style={toggleButtonStyle(filter === f)}
             >
               {f.charAt(0).toUpperCase() + f.slice(1)}
             </button>

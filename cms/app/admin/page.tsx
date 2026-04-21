@@ -4,11 +4,19 @@ import { prisma } from '@/lib/prisma'
 export const dynamic = 'force-dynamic'
 
 export default async function AdminDashboard() {
-  const [posts, pages, mediaCount] = await Promise.all([
-    prisma.post.findMany({ orderBy: { updatedAt: 'desc' }, take: 5, select: { id: true, title: true, slug: true, published: true, updatedAt: true } }),
-    prisma.page.findMany({ orderBy: { updatedAt: 'desc' }, take: 5, select: { id: true, title: true, slug: true, published: true, updatedAt: true } }),
-    prisma.media.count(),
-  ])
+  let posts: { id: string; title: string; slug: string; published: boolean; updatedAt: Date }[] = []
+  let pages: typeof posts = []
+  let mediaCount = 0
+
+  try {
+    ;[posts, pages, mediaCount] = await Promise.all([
+      prisma.post.findMany({ orderBy: { updatedAt: 'desc' }, take: 5, select: { id: true, title: true, slug: true, published: true, updatedAt: true } }),
+      prisma.page.findMany({ orderBy: { updatedAt: 'desc' }, take: 5, select: { id: true, title: true, slug: true, published: true, updatedAt: true } }),
+      prisma.media.count(),
+    ])
+  } catch {
+    // DB may be unavailable — render gracefully with empty data
+  }
 
   const stats = [
     { label: 'Blog Posts', value: posts.length, sub: `${posts.filter(p => p.published).length} published`, href: '/admin/posts', color: 'var(--teal)' },
