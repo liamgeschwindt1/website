@@ -1,6 +1,8 @@
 'use client'
 
+import { useRef } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
+import { useSectionView } from '@/lib/posthog'
 
 interface GetInvolvedProps {
   onSetMessage: (msg: string) => void
@@ -35,6 +37,8 @@ const capabilities = [
 
 export default function GetInvolved({ onSetMessage }: GetInvolvedProps) {
   const prefersReduced = useReducedMotion()
+  const sectionRef = useRef<HTMLElement>(null)
+  useSectionView(sectionRef, 'get_involved')
   const mp = prefersReduced
     ? {}
     : {
@@ -56,6 +60,7 @@ export default function GetInvolved({ onSetMessage }: GetInvolvedProps) {
 
   return (
     <section
+      ref={sectionRef}
       id="get-involved"
       aria-labelledby="get-involved-heading"
       className="px-[clamp(24px,5vw,80px)] py-[96px] border-t border-[var(--border)]"

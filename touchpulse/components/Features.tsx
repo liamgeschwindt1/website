@@ -1,6 +1,8 @@
 'use client'
 
+import { useRef } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
+import { useSectionView } from '@/lib/posthog'
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -46,9 +48,12 @@ const cards = [
 export default function Features() {
   const prefersReduced = useReducedMotion()
   const mp = prefersReduced ? {} : fadeUp
+  const sectionRef = useRef<HTMLElement>(null)
+  useSectionView(sectionRef, 'features')
 
   return (
     <section
+      ref={sectionRef}
       id="features"
       aria-labelledby="features-heading"
       className="px-[clamp(24px,5vw,80px)] pb-[128px]"

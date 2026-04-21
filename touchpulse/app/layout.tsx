@@ -3,6 +3,7 @@ import { inter, lora, jetbrainsMono } from './fonts'
 import { AccessibilityProvider } from '@/components/AccessibilityProvider'
 import { PostHogProvider } from '@/lib/posthog'
 import CookieBanner from '@/components/CookieBanner'
+import ScrollDepthTracker from '@/components/ScrollDepthTracker'
 import { Suspense } from 'react'
 import './globals.css'
 
@@ -34,6 +35,7 @@ export default function RootLayout({
         <AccessibilityProvider>
           <Suspense>
             <PostHogProvider>
+              <ScrollDepthTracker />
               {children}
             </PostHogProvider>
           </Suspense>

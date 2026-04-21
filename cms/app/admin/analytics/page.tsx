@@ -26,6 +26,9 @@ interface AnalyticsData {
   topCountries?: { results?: Array<{ label: string; data: number[] }> }
   topBrowsers?: { results?: Array<{ label: string; data: number[] }> }
   topDevices?: { results?: Array<{ label: string; data: number[] }> }
+  sectionViews?: { results?: Array<{ label: string; data: number[] }> }
+  scrollDepth?: { results?: Array<{ label: string; data: number[] }> }
+  formFunnel?: { results?: Array<{ label: string; data: number[] }> }
 }
 
 function sumSeries(results: Array<{ data: number[] }> | undefined): number {
@@ -253,6 +256,70 @@ export default function AnalyticsPage() {
           >
             Open PostHog ↗
           </a>
+        </div>
+      </div>
+
+      {/* Section engagement + scroll depth + form funnel */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Section views */}
+        <div className="p-5 rounded-[12px] border" style={{ borderColor: 'var(--border)', background: 'rgba(27,53,79,0.12)' }}>
+          <h3 className="text-[13px] font-semibold mb-1" style={{ color: 'var(--text)' }}>Section engagement</h3>
+          <p className="text-[11px] mb-4" style={{ color: 'var(--muted)' }}>Which sections visitors reach</p>
+          {loading ? (
+            <div className="text-[12px]" style={{ color: 'var(--muted)' }}>Loading…</div>
+          ) : (() => {
+            const items = topItems(data?.sectionViews?.results, 6)
+            const labels: Record<string, string> = {
+              hero: 'Hero', features: 'Features', get_involved: 'Get Involved',
+              contact_form: 'Contact form', partners: 'Partners', usecases: 'Use Cases',
+            }
+            const mapped = items.map(i => ({ ...i, label: labels[i.label] ?? i.label }))
+            return mapped.length > 0 ? <MiniBar items={mapped} /> : <div className="text-[12px]" style={{ color: 'var(--muted)' }}>No data yet</div>
+          })()}
+        </div>
+
+        {/* Scroll depth */}
+        <div className="p-5 rounded-[12px] border" style={{ borderColor: 'var(--border)', background: 'rgba(27,53,79,0.12)' }}>
+          <h3 className="text-[13px] font-semibold mb-1" style={{ color: 'var(--text)' }}>Scroll depth</h3>
+          <p className="text-[11px] mb-4" style={{ color: 'var(--muted)' }}>How far visitors scroll per page</p>
+          {loading ? (
+            <div className="text-[12px]" style={{ color: 'var(--muted)' }}>Loading…</div>
+          ) : (() => {
+            const items = topItems(data?.scrollDepth?.results, 5)
+              .sort((a, b) => Number(a.label) - Number(b.label))
+              .map(i => ({ ...i, label: `${i.label}%` }))
+            return items.length > 0 ? <MiniBar items={items} /> : <div className="text-[12px]" style={{ color: 'var(--muted)' }}>No data yet</div>
+          })()}
+        </div>
+
+        {/* Form funnel */}
+        <div className="p-5 rounded-[12px] border" style={{ borderColor: 'var(--border)', background: 'rgba(27,53,79,0.12)' }}>
+          <h3 className="text-[13px] font-semibold mb-1" style={{ color: 'var(--text)' }}>Contact form funnel</h3>
+          <p className="text-[11px] mb-4" style={{ color: 'var(--muted)' }}>Seen → Started → Submitted</p>
+          {loading ? (
+            <div className="text-[12px]" style={{ color: 'var(--muted)' }}>Loading…</div>
+          ) : (() => {
+            const results = data?.formFunnel?.results
+            if (!results?.length) return <div className="text-[12px]" style={{ color: 'var(--muted)' }}>No data yet</div>
+            const steps = results.map(r => ({
+              label: r.label,
+              count: (r.data ?? []).reduce((a: number, b: number) => a + b, 0),
+            }))
+            const max = Math.max(...steps.map(s => s.count), 1)
+            return (
+              <div className="flex flex-col gap-3">
+                {steps.map((step, i) => (
+                  <div key={step.label} className="flex items-center gap-3">
+                    <div className="text-[11px] w-[90px] truncate flex-shrink-0" style={{ color: 'var(--muted)' }}>{step.label}</div>
+                    <div className="flex-1 h-[6px] rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.07)' }}>
+                      <div className="h-full rounded-full" style={{ width: `${(step.count / max) * 100}%`, background: i === 2 ? '#01b4af' : i === 1 ? 'rgba(1,180,175,0.5)' : 'rgba(1,180,175,0.25)' }} />
+                    </div>
+                    <div className="text-[12px] w-8 text-right flex-shrink-0" style={{ color: 'var(--text)' }}>{step.count}</div>
+                  </div>
+                ))}
+              </div>
+            )
+          })()}
         </div>
       </div>
     </div>

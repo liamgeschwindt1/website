@@ -1,7 +1,9 @@
 'use client'
 
 import Link from 'next/link'
+import { useRef } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
+import { useSectionView } from '@/lib/posthog'
 
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
@@ -12,11 +14,14 @@ const fadeUp = {
 
 export default function Hero() {
   const prefersReduced = useReducedMotion()
+  const sectionRef = useRef<HTMLElement>(null)
+  useSectionView(sectionRef, 'hero')
 
   const motionProps = prefersReduced ? {} : fadeUp
 
   return (
     <section
+      ref={sectionRef}
       aria-label="Hero"
       className="relative min-h-screen flex items-center px-[clamp(24px,5vw,80px)] pt-[120px] pb-[80px] overflow-hidden"
     >

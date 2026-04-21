@@ -42,7 +42,7 @@ export async function GET(req: NextRequest) {
     const days = parseInt(searchParams.get('days') ?? '30', 10)
     const dateFrom = new Date(Date.now() - days * 86400000).toISOString().split('T')[0]
 
-    // Parallel fetch: pageviews trend, unique visitors, top pages, top browsers, top countries, top referrers
+    // Parallel fetch
     const [
       trendData,
       topPages,
@@ -50,6 +50,9 @@ export async function GET(req: NextRequest) {
       topCountries,
       topBrowsers,
       topDevices,
+      sectionViews,
+      scrollDepth,
+      formFunnel,
     ] = await Promise.all([
       // Daily pageviews + sessions
       phQuery({
@@ -103,6 +106,35 @@ export async function GET(req: NextRequest) {
         breakdownFilter: { breakdown: '$device_type', breakdown_type: 'event' },
         dateRange: { date_from: dateFrom },
       }),
+
+      // Section views breakdown
+      phQuery({
+        kind: 'TrendsQuery',
+        series: [{ kind: 'EventsNode', event: 'section_view', name: 'Views', math: 'total' }],
+        breakdownFilter: { breakdown: 'section', breakdown_type: 'event' },
+        dateRange: { date_from: dateFrom },
+      }).catch(() => null),
+
+      // Scroll depth breakdown
+      phQuery({
+        kind: 'TrendsQuery',
+        series: [{ kind: 'EventsNode', event: 'scroll_depth', name: 'Count', math: 'total' }],
+        breakdownFilter: { breakdown: 'depth_pct', breakdown_type: 'event' },
+        dateRange: { date_from: dateFrom },
+      }).catch(() => null),
+
+      // Form funnel: views → start → submit
+      phQuery({
+        kind: 'TrendsQuery',
+        series: [
+          { kind: 'EventsNode', event: 'section_view', name: 'Form seen', math: 'total',
+            properties: [{ key: 'section', value: 'contact_form', operator: 'exact', type: 'event' }] },
+          { kind: 'EventsNode', event: 'form_start', name: 'Form started', math: 'total' },
+          { kind: 'EventsNode', event: 'form_submit', name: 'Form submitted', math: 'total' },
+        ],
+        dateRange: { date_from: dateFrom },
+        interval: 'day',
+      }).catch(() => null),
     ])
 
     return NextResponse.json({
@@ -114,6 +146,9 @@ export async function GET(req: NextRequest) {
       topCountries,
       topBrowsers,
       topDevices,
+      sectionViews,
+      scrollDepth,
+      formFunnel,
     })
   } catch (e: unknown) {
     return NextResponse.json({ configured: true, error: e instanceof Error ? e.message : 'Failed to fetch analytics' }, { status: 500 })

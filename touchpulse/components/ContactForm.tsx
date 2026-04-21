@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useEffect, FormEvent } from 'react'
+import { useState, useEffect, useRef, FormEvent } from 'react'
+import { track, useSectionView } from '@/lib/posthog'
 
 interface FormState {
   name: string
@@ -14,6 +15,9 @@ interface ContactFormProps {
 }
 
 export default function ContactForm({ defaultMessage = '' }: ContactFormProps) {
+  const sectionRef = useRef<HTMLElement>(null)
+  useSectionView(sectionRef, 'contact_form')
+  const [hasStarted, setHasStarted] = useState(false)
   const [form, setForm] = useState<FormState>({
     name: '',
     email: '',
@@ -29,6 +33,10 @@ export default function ContactForm({ defaultMessage = '' }: ContactFormProps) {
   }, [defaultMessage])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    if (!hasStarted) {
+      setHasStarted(true)
+      track.formStart('contact')
+    }
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
@@ -46,11 +54,15 @@ export default function ContactForm({ defaultMessage = '' }: ContactFormProps) {
       if (data.success) {
         setStatus('success')
         setForm({ name: '', email: '', company: '', message: '' })
+        setHasStarted(false)
+        track.formSubmit('contact', true)
       } else {
         setStatus('error')
+        track.formSubmit('contact', false)
       }
     } catch {
       setStatus('error')
+      track.formSubmit('contact', false)
     }
   }
 
@@ -59,6 +71,7 @@ export default function ContactForm({ defaultMessage = '' }: ContactFormProps) {
 
   return (
     <section
+      ref={sectionRef}
       id="contact"
       aria-labelledby="contact-form-heading"
       className="px-[clamp(24px,5vw,80px)] py-[96px] border-t border-[var(--border)]"
