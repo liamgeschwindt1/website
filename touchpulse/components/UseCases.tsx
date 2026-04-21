@@ -30,22 +30,6 @@ const cases = [
     flip: false,
   },
   {
-    sector: 'Public transport',
-    title: (
-      <>
-        Travel without{' '}
-        <em style={{ fontFamily: 'var(--font-lora)', fontStyle: 'italic', fontWeight: 400 }}>
-          worry.
-        </em>
-      </>
-    ),
-    body: 'Busy platforms, crowded concourses, unfamiliar stations. Tiera makes them navigable — so every traveller can get where they\'re going with confidence.',
-    link: 'Tiera for Transport →',
-    icon: '🚉',
-    label: 'Transit hub',
-    flip: true,
-  },
-  {
     sector: 'Hospital',
     title: (
       <>
@@ -59,7 +43,7 @@ const cases = [
     link: 'Tiera for Hospital →',
     icon: '🏥',
     label: 'Hospital wayfinding',
-    flip: false,
+    flip: true,
   },
 ]
 
@@ -70,7 +54,7 @@ export default function UseCases() {
     <section
       id="usecases"
       aria-labelledby="usecases-heading"
-      className="px-[clamp(24px,5vw,80px)] py-[96px]"
+      className="px-[clamp(24px,5vw,80px)] py-[128px]"
     >
       <motion.div
         {...(prefersReduced ? {} : fadeUp)}
@@ -129,6 +113,18 @@ export default function UseCases() {
           </div>
         </motion.div>
       ))}
+
+      <motion.div
+        {...(prefersReduced ? {} : { ...fadeUp, transition: { duration: 0.6, ease, delay: 0.1 } })}
+        className="mt-8 flex justify-center"
+      >
+        <Link
+          href="#contact"
+          className="inline-flex items-center gap-1.5 text-[var(--teal)] text-[14px] no-underline hover:gap-3 transition-all duration-150"
+        >
+          View all sectors →
+        </Link>
+      </motion.div>
     </section>
   )
 }

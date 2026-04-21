@@ -51,7 +51,7 @@ export default function Features() {
     <section
       id="features"
       aria-labelledby="features-heading"
-      className="px-[clamp(24px,5vw,80px)] pb-[96px]"
+      className="px-[clamp(24px,5vw,80px)] pb-[128px]"
     >
       <motion.div {...mp} className="mb-14">
         <p className="text-[11px] font-medium tracking-[0.08em] uppercase text-[var(--muted)] mb-4">

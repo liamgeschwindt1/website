@@ -1,7 +1,6 @@
 import Nav from '@/components/Nav'
 import Hero from '@/components/Hero'
 import ProofBar from '@/components/ProofBar'
-import StorySection from '@/components/StorySection'
 import Features from '@/components/Features'
 import HumanRow from '@/components/HumanRow'
 import AISection from '@/components/AISection'
@@ -18,8 +17,8 @@ export default function Home() {
       <main>
         <Hero />
         <ProofBar />
-        <StorySection />
         <Features />
+        <div aria-hidden="true" className="mx-[clamp(24px,5vw,80px)] h-px bg-[rgba(1,180,175,0.20)]" />
         <HumanRow />
         <AISection />
         <UseCases />

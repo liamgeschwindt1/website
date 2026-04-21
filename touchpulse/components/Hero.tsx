@@ -63,8 +63,8 @@ export default function Hero() {
           </h1>
 
           <p className="text-[17px] text-[var(--body)] max-w-[480px] mb-9 leading-[1.7]">
-            TouchPulse gives people with sight loss the freedom to move independently through any building or street —{' '}
-            <strong className="text-[var(--text)] font-medium">no guessing, no getting stuck, no asking for help.</strong>
+            TouchPulse turns any building or street into a clear,
+            confident path — powered by Tiera AI and real human backup.
           </p>
 
           <div className="flex items-center gap-[14px] flex-wrap mb-12">
@@ -88,8 +88,9 @@ export default function Hero() {
           </div>
         </motion.div>
 
-        {/* Right — testimonial card */}
+        {/* Right — SVG route map + testimonial card */}
         <motion.div
+          className="relative hidden md:block"
           {...(prefersReduced
             ? {}
             : {
@@ -99,7 +100,67 @@ export default function Hero() {
                 transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number, number, number, number], delay: 0.2 },
               })}
         >
-          <div className="relative bg-[rgba(27,53,79,0.55)] border border-[rgba(255,255,255,0.10)] rounded-[16px] p-8 backdrop-blur-[12px]">
+          {/* Animated route SVG — background layer */}
+          <svg
+            viewBox="0 0 320 320"
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full pointer-events-none"
+            style={{ zIndex: 0 }}
+          >
+            {/* Grid dots */}
+            {[60,120,180,240].map(x =>
+              [60,120,180,240].map(y => (
+                <circle key={`${x}-${y}`} cx={x} cy={y} r="1.5" fill="#01B4AF" fillOpacity="0.12" />
+              ))
+            )}
+            {/* Route path */}
+            <path
+              d="M60,260 L200,260 L200,160 L260,160 L260,70"
+              fill="none"
+              stroke="#01B4AF"
+              strokeOpacity="0.30"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeDasharray="6 5"
+            />
+            {/* Waypoint rings */}
+            <circle cx="60" cy="260" r="5" fill="none" stroke="#01B4AF" strokeOpacity="0.50" strokeWidth="1.5" />
+            <circle cx="60" cy="260" r="2.5" fill="#01B4AF" fillOpacity="0.70" />
+            <circle cx="200" cy="260" r="5" fill="none" stroke="#01B4AF" strokeOpacity="0.50" strokeWidth="1.5" />
+            <circle cx="200" cy="260" r="2.5" fill="#01B4AF" fillOpacity="0.70" />
+            <circle cx="200" cy="160" r="5" fill="none" stroke="#01B4AF" strokeOpacity="0.50" strokeWidth="1.5" />
+            <circle cx="200" cy="160" r="2.5" fill="#01B4AF" fillOpacity="0.70" />
+            <circle cx="260" cy="70" r="5" fill="none" stroke="#01B4AF" strokeOpacity="0.50" strokeWidth="1.5" />
+            <circle cx="260" cy="70" r="2.5" fill="#01B4AF" fillOpacity="0.70" />
+            {/* Moving dot — pulse halo + core */}
+            {!prefersReduced && (
+              <>
+                <circle r="10" fill="#01B4AF" fillOpacity="0.15">
+                  <animateMotion
+                    dur="4s"
+                    repeatCount="indefinite"
+                    path="M60,260 L200,260 L200,160 L260,160 L260,70"
+                    calcMode="linear"
+                  />
+                </circle>
+                <circle r="5" fill="#01B4AF" fillOpacity="0.85">
+                  <animateMotion
+                    dur="4s"
+                    repeatCount="indefinite"
+                    path="M60,260 L200,260 L200,160 L260,160 L260,70"
+                    calcMode="linear"
+                  />
+                </circle>
+              </>
+            )}
+            {prefersReduced && (
+              <circle cx="260" cy="70" r="5" fill="#01B4AF" fillOpacity="0.85" />
+            )}
+          </svg>
+
+          {/* Testimonial card — overlaid on top of SVG */}
+          <div className="relative z-10 bg-[rgba(27,53,79,0.55)] border border-[rgba(255,255,255,0.10)] rounded-[16px] p-8 backdrop-blur-[12px]">
             {/* teal gradient overlay */}
             <div
               className="absolute inset-0 rounded-[16px] pointer-events-none"
