@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { prisma } from '@/lib/prisma'
 
 export async function POST(req: NextRequest) {
   const token = process.env.GITHUB_TOKEN
@@ -9,6 +10,11 @@ export async function POST(req: NextRequest) {
   try {
     const { title, body, label } = await req.json()
     if (!title?.trim()) return NextResponse.json({ error: 'Title required' }, { status: 400 })
+
+    // Read issue settings from DB
+    const settingsRow = await prisma.siteContent.findUnique({ where: { key: 'issue_settings' } }).catch(() => null)
+    const settings = settingsRow ? JSON.parse(settingsRow.value) : {}
+    const assignee: string | null = settings.assignee ?? null
 
     const res = await fetch(`https://api.github.com/repos/${repo}/issues`, {
       method: 'POST',
@@ -22,7 +28,7 @@ export async function POST(req: NextRequest) {
         title: title.trim(),
         body: body ?? '',
         labels: label ? [label] : [],
-        assignees: ['copilot'],
+        ...(assignee ? { assignees: [assignee] } : {}),
       }),
     })
 
