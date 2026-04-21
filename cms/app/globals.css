@@ -24,6 +24,22 @@ body {
   outline-offset: 2px;
 }
 
+/* Select dropdowns - fix white text on white background issue */
+select {
+  color-scheme: dark;
+  color: var(--text);
+}
+
+select option {
+  background-color: #031119;
+  color: #F7F7F7;
+}
+
+select option:checked {
+  background-color: rgba(1, 180, 175, 0.25);
+  color: #F7F7F7;
+}
+
 /* Editor textarea */
 .prose-editor {
   font-family: 'JetBrains Mono', 'Menlo', monospace;

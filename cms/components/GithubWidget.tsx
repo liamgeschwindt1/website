@@ -109,7 +109,7 @@ export default function GithubWidget() {
               <p className="text-[12px] mt-1" style={{ color: 'var(--muted)' }}>The dev team has been notified.</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="p-5 flex flex-col gap-4">
+            <form onSubmit={handleSubmit} className="p-5 flex flex-col gap-4 max-h-[calc(100vh-200px)] overflow-y-auto">
               {/* Target */}
               <div>
                 <label className="block text-[11px] font-medium mb-2 uppercase tracking-wide" style={{ color: 'var(--muted)' }}>

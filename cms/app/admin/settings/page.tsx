@@ -18,15 +18,31 @@ const ASSIGNEE_OPTIONS = [
   { value: 'copilot', label: 'GitHub Copilot', desc: 'Copilot picks up the issue and opens a PR for review. Requires Copilot coding agent enabled on the repo.' },
 ]
 
+const THEMES = [
+  { id: 'default', name: 'Default', preview: '#031119' },
+  { id: 'touch-grass', name: 'Touch Grass Mode', preview: '#0a1f0f' },
+  { id: 'pink-perfect', name: 'Pink Perfect', preview: '#1a0f18' },
+  { id: 'deep-ocean', name: 'Deep Ocean', preview: '#0a1628' },
+  { id: 'sunset-glow', name: 'Sunset Glow', preview: '#1a0d00' },
+]
+
 export default function SettingsPage() {
   const [assignee, setAssignee] = useState('')
+  const [theme, setTheme] = useState('default')
   const [saving, setSaving] = useState(false)
   const [saved, setSaved] = useState(false)
+  const [themeSaving, setThemeSaving] = useState(false)
+  const [themeSaved, setThemeSaved] = useState(false)
 
   useEffect(() => {
     fetch('/api/settings/issues')
       .then(r => r.ok ? r.json() : null)
       .then(data => { if (data?.assignee !== undefined) setAssignee(data.assignee ?? '') })
+      .catch(() => {})
+    
+    fetch('/api/settings/themes')
+      .then(r => r.ok ? r.json() : null)
+      .then(data => { if (data?.themeId) setTheme(data.themeId) })
       .catch(() => {})
   }, [])
 
@@ -42,6 +58,21 @@ export default function SettingsPage() {
       setTimeout(() => setSaved(false), 2500)
     } finally {
       setSaving(false)
+    }
+  }
+
+  async function saveTheme() {
+    setThemeSaving(true)
+    try {
+      await fetch('/api/settings/themes', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ themeId: theme }),
+      })
+      setThemeSaved(true)
+      setTimeout(() => setThemeSaved(false), 2500)
+    } finally {
+      setThemeSaving(false)
     }
   }
 
@@ -97,6 +128,46 @@ export default function SettingsPage() {
               {saving ? 'Saving…' : 'Save'}
             </button>
             {saved && <span className="text-[12px]" style={{ color: 'var(--teal)' }}>✓ Saved</span>}
+          </div>
+        </div>
+      </section>
+
+      {/* Color themes */}
+      <section className="mb-10">
+        <h2 className="text-[15px] font-semibold mb-1" style={{ color: 'var(--text)' }}>Color theme</h2>
+        <p className="text-[13px] mb-5" style={{ color: 'var(--muted)' }}>
+          Choose a color scheme for the CMS. New themes bring fresh vibes to your workspace.
+        </p>
+
+        <div className="p-5 rounded-[12px] border flex flex-col gap-4" style={{ borderColor: 'var(--border)', background: 'rgba(27,53,79,0.18)' }}>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+            {THEMES.map(t => (
+              <button
+                key={t.id}
+                type="button"
+                onClick={() => setTheme(t.id)}
+                className="flex flex-col items-center gap-2 p-3 rounded-[10px] border-2 transition-all duration-150"
+                style={theme === t.id
+                  ? { borderColor: 'var(--teal)', background: 'rgba(1,180,175,0.1)' }
+                  : { borderColor: 'var(--border)', background: 'rgba(255,255,255,0.02)' }}
+              >
+                <div className="w-12 h-12 rounded-[6px] border" style={{ background: t.preview, borderColor: 'var(--border)' }} />
+                <span className="text-[11px] font-medium text-center leading-[1.2]" style={{ color: 'var(--text)' }}>{t.name}</span>
+              </button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-3 mt-2">
+            <button
+              type="button"
+              onClick={saveTheme}
+              disabled={themeSaving}
+              className="px-5 py-2 rounded-[7px] text-[13px] font-medium transition-opacity hover:opacity-90 disabled:opacity-50"
+              style={{ background: 'var(--teal)', color: '#031119' }}
+            >
+              {themeSaving ? 'Saving…' : 'Apply theme'}
+            </button>
+            {themeSaved && <span className="text-[12px]" style={{ color: 'var(--teal)' }}>✓ Applied</span>}
           </div>
         </div>
       </section>

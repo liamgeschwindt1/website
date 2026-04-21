@@ -30,7 +30,7 @@ export default function ImagePicker({ value, onChange, label = 'Cover image' }: 
       setLoading(true)
       fetch('/api/media')
         .then(r => r.json())
-        .then(data => setMedia(data.filter((m: MediaItem) => m.mimeType.startsWith('image/'))))
+        .then(data => setMedia((data.media || []).filter((m: MediaItem) => m.mimeType.startsWith('image/'))))
         .catch(() => {})
         .finally(() => setLoading(false))
     }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useRef } from 'react'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://touchpulse-production.up.railway.app'
 
@@ -19,30 +19,49 @@ const PAGES = [
 
 export default function DesignPreview() {
   const [currentPath, setCurrentPath] = useState('/')
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
   const previewUrl = useMemo(() => `${SITE_URL}${currentPath}`, [currentPath])
 
+  const toggleFullscreen = () => {
+    if (!isFullscreen && containerRef.current) {
+      containerRef.current.requestFullscreen().catch(() => {
+        setIsFullscreen(true)
+      })
+    } else {
+      document.exitFullscreen().catch(() => {
+        setIsFullscreen(false)
+      })
+    }
+    setIsFullscreen(!isFullscreen)
+  }
+
   return (
-    <div className="px-8 py-8 h-[calc(100vh-56px)] flex flex-col gap-4">
-      <div className="flex flex-wrap items-end gap-3">
-        <div>
-          <h1 className="text-[22px] font-semibold tracking-tight" style={{ color: 'var(--text)' }}>Design Preview</h1>
-          <p className="text-[13px] mt-1" style={{ color: 'var(--muted)' }}>
-            The website preview is back here so you can inspect pages while sending requests with the floating widget.
-          </p>
-        </div>
+    <div ref={containerRef} className="h-[calc(100vh-56px)] flex flex-col gap-0 relative">
+      {/* Control bar — fixed at top of preview */}
+      <div className="absolute top-4 left-4 right-4 z-50 flex flex-wrap items-center gap-3 bg-[rgba(3,12,19,0.92)] border border-[var(--border)] rounded-[10px] p-3 backdrop-blur-[12px]">
         <select
           value={currentPath}
           onChange={(e) => setCurrentPath(e.target.value)}
-          className="ml-auto px-3 py-2 rounded-[7px] text-[13px] border min-w-[240px]"
+          className="px-3 py-1.5 rounded-[6px] text-[12px] border min-w-[200px]"
           style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'var(--border)', color: 'var(--text)' }}
         >
           {PAGES.map((option) => (
             <option key={option.path} value={option.path} style={{ background: '#031119' }}>{option.label}</option>
           ))}
         </select>
+        <button
+          type="button"
+          onClick={toggleFullscreen}
+          className="ml-auto px-3 py-1.5 rounded-[6px] text-[12px] font-medium border transition-all"
+          style={{ background: 'rgba(1,180,175,0.15)', color: 'var(--teal)', borderColor: 'var(--teal)' }}
+          title="Toggle fullscreen"
+        >
+          {isFullscreen ? '⊟ Exit' : '⊞ Fullscreen'}
+        </button>
       </div>
 
-      <div className="flex-1 rounded-[14px] border overflow-hidden" style={{ borderColor: 'var(--border)', background: 'rgba(3,12,19,0.7)' }}>
+      <div className="flex-1 overflow-hidden relative">
         <iframe
           src={previewUrl}
           title="TouchPulse website preview"

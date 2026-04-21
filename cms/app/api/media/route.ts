@@ -29,7 +29,13 @@ export async function POST(req: NextRequest) {
       },
     })
     return NextResponse.json({
-      media: { id: media.id, filename: media.filename, mimeType: media.mimeType, size: media.size, alt: media.alt, createdAt: media.createdAt.toISOString(), url: `/api/media/${media.id}` },
+      id: media.id,
+      filename: media.filename,
+      mimeType: media.mimeType,
+      size: media.size,
+      alt: media.alt,
+      createdAt: media.createdAt.toISOString(),
+      url: `/api/media/${media.id}`,
     }, { status: 201 })
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : 'Server error'
