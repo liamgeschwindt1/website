@@ -22,14 +22,6 @@ export default function Hero() {
     >
       <div className="hero-aurora" aria-hidden="true" />
       <div className="grain" aria-hidden="true" />
-      {/* scan line */}
-      {!prefersReduced && (
-        <div
-          aria-hidden="true"
-          className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-[rgba(1,180,175,0.4)] to-transparent pointer-events-none"
-          style={{ animation: 'scan 8s linear infinite', top: 0, zIndex: 1 }}
-        />
-      )}
 
       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-[80px] items-center w-full max-w-[1280px]">
         {/* Left */}
@@ -169,7 +161,7 @@ export default function Hero() {
             />
 
             {/* partner badge */}
-            <div className="absolute -top-[14px] right-6 inline-flex items-center gap-[6px] px-3 py-1 rounded-full bg-[rgba(255,177,0,0.12)] border border-[rgba(255,177,0,0.42)] text-[var(--gold)] text-[11px] font-medium">
+            <div className="absolute -top-[14px] right-6 inline-flex items-center gap-[6px] px-3 py-1 rounded-full bg-[rgba(10,30,45,0.75)] border border-[rgba(255,177,0,0.55)] text-[var(--gold)] text-[11px] font-medium backdrop-blur-md">
               ✦ Blind Veterans UK
             </div>
 
