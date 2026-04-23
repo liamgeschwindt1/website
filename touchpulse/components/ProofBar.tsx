@@ -36,25 +36,45 @@ export default function ProofBar() {
         </div>
       </div>
 
-      {/* Stat row */}
-      <div
-        className="grid grid-cols-2 md:grid-cols-4 border-b border-[var(--border)]"
+      {/* Stats section */}
+      <section
         aria-label="Key statistics"
+        className="border-b border-[var(--border)] py-16 px-[clamp(24px,5vw,80px)]"
       >
-        {stats.map((stat, i) => (
-          <div
-            key={stat.label}
-            className={`flex flex-col items-center justify-center py-8 gap-1 ${i < stats.length - 1 ? 'border-r border-[var(--border)]' : ''}`}
-          >
-            <span className="text-[clamp(28px,3vw,40px)] font-medium tracking-[-0.03em] text-[var(--teal)]">
-              {stat.number}
-            </span>
-            <span className="text-[12px] text-[var(--muted)] tracking-[0.02em] text-center px-2">
-              {stat.label}
-            </span>
-          </div>
-        ))}
-      </div>
+        <motion.p
+          initial={{ opacity: 0, y: 14 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="text-[11px] font-medium tracking-[0.1em] uppercase text-center mb-12"
+          style={{ color: 'var(--muted)' }}
+        >
+          The numbers behind the mission
+        </motion.p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-10 max-w-2xl mx-auto">
+          {stats.map((stat, i) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.55, delay: i * 0.1 }}
+              className="flex flex-col gap-2"
+            >
+              <span
+                className="text-[clamp(44px,5vw,64px)] font-bold tracking-[-0.03em] leading-none"
+                style={{ color: stat.color === 'gold' ? 'var(--gold)' : 'var(--teal)' }}
+              >
+                {stat.number}
+              </span>
+              <span className="text-[14px] leading-[1.5]" style={{ color: 'var(--body)' }}>
+                {stat.label}
+              </span>
+            </motion.div>
+          ))}
+        </div>
+      </section>
     </div>
   )
 }

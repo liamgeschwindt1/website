@@ -203,6 +203,17 @@ export default function GithubWidget() {
                     </label>
                     <input type="number" min="0" max="100" value={pinY} onChange={(e) => setPinY(e.target.value)} className={inputClass} style={inputStyle} placeholder="e.g. 18" />
                   </div>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setOpen(false)
+                      window.dispatchEvent(new CustomEvent('tp-start-click-mode'))
+                    }}
+                    className="col-span-2 px-3 py-2 rounded-[6px] text-[12px] font-medium border transition-all duration-150"
+                    style={{ background: 'rgba(1,180,175,0.08)', borderColor: 'rgba(1,180,175,0.35)', color: 'var(--teal)' }}
+                  >
+                    📍 Tag on preview — click anywhere on the Design page preview
+                  </button>
                 </div>
               )}
 

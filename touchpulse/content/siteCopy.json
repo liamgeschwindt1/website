@@ -12,10 +12,10 @@
   "proofBar": {
     "trustedByLabel": "Trusted by",
     "stats": [
-      { "number": "2.4M", "label": "Routes completed" },
-      { "number": "2.2B", "label": "People with vision loss globally" },
-      { "number": "97%", "label": "User satisfaction" },
-      { "number": "24/7", "label": "Human support available" }
+      { "number": "2.4M", "label": "Routes completed", "color": "" },
+      { "number": "2.2B", "label": "People with vision loss globally", "color": "" },
+      { "number": "97%", "label": "User satisfaction", "color": "gold" },
+      { "number": "24/7", "label": "Human support available", "color": "" }
     ]
   },
   "ctaBanner": {

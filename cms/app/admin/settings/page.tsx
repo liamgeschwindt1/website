@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { applyTheme } from '@/lib/themes'
 
 const ENV_VARS = [
   { key: 'GITHUB_TOKEN', desc: 'Personal access token for creating GitHub issues. Needs repo scope (or Issues: Read & write for fine-grained tokens).', required: true },
@@ -69,6 +70,7 @@ export default function SettingsPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ themeId: theme }),
       })
+      applyTheme(theme)
       setThemeSaved(true)
       setTimeout(() => setThemeSaved(false), 2500)
     } finally {

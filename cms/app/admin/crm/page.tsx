@@ -284,12 +284,24 @@ export default function CRMPage() {
               <input value={newContact.email} onChange={(e) => setNewContact((prev) => ({ ...prev, email: e.target.value }))} placeholder="Email" className="px-3 py-2 rounded-[7px] border" style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'var(--border)', color: 'var(--text)' }} />
               <input value={newContact.phone} onChange={(e) => setNewContact((prev) => ({ ...prev, phone: e.target.value }))} placeholder="Phone" className="px-3 py-2 rounded-[7px] border" style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'var(--border)', color: 'var(--text)' }} />
               <input value={newContact.persona} onChange={(e) => setNewContact((prev) => ({ ...prev, persona: e.target.value }))} placeholder="Persona" className="px-3 py-2 rounded-[7px] border" style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'var(--border)', color: 'var(--text)' }} />
-              <select value={newContact.segment} onChange={(e) => setNewContact((prev) => ({ ...prev, segment: e.target.value }))} className="px-3 py-2 rounded-[7px] border" style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'var(--border)', color: 'var(--text)' }}>
+              <select value={newContact.customSegment || newContact.segment} onChange={(e) => {
+                const v = e.target.value
+                const isDefault = ['BLV Community', 'Instructor', 'Enterprise', 'Champion', 'General'].includes(v)
+                setNewContact((prev) => ({ ...prev, segment: isDefault ? v : 'General', customSegment: isDefault ? '' : v }))
+              }} className="px-3 py-2 rounded-[7px] border" style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'var(--border)', color: 'var(--text)' }}>
                 {['BLV Community', 'Instructor', 'Enterprise', 'Champion', 'General'].map((segment) => (
                   <option key={segment} value={segment}>{segment}</option>
                 ))}
+                {segmentLabels.filter((s) => !['BLV Community', 'Instructor', 'Enterprise', 'Champion', 'General'].includes(s)).length > 0 && (
+                  <>
+                    <option disabled>──────────</option>
+                    {segmentLabels
+                      .filter((s) => !['BLV Community', 'Instructor', 'Enterprise', 'Champion', 'General'].includes(s))
+                      .map((s) => <option key={s} value={s}>{s}</option>)}
+                  </>
+                )}
               </select>
-              <input value={newContact.customSegment} onChange={(e) => setNewContact((prev) => ({ ...prev, customSegment: e.target.value }))} placeholder="Or custom segment" className="px-3 py-2 rounded-[7px] border" style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'var(--border)', color: 'var(--text)' }} />
+              <input value={newContact.customSegment} onChange={(e) => setNewContact((prev) => ({ ...prev, customSegment: e.target.value, segment: 'General' }))} placeholder="Or type a new segment" className="px-3 py-2 rounded-[7px] border" style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'var(--border)', color: 'var(--text)' }} />
             </div>
             <div className="flex justify-end gap-3 mt-6">
               <button type="button" onClick={() => setShowAddContact(false)} className="px-4 py-2 rounded-[7px] border" style={{ borderColor: 'var(--border)', color: 'var(--muted)' }}>Cancel</button>

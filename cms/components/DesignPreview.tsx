@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://touchpulse-production.up.railway.app'
 
@@ -40,6 +40,12 @@ export default function DesignPreview() {
   const [requestDetails, setRequestDetails] = useState('')
   const containerRef = useRef<HTMLDivElement>(null)
   const previewUrl = useMemo(() => `${SITE_URL}${currentPath}`, [currentPath])
+
+  useEffect(() => {
+    const handler = () => setClickMode(true)
+    window.addEventListener('tp-start-click-mode', handler)
+    return () => window.removeEventListener('tp-start-click-mode', handler)
+  }, [])
 
   const toggleFullscreen = () => {
     if (!isFullscreen && containerRef.current) {
