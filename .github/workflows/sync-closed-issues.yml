@@ -1,0 +1,34 @@
+name: Sync closed issues
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch closed issues and write JSON
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh issue list \
+            --repo "${{ github.repository }}" \
+            --state closed \
+            --json number,title,closedAt,url \
+            --limit 500 \
+            > cms/public/closed-issues.json
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add cms/public/closed-issues.json
+          git diff --cached --quiet || git commit -m "chore: sync closed issues [skip ci]"
+          git push
