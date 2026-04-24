@@ -1,12 +1,13 @@
 FROM node:20-alpine AS deps
 WORKDIR /app
-COPY touchpulse/package*.json ./
+
+COPY package*.json ./
 RUN npm ci
 
 FROM node:20-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
-COPY touchpulse/ .
+COPY . .
 ARG NEXT_PUBLIC_POSTHOG_KEY
 ARG NEXT_PUBLIC_POSTHOG_HOST
 ARG NEXT_PUBLIC_SITE_URL
