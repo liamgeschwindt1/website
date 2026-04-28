@@ -4,7 +4,13 @@ import Link from 'next/link'
 export const dynamic = 'force-dynamic'
 
 export default async function PostsListPage() {
-  const posts = await prisma.post.findMany({ orderBy: { updatedAt: 'desc' } })
+  let posts
+  try {
+    posts = await prisma.post.findMany({ orderBy: { updatedAt: 'desc' } })
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : 'Database error'
+    throw new Error(`Failed to load posts. Check DATABASE_URL is set on Railway. (${msg})`)
+  }
 
   return (
     <div className="px-8 py-8">

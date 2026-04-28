@@ -3,13 +3,16 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import siteCopy from '@/content/siteCopy.json'
 
+type CTACopy = typeof siteCopy.ctaBanner
+
 interface CTABannerProps {
+  copy?: Partial<CTACopy>
   onSetMessage: (msg: string) => void
 }
 
-export default function CTABanner({ onSetMessage }: CTABannerProps) {
+export default function CTABanner({ copy: copyProp, onSetMessage }: CTABannerProps) {
   const prefersReduced = useReducedMotion()
-  const copy = siteCopy.ctaBanner
+  const copy = { ...siteCopy.ctaBanner, ...copyProp }
 
   return (
     <section

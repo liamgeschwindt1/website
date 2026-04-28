@@ -4,7 +4,13 @@ import Link from 'next/link'
 export const dynamic = 'force-dynamic'
 
 export default async function PagesListPage() {
-  const pages = await prisma.page.findMany({ orderBy: { updatedAt: 'desc' } })
+  let pages
+  try {
+    pages = await prisma.page.findMany({ orderBy: { updatedAt: 'desc' } })
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : 'Database error'
+    throw new Error(`Failed to load pages. Check DATABASE_URL is set on Railway. (${msg})`)
+  }
 
   return (
     <div className="px-8 py-8">

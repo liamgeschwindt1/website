@@ -6,7 +6,7 @@ import { applyTheme } from '@/lib/themes'
 const ENV_VARS = [
   { key: 'GITHUB_TOKEN', desc: 'Personal access token for creating GitHub issues. Needs repo scope (or Issues: Read & write for fine-grained tokens).', required: true },
   { key: 'GITHUB_REPO', desc: 'Target repo for issues (format: owner/repo). Defaults to liamgeschwindt1/website.', required: false },
-  { key: 'NEXT_PUBLIC_SITE_URL', desc: 'Live site URL referenced when sending frontend requests. Defaults to https://touchpulse-production.up.railway.app.', required: false },
+  { key: 'NEXT_PUBLIC_SITE_URL', desc: '⚠ Must be the URL of the touchpulse FRONTEND site (e.g. https://touchpulse.nl) — NOT this CMS. Used for the Live Preview iframe and AI context. Defaults to https://touchpulse-production.up.railway.app.', required: false },
   { key: 'NEXTAUTH_SECRET', desc: 'NextAuth session signing secret (≥32 chars).', required: true },
   { key: 'NEXTAUTH_URL', desc: 'Full URL of this CMS (no trailing slash).', required: true },
   { key: 'DATABASE_URL', desc: 'PostgreSQL connection string. Auto-injected by Railway.', required: true },

@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import CookieResetButton from './CookieResetButton'
 
+const DEFAULT_DESCRIPTION = 'Navigation intelligence for a more accessible, independent world.'
+
 const productLinks = [
   { label: 'Tiera app', href: '#ai' },
   { label: 'For retail', href: '#usecases' },
@@ -22,7 +24,8 @@ const legalLinks = [
   { label: 'Accessibility', href: '#' },
 ]
 
-export default function Footer() {
+export default function Footer({ description }: { description?: string }) {
+  const tagline = description?.trim() || DEFAULT_DESCRIPTION
   return (
     <footer className="px-[clamp(24px,5vw,80px)] pt-16 pb-10 border-t border-[var(--border)]">
       <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr_1fr_1fr] gap-12 mb-12">
@@ -33,7 +36,7 @@ export default function Footer() {
             className="text-[14px] text-[var(--muted)] mt-2 leading-[1.6] max-w-[240px]"
             style={{ fontFamily: 'var(--font-lora)', fontStyle: 'italic' }}
           >
-            Navigation intelligence for a more accessible, independent world.
+            {tagline}
           </p>
           <address className="not-italic text-[13px] text-[var(--muted)] mt-4 leading-[1.7]">
             Het Eeuwsel 57, 5612 AS<br />

@@ -3,8 +3,15 @@
 import { motion } from 'framer-motion'
 import siteCopy from '@/content/siteCopy.json'
 
-export default function ProofBar() {
-  const stats = siteCopy.proofBar.stats
+type ProofBarData = typeof siteCopy.proofBar
+
+interface ProofBarProps {
+  proofBar?: Partial<ProofBarData>
+}
+
+export default function ProofBar({ proofBar: proofBarProp }: ProofBarProps = {}) {
+  const proofData = { ...siteCopy.proofBar, ...proofBarProp }
+  const stats = proofData.stats
   const logos = ['Blind Veterans UK', 'NS', 'Radboud UMC', 'TU/e', 'ProRail', 'Blind Veterans UK', 'NS', 'Radboud UMC', 'TU/e', 'ProRail']
 
   return (
@@ -15,7 +22,7 @@ export default function ProofBar() {
         <div className="absolute right-0 top-0 bottom-0 w-20 z-10 pointer-events-none" style={{ background: 'linear-gradient(to left, var(--bg), transparent)' }} aria-hidden="true" />
 
         <span className="flex-shrink-0 text-[11px] font-medium tracking-[0.08em] uppercase text-[var(--muted)] whitespace-nowrap pl-[clamp(24px,5vw,80px)] z-20">
-          {siteCopy.proofBar.trustedByLabel}
+          {proofData.trustedByLabel}
         </span>
 
         <div className="overflow-hidden flex-1" aria-label="Partner logos">

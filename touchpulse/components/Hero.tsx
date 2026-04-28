@@ -6,6 +6,12 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { useSectionView } from '@/lib/posthog'
 import siteCopy from '@/content/siteCopy.json'
 
+type HeroCopy = typeof siteCopy.hero
+
+interface HeroProps {
+  copy?: Partial<HeroCopy>
+}
+
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
@@ -13,11 +19,11 @@ const fadeUp = {
   transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
 }
 
-export default function Hero() {
+export default function Hero({ copy: copyProp }: HeroProps = {}) {
   const prefersReduced = useReducedMotion()
   const sectionRef = useRef<HTMLElement>(null)
   useSectionView(sectionRef, 'hero')
-  const copy = siteCopy.hero
+  const copy = { ...siteCopy.hero, ...copyProp }
 
   const motionProps = prefersReduced ? {} : fadeUp
 

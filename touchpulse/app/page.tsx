@@ -1,31 +1,14 @@
-'use client'
+import HomeClient from '@/components/HomeClient'
+import { fetchSiteCopy, fetchFooterContent } from '@/lib/cms'
 
-import { useState } from 'react'
-import Nav from '@/components/Nav'
-import Hero from '@/components/Hero'
-import ProofBar from '@/components/ProofBar'
-import Features from '@/components/Features'
-import GetInvolved from '@/components/GetInvolved'
-import CTABanner from '@/components/CTABanner'
-import ContactForm from '@/components/ContactForm'
-import Footer from '@/components/Footer'
+export const revalidate = 60
 
-export default function Home() {
-  const [defaultMessage, setDefaultMessage] = useState('')
+export default async function Home() {
+  const [siteCopy, footerDescription] = await Promise.all([
+    fetchSiteCopy(),
+    fetchFooterContent(),
+  ])
 
-  return (
-    <>
-      <Nav />
-      <main>
-        <Hero />
-        <ProofBar />
-        <Features />
-        <GetInvolved onSetMessage={setDefaultMessage} />
-        <CTABanner onSetMessage={setDefaultMessage} />
-        <ContactForm defaultMessage={defaultMessage} />
-      </main>
-      <Footer />
-    </>
-  )
+  return <HomeClient siteCopy={siteCopy} footerDescription={footerDescription} />
 }
 
