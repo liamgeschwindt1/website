@@ -27,6 +27,7 @@ type Props = {
   pages: PageRecord[]
   posts: PostRecord[]
   footerContent: string
+  loadError?: string
 }
 
 type WebsiteCopy = {
@@ -99,7 +100,7 @@ function sortPages(pages: PageRecord[]) {
   })
 }
 
-export default function ContentManager({ pages, posts, footerContent }: Props) {
+export default function ContentManager({ pages, posts, footerContent, loadError = '' }: Props) {
   const orderedPages = useMemo(() => sortPages(pages), [pages])
   const [scope, setScope] = useState<'website' | 'page' | 'post' | 'footer'>('website')
   const [selectedId, setSelectedId] = useState(orderedPages[0]?.id ?? posts[0]?.id ?? 'footer')
@@ -195,6 +196,12 @@ export default function ContentManager({ pages, posts, footerContent }: Props) {
       </div>
 
       <div className="rounded-[14px] border p-5 mb-6" style={{ borderColor: 'var(--border)', background: 'rgba(27,53,79,0.18)' }}>
+        {loadError && (
+          <div className="mb-4 px-4 py-3 rounded-[8px] text-[12px]" style={{ background: 'rgba(248,113,113,0.1)', color: '#f87171', border: '1px solid rgba(248,113,113,0.3)' }}>
+            {loadError}
+          </div>
+        )}
+
         <div className="flex flex-wrap items-center gap-3 mb-4">
           {(['website', 'page', 'post', 'footer'] as const).map((option) => (
             <button

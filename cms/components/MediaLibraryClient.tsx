@@ -15,9 +15,10 @@ interface MediaItem {
 
 interface Props {
   initialMedia: MediaItem[]
+  loadError?: string
 }
 
-export default function MediaLibraryClient({ initialMedia }: Props) {
+export default function MediaLibraryClient({ initialMedia, loadError = '' }: Props) {
   const [media, setMedia] = useState<MediaItem[]>(initialMedia)
   const [selected, setSelected] = useState<MediaItem | null>(null)
   const [uploading, setUploading] = useState(false)
@@ -113,6 +114,12 @@ export default function MediaLibraryClient({ initialMedia }: Props) {
           <div className="mx-8 mb-2 px-4 py-3 rounded-[8px] text-[13px] flex items-center justify-between" style={{ background: 'rgba(248,113,113,0.1)', color: '#f87171', border: '1px solid rgba(248,113,113,0.3)' }}>
             {mediaError}
             <button type="button" onClick={() => setMediaError('')} className="ml-4 text-[16px] leading-none opacity-70 hover:opacity-100">×</button>
+          </div>
+        )}
+
+        {loadError && (
+          <div className="mx-8 mb-2 px-4 py-3 rounded-[8px] text-[13px]" style={{ background: 'rgba(248,113,113,0.1)', color: '#f87171', border: '1px solid rgba(248,113,113,0.3)' }}>
+            {loadError}
           </div>
         )}
 

@@ -4,7 +4,8 @@ import MediaLibraryClient from '@/components/MediaLibraryClient'
 export const dynamic = 'force-dynamic'
 
 export default async function MediaPage() {
-  let media
+  let media: Array<{ id: string; filename: string; mimeType: string; size: number; alt: string | null; createdAt: Date }> = []
+  let loadError = ''
   try {
     media = await prisma.media.findMany({
       orderBy: { createdAt: 'desc' },
@@ -12,7 +13,8 @@ export default async function MediaPage() {
     })
   } catch (err) {
     const msg = err instanceof Error ? err.message : 'Database error'
-    throw new Error(`Failed to load media library. Check DATABASE_URL is set on Railway. (${msg})`)
+    console.error('Failed to load admin media page data:', err)
+    loadError = `Failed to load media from database. Check DATABASE_URL and Prisma migrations. (${msg})`
   }
 
   const items = media.map(m => ({
@@ -21,5 +23,5 @@ export default async function MediaPage() {
     createdAt: m.createdAt.toISOString(),
   }))
 
-  return <MediaLibraryClient initialMedia={items} />
+  return <MediaLibraryClient initialMedia={items} loadError={loadError} />
 }
