@@ -8,32 +8,18 @@ import { useState } from 'react'
 
 const nav = [
   {
-    label: 'Overview',
+    label: 'Website Manager',
     items: [
-      { href: '/admin', label: 'Dashboard', icon: '⊞' },
-      { href: '/admin/analytics', label: 'Analytics', icon: '⌇' },
-      { href: '/admin/roadmap', label: 'Roadmap', icon: '◈' },
-    ],
-  },
-  {
-    label: 'Marketing',
-    items: [
-      { href: '/admin/campaigns', label: 'Campaigns', icon: '◎' },
-      { href: '/admin/email', label: 'Newsletters', icon: '✉' },
-    ],
-  },
-  {
-    label: 'Customers',
-    items: [
-      { href: '/admin/crm', label: 'CRM', icon: '◑' },
-      { href: '/admin/submissions', label: 'Submissions', icon: '⬕' },
+      { href: '/admin/ai', label: 'AI Assistant', icon: '◈' },
+      { href: '/admin/website-manager', label: 'Editor + AI', icon: '✦' },
+      { href: '/admin/design', label: 'Live Preview', icon: '⬡' },
+      { href: '/admin/pulls', label: 'Production PRs', icon: '↗' },
     ],
   },
   {
     label: 'Website',
     items: [
       { href: '/admin/content', label: 'Content', icon: '▤' },
-      { href: '/admin/design', label: 'Design', icon: '⬡' },
       { href: '/admin/media', label: 'Media', icon: '▣' },
     ],
   },
@@ -87,7 +73,7 @@ export default function Sidebar() {
               className="ml-2 text-[10px] px-1.5 py-0.5 rounded border font-medium flex-shrink-0"
               style={{ color: 'var(--muted)', borderColor: 'var(--border)' }}
             >
-              Suite
+              Manager
             </span>
           </>
         )}

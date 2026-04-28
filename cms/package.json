@@ -10,6 +10,7 @@
     "db:studio": "prisma studio"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@prisma/client": "^5.22.0",
     "@types/papaparse": "^5.5.2",
     "iron-session": "^8.0.4",
