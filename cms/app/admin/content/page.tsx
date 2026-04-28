@@ -4,8 +4,24 @@ import ContentManager from '@/components/ContentManager'
 export const dynamic = 'force-dynamic'
 
 export default async function ContentPage() {
-  let pages = []
-  let posts = []
+  let pages: Array<{
+    id: string
+    title: string
+    slug: string
+    content: string
+    excerpt: string | null
+    published: boolean
+    updatedAt: Date
+  }> = []
+  let posts: Array<{
+    id: string
+    title: string
+    slug: string
+    content: string
+    excerpt: string | null
+    published: boolean
+    updatedAt: Date
+  }> = []
   let footerContent = ''
   let loadError = ''
   try {
