@@ -211,14 +211,6 @@ export default function Nav() {
         </li>
         <li>
           <Link
-            href="/for-business"
-            className="text-[14px] text-[rgba(247,247,247,0.50)] no-underline hover:text-[var(--text)] transition-colors duration-150"
-          >
-            For Business
-          </Link>
-        </li>
-        <li>
-          <Link
             href="/tiera"
             className="text-[14px] text-[rgba(247,247,247,0.50)] no-underline hover:text-[var(--text)] transition-colors duration-150"
           >
@@ -227,10 +219,34 @@ export default function Nav() {
         </li>
         <li>
           <Link
+            href="/om-studio"
+            className="text-[14px] text-[rgba(247,247,247,0.50)] no-underline hover:text-[var(--text)] transition-colors duration-150"
+          >
+            O&amp;M Studio
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/for-business"
+            className="text-[14px] text-[rgba(247,247,247,0.50)] no-underline hover:text-[var(--text)] transition-colors duration-150"
+          >
+            For Business
+          </Link>
+        </li>
+        <li>
+          <Link
             href="/partners"
             className="text-[14px] text-[rgba(247,247,247,0.50)] no-underline hover:text-[var(--text)] transition-colors duration-150"
           >
             Partners
+          </Link>
+        </li>
+        <li>
+          <Link
+            href="/blog"
+            className="text-[14px] text-[rgba(247,247,247,0.50)] no-underline hover:text-[var(--text)] transition-colors duration-150"
+          >
+            Blog
           </Link>
         </li>
       </ul>

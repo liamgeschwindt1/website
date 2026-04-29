@@ -12,9 +12,11 @@ interface FormState {
 
 interface ContactFormProps {
   defaultMessage?: string
+  source?: string
+  buttonLabel?: string
 }
 
-export default function ContactForm({ defaultMessage = '' }: ContactFormProps) {
+export default function ContactForm({ defaultMessage = '', source, buttonLabel }: ContactFormProps) {
   const sectionRef = useRef<HTMLElement>(null)
   useSectionView(sectionRef, 'contact_form')
   const [hasStarted, setHasStarted] = useState(false)
@@ -48,7 +50,8 @@ export default function ContactForm({ defaultMessage = '' }: ContactFormProps) {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, source }),
+
       })
       const data = await res.json()
       if (data.success) {
@@ -181,7 +184,7 @@ export default function ContactForm({ defaultMessage = '' }: ContactFormProps) {
               disabled={status === 'loading'}
               className="inline-flex items-center justify-center gap-2 px-[22px] py-[10px] min-h-[44px] rounded-[6px] bg-[var(--gold)] text-[#031119] text-[14px] font-medium border-none cursor-pointer hover:opacity-90 transition-opacity duration-150 disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {status === 'loading' ? 'Sending…' : 'Send message ↗'}
+              {status === 'loading' ? 'Sending…' : (buttonLabel ?? 'Send message ↗')}
             </button>
           </form>
         )}

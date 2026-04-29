@@ -26,6 +26,14 @@ interface DiffProposal {
   filePath: string
 }
 
+// Each undo snapshot records the live edit state at a point in time
+interface UndoSnapshot {
+  editText: string
+  editAlt: string
+  iframeKey: number
+  pendingStyle: { xpath: string; text: string; tagName: string; style: Record<string, string> } | null
+}
+
 const SITE_PAGES = [
   { label: 'Home', path: '/' },
   { label: 'For Business', path: '/for-business' },
@@ -246,6 +254,31 @@ export default function VisualEditorPage() {
   const [pendingStyle, setPendingStyle] = useState<{ xpath: string; text: string; tagName: string; style: Record<string, string> } | null>(null)
   const [pushingStyle, setPushingStyle] = useState(false)
 
+  // Undo stack — push a snapshot before each live edit
+  const undoStack = useRef<UndoSnapshot[]>([])
+  const MAX_UNDO = 40
+
+  function pushUndo() {
+    const snap: UndoSnapshot = { editText, editAlt, iframeKey, pendingStyle }
+    undoStack.current = [...undoStack.current.slice(-MAX_UNDO + 1), snap]
+  }
+
+  function undo() {
+    const prev = undoStack.current.pop()
+    if (!prev) return
+    setEditText(prev.editText)
+    setEditAlt(prev.editAlt)
+    setPendingStyle(prev.pendingStyle)
+    if (prev.iframeKey !== iframeKey) setIframeKey(prev.iframeKey)
+    // Revert live preview text
+    if (selected) {
+      iframeRef.current?.contentWindow?.postMessage(
+        { type: 'cms:update', xpath: selected.xpath, property: 'text', value: prev.editText },
+        '*'
+      )
+    }
+  }
+
   // AI tab state
   const [aiInput, setAiInput] = useState('')
   const [aiLoading, setAiLoading] = useState(false)
@@ -293,6 +326,7 @@ export default function VisualEditorPage() {
   }
 
   function handleTextChange(val: string) {
+    pushUndo()
     setEditText(val)
     sendUpdate('text', val)
   }
@@ -622,6 +656,16 @@ export default function VisualEditorPage() {
                   )}
 
                   <div className="flex gap-2 pt-2 border-t" style={{ borderColor: 'var(--border)' }}>
+                    <button
+                      type="button"
+                      onClick={undo}
+                      disabled={undoStack.current.length === 0}
+                      title="Undo last change"
+                      className="px-3 py-2 rounded-[7px] text-[12px] border disabled:opacity-30"
+                      style={{ borderColor: 'var(--border)', color: 'var(--muted)', background: 'transparent' }}
+                    >
+                      ↩ Undo
+                    </button>
                     <button
                       type="button"
                       onClick={applyToFile}

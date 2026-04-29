@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function Footer() {
   return (
-    <footer className="px-[clamp(24px,5vw,80px)] pt-16 pb-10 border-t border-[var(--border)]">
+    <footer className="px-[clamp(24px,5vw,80px)] pt-16 pb-10 border-t border-[var(--border)]" style={{ backgroundColor: '#031119' }}>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
         {/* Product */}
         <nav aria-label="Product links">
@@ -55,6 +55,7 @@ export default function Footer() {
             {[
               { label: 'Privacy', href: '/privacy' },
               { label: 'Cookies', href: '/cookies' },
+              { label: 'Blog', href: '/blog' },
             ].map(l => (
               <li key={l.label}>
                 <Link

@@ -35,7 +35,7 @@ export default function CodeEditorPage() {
   const [pushingPR, setPushingPR] = useState(false)
   const [prMsg, setPrMsg] = useState('')
   const editorRef = useRef<CMEditor | null>(null)
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const editorDivRef = useRef<HTMLDivElement>(null)
   const cmLoaded = useRef(false)
   const [cmReady, setCmReady] = useState(false)
 
@@ -78,16 +78,23 @@ export default function CodeEditorPage() {
     loadScript(`${base}/codemirror.min.js`)
       .then(() => loadScript(`${base}/mode/javascript/javascript.min.js`))
       .then(() => loadScript(`${base}/mode/jsx/jsx.min.js`).catch(() => {}))
-      .then(() => setCmReady(true))
+      .then(() => {
+        // Force CodeMirror elements to fill their container
+        const s = document.createElement('style')
+        s.textContent = `.CodeMirror { height: 100% !important; font-size: 13px !important; } .CodeMirror-scroll { height: 100% !important; }`
+        document.head.appendChild(s)
+        setCmReady(true)
+      })
       .catch(() => setCmReady(true)) // proceed even without jsx mode
   }, [])
 
-  // Mount CodeMirror once ready and textarea exists
+  // Mount CodeMirror once ready and div exists
   useEffect(() => {
-    if (!cmReady || !textareaRef.current || editorRef.current) return
-    if (typeof window.CodeMirror?.fromTextArea !== 'function') return
+    if (!cmReady || !editorDivRef.current || editorRef.current) return
+    if (typeof window.CodeMirror !== 'function') return
 
-    const editor = window.CodeMirror.fromTextArea(textareaRef.current, {
+    const editor = window.CodeMirror(editorDivRef.current, {
+      value: '',
       mode: { name: 'javascript', typescript: true },
       theme: 'material-darker',
       lineNumbers: true,
@@ -99,7 +106,15 @@ export default function CodeEditorPage() {
 
     editor.on('change', () => setContent(editor.getValue()))
     editorRef.current = editor
-  }, [cmReady, activeFile])
+
+    // Apply full height to the CodeMirror wrapper
+    const wrapper = editorDivRef.current.querySelector('.CodeMirror') as HTMLElement | null
+    if (wrapper) {
+      wrapper.style.height = '100%'
+      wrapper.style.fontSize = '13px'
+      wrapper.style.fontFamily = 'var(--font-jetbrains-mono, monospace)'
+    }
+  }, [cmReady])
 
   const loadFile = useCallback(async (path: string) => {
     setLoading(true)
@@ -285,15 +300,13 @@ export default function CodeEditorPage() {
             </div>
           )}
           {!activeFile && !loading && (
-            <div className="flex items-center justify-center h-full" style={{ color: 'var(--muted)' }}>
+            <div className="absolute inset-0 flex items-center justify-center" style={{ color: 'var(--muted)', zIndex: 1 }}>
               <p className="text-[13px]">Select a file from the tree to edit it.</p>
             </div>
           )}
-          <textarea
-            ref={textareaRef}
-            defaultValue={content}
-            style={{ display: activeFile ? 'block' : 'none', width: '100%', height: '100%' }}
-            readOnly
+          <div
+            ref={editorDivRef}
+            style={{ height: '100%', width: '100%', display: 'block' }}
           />
         </div>
 
