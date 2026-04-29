@@ -242,6 +242,10 @@ export default function VisualEditorPage() {
   const [pushingPR, setPushingPR] = useState(false)
   const [editMsg, setEditMsg] = useState('')
 
+  // Pending style change from drag/resize
+  const [pendingStyle, setPendingStyle] = useState<{ xpath: string; text: string; tagName: string; style: Record<string, string> } | null>(null)
+  const [pushingStyle, setPushingStyle] = useState(false)
+
   // AI tab state
   const [aiInput, setAiInput] = useState('')
   const [aiLoading, setAiLoading] = useState(false)
@@ -266,6 +270,15 @@ export default function VisualEditorPage() {
         setTab('edit')
       } else if (e.data?.type === 'cms:structure') {
         setSections(e.data.sections ?? [])
+      } else if (e.data?.type === 'cms:styleChange') {
+        setPendingStyle({
+          xpath: e.data.xpath,
+          text: e.data.text ?? '',
+          tagName: e.data.tagName,
+          style: e.data.style,
+        })
+        setTab('edit')
+        setEditMsg('Style change captured — push to production when ready.')
       }
     }
     window.addEventListener('message', handleMessage)
@@ -284,22 +297,29 @@ export default function VisualEditorPage() {
     sendUpdate('text', val)
   }
 
-  async function applyToSiteCopy() {
+  async function applyToFile() {
     if (!selected || !selected.text) return
     setApplying(true)
     setEditMsg('')
     try {
-      const fileRes = await fetch('/api/website-manager/file?path=content/siteCopy.json')
-      if (!fileRes.ok) throw new Error('Could not read siteCopy.json')
+      const filePath = PAGE_FILE_MAP[activePage] ?? 'app/page.tsx'
+      const fileRes = await fetch(`/api/website-manager/file?path=${encodeURIComponent(filePath)}`)
+      if (!fileRes.ok) {
+        const errData = await fileRes.json().catch(() => ({} as Record<string, string>)) as Record<string, string>
+        throw new Error(errData.error ?? 'Could not read file')
+      }
       const { content } = await fileRes.json() as { content: string }
-      const parsed = JSON.parse(content)
-      const updated = replaceInJson(parsed, selected.text, editText)
-      await fetch('/api/website-manager/file', {
+      const oldText = selected.text
+      if (!content.includes(oldText)) throw new Error('Original text not found in source — use Push to PR instead')
+      const newContent = content.replace(oldText, editText)
+      const writeRes = await fetch('/api/website-manager/file', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ path: 'content/siteCopy.json', content: JSON.stringify(updated, null, 2) }),
+        body: JSON.stringify({ path: filePath, content: newContent }),
       })
-      setEditMsg('✓ Applied to siteCopy.json')
+      if (!writeRes.ok) throw new Error('Saved file (local write may not persist in production — use Push to PR)')
+      setEditMsg('✓ Saved to workspace')
+      setIframeKey(k => k + 1)
     } catch (e: unknown) {
       setEditMsg(e instanceof Error ? e.message : 'Apply failed')
     } finally {
@@ -312,20 +332,23 @@ export default function VisualEditorPage() {
     setPushingPR(true)
     setEditMsg('')
     try {
-      const fileRes = await fetch('/api/website-manager/file?path=content/siteCopy.json')
-      if (!fileRes.ok) throw new Error('Could not read siteCopy.json')
+      const filePath = PAGE_FILE_MAP[activePage] ?? 'app/page.tsx'
+      const fileRes = await fetch(`/api/website-manager/file?path=${encodeURIComponent(filePath)}`)
+      if (!fileRes.ok) {
+        const errData = await fileRes.json().catch(() => ({} as Record<string, string>)) as Record<string, string>
+        throw new Error(errData.error ?? 'Could not read file')
+      }
       const { content } = await fileRes.json() as { content: string }
-      const parsed = JSON.parse(content)
-      const updated = replaceInJson(parsed, selected.text ?? '', editText)
-      const newContent = JSON.stringify(updated, null, 2)
-
+      const oldText = selected.text ?? ''
+      if (oldText && !content.includes(oldText)) throw new Error('Original text not found in source file')
+      const newContent = oldText ? content.replace(oldText, editText) : content
       const res = await fetch('/api/github/website-manager/pr', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          title: `CMS edit: update "${selected.component}"`,
-          body: `Visual Editor change to \`${selected.component}\``,
-          files: [{ path: 'touchpulse/content/siteCopy.json', content: newContent }],
+          title: `CMS text edit: ${filePath}`,
+          body: `**Changed in** \`${filePath}\`\n\n> ${oldText.slice(0, 120)} → ${editText.slice(0, 120)}`,
+          files: [{ path: `touchpulse/${filePath}`, content: newContent }],
         }),
       })
       const data = await res.json() as { url?: string; error?: string }
@@ -336,6 +359,47 @@ export default function VisualEditorPage() {
       setEditMsg(e instanceof Error ? e.message : 'Failed')
     } finally {
       setPushingPR(false)
+    }
+  }
+
+  async function pushStyleToPR() {
+    if (!pendingStyle) return
+    setPushingStyle(true)
+    setEditMsg('')
+    try {
+      const filePath = PAGE_FILE_MAP[activePage] ?? 'app/page.tsx'
+      const fileRes = await fetch(`/api/website-manager/file?path=${encodeURIComponent(filePath)}`)
+      if (!fileRes.ok) throw new Error('Could not read file')
+      const { content } = await fileRes.json() as { content: string }
+      const styleStr = Object.entries(pendingStyle.style).map(([k, v]) => `${k}: '${v}'`).join(', ')
+      const prompt = `Add the following inline style to the \`${pendingStyle.tagName}\` element that contains the text "${pendingStyle.text.slice(0, 100)}": style={{ ${styleStr} }}. If the element already has a style prop, merge these values into it. Change only that one element.`
+      const aiRes = await fetch('/api/website-manager/ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt, filePath, content }),
+      })
+      const aiData = await aiRes.json() as { proposedContent?: string; reply?: string; error?: string }
+      if (!aiRes.ok) throw new Error(aiData.error ?? 'AI request failed')
+      if (!aiData.proposedContent) throw new Error(aiData.reply ?? 'AI could not apply the change')
+      const res = await fetch('/api/github/website-manager/pr', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: `CMS style: ${pendingStyle.tagName} in ${filePath}`,
+          body: `**Style applied:** \`{ ${styleStr} }\``,
+          files: [{ path: `touchpulse/${filePath}`, content: aiData.proposedContent }],
+        }),
+      })
+      const prData = await res.json() as { url?: string; error?: string }
+      if (!res.ok) throw new Error(prData.error ?? 'PR failed')
+      if (prData.url) window.open(prData.url, '_blank')
+      setEditMsg('✓ Style PR created')
+      setPendingStyle(null)
+      setIframeKey(k => k + 1)
+    } catch (e: unknown) {
+      setEditMsg(e instanceof Error ? e.message : 'Style push failed')
+    } finally {
+      setPushingStyle(false)
     }
   }
 
@@ -560,24 +624,57 @@ export default function VisualEditorPage() {
                   <div className="flex gap-2 pt-2 border-t" style={{ borderColor: 'var(--border)' }}>
                     <button
                       type="button"
-                      onClick={applyToSiteCopy}
+                      onClick={applyToFile}
                       disabled={applying}
                       className="flex-1 px-3 py-2 rounded-[7px] text-[12px] font-medium border disabled:opacity-50"
                       style={{ borderColor: 'var(--teal)', color: 'var(--teal)', background: 'transparent' }}
                     >
-                      {applying ? 'Saving…' : 'Apply to siteCopy.json'}
+                      {applying ? 'Saving…' : 'Save to workspace'}
                     </button>
                     <button
                       type="button"
                       onClick={pushToPR}
-                      disabled={pushingPR}
+                      disabled={pushingPR || !selected?.text}
                       className="flex-1 px-3 py-2 rounded-[7px] text-[12px] font-medium disabled:opacity-50"
                       style={{ background: 'var(--teal)', color: '#031119' }}
                     >
-                      {pushingPR ? 'Creating PR…' : 'Push to GitHub PR'}
+                      {pushingPR ? 'Creating PR…' : 'Push text to PR'}
                     </button>
                   </div>
-                  {editMsg && <p className="text-[12px]" style={{ color: editMsg.startsWith('✓') ? 'var(--teal)' : '#f87171' }}>{editMsg}</p>}
+
+                  {/* Pending style from drag/resize */}
+                  {pendingStyle && (
+                    <div className="rounded-[8px] p-3 flex flex-col gap-2" style={{ background: 'rgba(255,177,0,0.08)', border: '1px solid rgba(255,177,0,0.3)' }}>
+                      <p className="text-[11px] font-semibold uppercase tracking-wide" style={{ color: 'var(--gold)' }}>Pending style change</p>
+                      <p className="text-[12px] font-mono" style={{ color: 'var(--body)' }}>
+                        {Object.entries(pendingStyle.style).map(([k, v]) => `${k}: ${v}`).join('; ')}
+                      </p>
+                      <p className="text-[11px]" style={{ color: 'var(--muted)' }}>
+                        on &lt;{pendingStyle.tagName}&gt; — applies via AI + PR
+                      </p>
+                      <div className="flex gap-2">
+                        <button
+                          type="button"
+                          onClick={pushStyleToPR}
+                          disabled={pushingStyle}
+                          className="flex-1 px-3 py-2 rounded-[7px] text-[12px] font-medium disabled:opacity-50"
+                          style={{ background: 'var(--gold)', color: '#031119' }}
+                        >
+                          {pushingStyle ? 'Pushing…' : 'Push style to production ↗'}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => { setPendingStyle(null); setIframeKey(k => k + 1) }}
+                          className="px-3 py-2 rounded-[7px] text-[12px] border"
+                          style={{ borderColor: 'var(--border)', color: 'var(--muted)' }}
+                        >
+                          Discard
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {editMsg && <p className="text-[12px]" style={{ color: editMsg.startsWith('✓') ? 'var(--teal)' : editMsg.includes('captured') ? 'var(--gold)' : '#f87171' }}>{editMsg}</p>}
                 </>
               )}
             </div>
