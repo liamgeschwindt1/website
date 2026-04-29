@@ -1,5 +1,5 @@
-import AIChat from '@/components/AIChat'
+import { redirect } from 'next/navigation'
 
 export default function AIAssistantPage() {
-  return <AIChat />
+  redirect('/admin/visual-editor')
 }

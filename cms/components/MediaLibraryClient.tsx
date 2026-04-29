@@ -191,9 +191,20 @@ export default function MediaLibraryClient({ initialMedia, loadError = '' }: Pro
                       <span className="text-[11px] text-center truncate w-full" style={{ color: 'var(--muted)' }}>{item.filename}</span>
                     </div>
                   )} 
-                  <div className="absolute bottom-0 left-0 right-0 px-2 py-1.5 opacity-0 group-hover:opacity-100 transition-opacity"
+                  <div className="absolute bottom-0 left-0 right-0 px-2 py-1.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-between"
                     style={{ background: 'rgba(3,17,25,0.85)' }}>
-                    <p className="text-[10px] truncate" style={{ color: 'var(--muted)' }}>{item.filename}</p>
+                    <p className="text-[10px] truncate flex-1 mr-1" style={{ color: 'var(--muted)' }}>{item.filename}</p>
+                    <button
+                      type="button"
+                      onClick={e => { e.stopPropagation(); copyUrl(item) }}
+                      className="flex-shrink-0 text-[10px] px-1.5 py-0.5 rounded transition-colors"
+                      style={{
+                        background: copiedId === item.id ? 'rgba(1,180,175,0.3)' : 'rgba(255,255,255,0.12)',
+                        color: copiedId === item.id ? 'var(--teal)' : 'var(--text)',
+                      }}
+                    >
+                      {copiedId === item.id ? 'Copied' : 'Copy URL'}
+                    </button>
                   </div>
                 </button>
               ))}

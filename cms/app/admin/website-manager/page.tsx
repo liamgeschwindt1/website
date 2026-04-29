@@ -1,5 +1,5 @@
-import WebsiteManager from '@/components/website-manager/WebsiteManager'
+import { redirect } from 'next/navigation'
 
 export default function WebsiteManagerPage() {
-  return <WebsiteManager />
+  redirect('/admin/code-editor')
 }

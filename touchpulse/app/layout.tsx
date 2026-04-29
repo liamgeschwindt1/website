@@ -4,6 +4,7 @@ import { AccessibilityProvider } from '@/components/AccessibilityProvider'
 import { PostHogProvider } from '@/lib/posthog'
 import CookieBanner from '@/components/CookieBanner'
 import ScrollDepthTracker from '@/components/ScrollDepthTracker'
+import CMSOverlay from '@/components/CMSOverlay'
 import { Suspense } from 'react'
 import './globals.css'
 
@@ -36,6 +37,7 @@ export default function RootLayout({
           <Suspense>
             <PostHogProvider>
               <ScrollDepthTracker />
+              <CMSOverlay />
               {children}
             </PostHogProvider>
           </Suspense>

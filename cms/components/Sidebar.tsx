@@ -8,27 +8,26 @@ import { useState } from 'react'
 
 const nav = [
   {
-    label: 'Website Manager',
+    label: 'MANAGE',
     items: [
-      { href: '/admin/ai', label: 'AI Assistant', icon: '◈' },
-      { href: '/admin/website-manager', label: 'Editor + AI', icon: '✦' },
-      { href: '/admin/design', label: 'Live Preview', icon: '⬡' },
+      { href: '/admin', label: 'Dashboard', icon: '◈' },
+      { href: '/admin/analytics', label: 'Analytics', icon: '▲' },
+      { href: '/admin/settings', label: 'Settings', icon: '⚙' },
+    ],
+  },
+  {
+    label: 'WEBSITE',
+    items: [
+      { href: '/admin/visual-editor', label: 'Visual Editor', icon: '⬡' },
+      { href: '/admin/code-editor', label: 'Code Editor', icon: '⌥' },
       { href: '/admin/pulls', label: 'Production PRs', icon: '↗' },
     ],
   },
   {
-    label: 'Website',
+    label: 'CONTENT',
     items: [
-      { href: '/admin/content', label: 'Content', icon: '▤' },
+      { href: '/admin/blog', label: 'Blog', icon: '✦' },
       { href: '/admin/media', label: 'Media', icon: '▣' },
-    ],
-  },
-  {
-    label: 'System',
-    items: [
-      { href: '/admin/admin', label: 'Admin', icon: '⚑' },
-      { href: '/admin/integrations', label: 'Integrations', icon: '⎇' },
-      { href: '/admin/settings', label: 'Settings', icon: '⚙' },
     ],
   },
 ]
@@ -38,11 +37,6 @@ export default function Sidebar() {
   const { data: session } = useSession()
   const [collapsed, setCollapsed] = useState(false)
   const role = (session?.user as { role?: string } | undefined)?.role ?? 'editor'
-
-  const visibleNav = nav.map((group) => ({
-    ...group,
-    items: group.items.filter((item) => item.href !== '/admin/admin' || role === 'admin'),
-  }))
 
   function toggle() {
     setCollapsed(c => {
@@ -73,7 +67,7 @@ export default function Sidebar() {
               className="ml-2 text-[10px] px-1.5 py-0.5 rounded border font-medium flex-shrink-0"
               style={{ color: 'var(--muted)', borderColor: 'var(--border)' }}
             >
-              Manager
+              CMS
             </span>
           </>
         )}
@@ -93,7 +87,7 @@ export default function Sidebar() {
 
       {/* Nav */}
       <nav className="flex-1 overflow-y-auto py-4" style={{ paddingLeft: collapsed ? 6 : 12, paddingRight: collapsed ? 6 : 12 }}>
-        {visibleNav.map((group) => (
+        {nav.map((group) => (
           <div key={group.label} className="mb-5">
             {!collapsed && (
               <p className="text-[10px] font-semibold tracking-[0.1em] uppercase px-2 mb-2" style={{ color: 'var(--muted)' }}>
