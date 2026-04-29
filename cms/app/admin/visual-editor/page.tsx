@@ -597,7 +597,7 @@ export default function VisualEditorPage() {
     <div style={{ display: 'flex', height: 'calc(100vh)', overflow: 'hidden', position: 'relative' }}>
 
       {/* Left panel — iframe */}
-      <div style={{ flex: '0 0 60%', display: 'flex', flexDirection: 'column', borderRight: '1px solid var(--border)' }}>
+      <div style={{ flex: '1 1 auto', minWidth: 0, display: 'flex', flexDirection: 'column', borderRight: '1px solid var(--border)' }}>
         {/* Toolbar */}
         <div
           className="flex items-center gap-4 px-4 flex-shrink-0"
@@ -653,7 +653,7 @@ export default function VisualEditorPage() {
       </div>
 
       {/* Right panel — editing controls */}
-      <div style={{ flex: '0 0 40%', display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ flex: '0 0 420px', minWidth: 320, display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden', background: 'rgba(3,12,19,0.6)', borderLeft: '1px solid var(--border)' }}>
         {/* Tabs */}
         <div className="flex border-b flex-shrink-0" style={{ borderColor: 'var(--border)' }}>
           {(['edit', 'ai', 'structure'] as const).map(t => (
@@ -672,7 +672,7 @@ export default function VisualEditorPage() {
           ))}
         </div>
 
-        <div style={{ flex: 1, overflowY: 'auto', padding: 20 }}>
+        <div style={{ flex: 1, overflowY: 'auto', padding: 20, paddingBottom: 80 }}>
           {/* ── Edit tab ─────────────────────────────────────────────────── */}
           {tab === 'edit' && (
             <div className="flex flex-col gap-4">
@@ -958,10 +958,8 @@ export default function VisualEditorPage() {
             </div>
           )}
         </div>
-
-        {/* Floating mini-widget */}
-        <MiniWidget />
       </div>
+      <MiniWidget />
     </div>
   )
 }
