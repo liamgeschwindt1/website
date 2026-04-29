@@ -26,7 +26,7 @@ async function callGemini(prompt: string, filePath: string, content: string): Pr
   const userMessage = `File: ${filePath}\n\nInstruction: ${prompt}\n\nCurrent file content:\n\`\`\`\n${content}\n\`\`\``
 
   const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${apiKey}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${apiKey}`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
