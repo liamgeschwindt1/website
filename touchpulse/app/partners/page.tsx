@@ -1,34 +1,144 @@
-import type { Metadata } from 'next'
+'use client'
+
+import { useState, FormEvent } from 'react'
 import Nav from '@/components/Nav'
-import HumanRow from '@/components/HumanRow'
-import CTABanner from '@/components/CTABanner'
 import Footer from '@/components/Footer'
 
-export const dynamic = 'force-dynamic'
-
-export const metadata: Metadata = {
-  title: 'Partners — TouchPulse',
-  description: 'We build with people who have lived experience of sight loss. Meet the partners who shape Tiera.',
-}
-
 export default function PartnersPage() {
+  const [form, setForm] = useState({ name: '', organisation: '', email: '', workingOn: '' })
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault()
+    setStatus('loading')
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          company: form.organisation,
+          message: form.workingOn,
+          source: 'partners',
+        }),
+      })
+      const data = await res.json()
+      setStatus(data.success ? 'success' : 'error')
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  const inputClass =
+    'w-full px-4 py-3 min-h-[44px] rounded-[8px] bg-[var(--surface)] border border-[var(--border)] text-[var(--text)] text-[15px] placeholder-[var(--muted)] focus:border-[var(--teal)] focus:outline-none transition-colors duration-150'
+
   return (
     <>
       <Nav />
       <main className="pt-[60px]">
-        <div className="px-[clamp(24px,5vw,80px)] py-[72px] border-b border-[var(--border)]">
-          <p className="text-[11px] font-medium tracking-[0.08em] uppercase text-[var(--muted)] mb-4">Partners &amp; advisors</p>
-          <h1 className="text-[clamp(36px,5vw,64px)] font-medium tracking-[-0.03em] leading-[1.1] max-w-[700px]">
-            Built with people who know what it means to navigate the world differently.
-          </h1>
-          <p className="text-[18px] text-[var(--body)] leading-[1.7] max-w-[580px] mt-6">
-            Tiera is shaped by partnerships with blind and low-vision communities, advocacy organisations, and technology leaders with lived experience.
-          </p>
-        </div>
-        <HumanRow />
-        <CTABanner onSetMessage={() => {}} />
+        {/* Header */}
+        <section
+          className="px-[clamp(24px,5vw,80px)] py-[80px] border-b border-[var(--border)]"
+          aria-labelledby="partners-heading"
+        >
+          <div className="max-w-[680px]">
+            <h1
+              id="partners-heading"
+              className="text-[clamp(36px,5vw,60px)] font-medium tracking-[-0.03em] leading-[1.1] mb-8 text-[var(--text)]"
+            >
+              Built with people who understand the need.
+            </h1>
+            <p className="text-[18px] text-[var(--body)] leading-[1.75]">
+              TouchPulse works with organisations, researchers, and accessibility advocates who share the belief that navigation should work for everyone. If that is you, we would like to talk.
+            </p>
+          </div>
+        </section>
+
+        {/* Contact form */}
+        <section
+          id="contact"
+          aria-labelledby="partners-contact-heading"
+          className="px-[clamp(24px,5vw,80px)] py-[96px]"
+        >
+          <div className="max-w-[560px]">
+            <h2
+              id="partners-contact-heading"
+              className="text-[clamp(24px,3vw,36px)] font-medium tracking-[-0.02em] text-[var(--text)] mb-10"
+            >
+              Get in touch
+            </h2>
+
+            {status === 'success' ? (
+              <div
+                role="alert"
+                className="p-6 rounded-[12px] bg-[rgba(1,180,175,0.10)] border border-[rgba(1,180,175,0.35)] text-[var(--teal)] text-[15px]"
+              >
+                ✓ Message received — we&apos;ll be in touch shortly.
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Name"
+                  required
+                  autoComplete="name"
+                  value={form.name}
+                  onChange={handleChange}
+                  className={inputClass}
+                />
+                <input
+                  type="text"
+                  name="organisation"
+                  placeholder="Organisation"
+                  autoComplete="organization"
+                  value={form.organisation}
+                  onChange={handleChange}
+                  className={inputClass}
+                />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  required
+                  autoComplete="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  className={inputClass}
+                />
+                <textarea
+                  name="workingOn"
+                  placeholder="What you are working on"
+                  required
+                  rows={5}
+                  value={form.workingOn}
+                  onChange={handleChange}
+                  className={`${inputClass} resize-none`}
+                />
+                {status === 'error' && (
+                  <p role="alert" className="text-[14px] text-red-400">
+                    Something went wrong. Please try again or email us directly.
+                  </p>
+                )}
+                <button
+                  type="submit"
+                  disabled={status === 'loading'}
+                  className="self-start inline-flex items-center px-6 py-3 border border-[rgba(255,255,255,0.5)] rounded-[6px] text-[14px] font-medium text-[var(--text)] hover:bg-[rgba(255,255,255,0.06)] transition-colors duration-150 disabled:opacity-50 min-h-[44px]"
+                >
+                  {status === 'loading' ? 'Sending…' : 'Get in touch ↗'}
+                </button>
+              </form>
+            )}
+          </div>
+        </section>
       </main>
       <Footer />
     </>
   )
 }
+

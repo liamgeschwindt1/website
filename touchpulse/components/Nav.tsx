@@ -233,32 +233,14 @@ export default function Nav() {
             Partners
           </Link>
         </li>
-        <li>
-          <Link
-            href="#"
-            className="text-[14px] text-[rgba(247,247,247,0.50)] no-underline hover:text-[var(--text)] transition-colors duration-150"
-          >
-            Blog
-          </Link>
-        </li>
-        <li>
-          <a
-            href="https://studio.touchpulse.ai"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[13px] font-medium px-3 py-1 rounded-full border border-[rgba(1,180,175,0.45)] text-[var(--teal)] no-underline hover:bg-[rgba(1,180,175,0.10)] transition-all duration-200 tracking-wide"
-          >
-            O&amp;M Studio ↗
-          </a>
-        </li>
       </ul>
 
-      <Link
-        href="#contact"
+      <a
+        href="mailto:info@touchpulse.nl?subject=Demo%20request"
         className="min-h-[44px] min-w-[44px] flex items-center px-4 py-2 border border-[rgba(255,255,255,0.6)] rounded-[6px] text-[13px] font-medium text-[var(--text)] no-underline hover:bg-[rgba(255,255,255,0.06)] transition-colors duration-150"
       >
-        Book demo ↗
-      </Link>
+        Book a demo ↗
+      </a>
     </nav>
   )
 }
