@@ -292,6 +292,36 @@ export default function CMSOverlay() {
           else if (property === 'src') (el as HTMLImageElement).src = value
           else if (property === 'alt') (el as HTMLImageElement).alt = value
         } catch { /* ignore */ }
+      } else if (e.data?.type === 'cms:delete') {
+        const { xpath } = e.data as { xpath: string }
+        try {
+          const result = document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null)
+          const el = result.singleNodeValue as Element | null
+          if (!el) return
+          if (selectedEl === el) {
+            selectedEl = null
+            removeOverlay()
+          }
+          el.parentElement?.removeChild(el)
+          window.parent.postMessage({ type: 'cms:deselect' }, '*')
+        } catch { /* ignore */ }
+      } else if (e.data?.type === 'cms:insertImage') {
+        const { xpath, src, alt } = e.data as { xpath: string; src: string; alt: string }
+        try {
+          const result = document.evaluate(xpath, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null)
+          const el = result.singleNodeValue as Element | null
+          if (!el) return
+          const img = document.createElement('img')
+          img.src = src
+          img.alt = alt || ''
+          img.style.maxWidth = '100%'
+          el.appendChild(img)
+          if (selectedEl) selectedEl.removeAttribute('data-cms-selected')
+          selectedEl = img
+          img.setAttribute('data-cms-selected', '1')
+          createOverlay(img)
+          window.parent.postMessage({ type: 'cms:select', ...elementData(img) }, '*')
+        } catch { /* ignore */ }
       } else if (e.data?.type === 'cms:applyStyle') {
         const { xpath, style } = e.data as { xpath: string; style: Record<string, string> }
         try {

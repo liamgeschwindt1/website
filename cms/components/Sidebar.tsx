@@ -62,7 +62,7 @@ export default function Sidebar() {
       <div className="flex items-center h-14 border-b flex-shrink-0 relative" style={{ borderColor: 'var(--border)', paddingLeft: collapsed ? 0 : 20 }}>
         {!collapsed && (
           <>
-            <Image src="/touchpulse-logo.png" alt="TouchPulse" width={100} height={24} className="object-contain flex-shrink-0" style={{ maxHeight: 24 }} />
+            <Image src="/images/touchpulse-logo.png" alt="TouchPulse" width={100} height={24} className="object-contain flex-shrink-0" style={{ maxHeight: 24 }} />
             <span
               className="ml-2 text-[10px] px-1.5 py-0.5 rounded border font-medium flex-shrink-0"
               style={{ color: 'var(--muted)', borderColor: 'var(--border)' }}

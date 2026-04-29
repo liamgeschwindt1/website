@@ -246,6 +246,12 @@ export default function VisualEditorPage() {
   // Edit tab state
   const [editText, setEditText] = useState('')
   const [editAlt, setEditAlt] = useState('')
+  const [editSrc, setEditSrc] = useState('')
+  const [imgUploading, setImgUploading] = useState(false)
+  const [insertImgUrl, setInsertImgUrl] = useState('')
+  const [insertImgUploading, setInsertImgUploading] = useState(false)
+  const imgFileRef = useRef<HTMLInputElement>(null)
+  const insertImgFileRef = useRef<HTMLInputElement>(null)
   const [applying, setApplying] = useState(false)
   const [pushingPR, setPushingPR] = useState(false)
   const [editMsg, setEditMsg] = useState('')
@@ -300,7 +306,15 @@ export default function VisualEditorPage() {
         setSelected(el)
         setEditText(el.text ?? '')
         setEditAlt(el.alt ?? '')
+        setEditSrc(el.src ?? '')
+        setInsertImgUrl('')
         setTab('edit')
+      } else if (e.data?.type === 'cms:deselect') {
+        setSelected(null)
+        setEditText('')
+        setEditAlt('')
+        setEditSrc('')
+        setInsertImgUrl('')
       } else if (e.data?.type === 'cms:structure') {
         setSections(e.data.sections ?? [])
       } else if (e.data?.type === 'cms:styleChange') {
@@ -329,6 +343,62 @@ export default function VisualEditorPage() {
     pushUndo()
     setEditText(val)
     sendUpdate('text', val)
+  }
+
+  function sendDelete() {
+    if (!selected) return
+    iframeRef.current?.contentWindow?.postMessage(
+      { type: 'cms:delete', xpath: selected.xpath },
+      '*'
+    )
+    setSelected(null)
+    setEditText('')
+    setEditAlt('')
+    setEditSrc('')
+  }
+
+  async function uploadImgFile(file: File, onDone: (url: string) => void) {
+    try {
+      const form = new FormData()
+      form.append('file', file)
+      const res = await fetch('/api/media/upload', { method: 'POST', body: form })
+      const data = await res.json() as { url?: string; error?: string }
+      if (!res.ok) throw new Error(data.error ?? 'Upload failed')
+      if (data.url) onDone(data.url)
+    } catch (e: unknown) {
+      setEditMsg(e instanceof Error ? e.message : 'Upload failed')
+    }
+  }
+
+  async function handleImgFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file || !selected) return
+    setImgUploading(true)
+    await uploadImgFile(file, (url) => {
+      setEditSrc(url)
+      sendUpdate('src', url)
+      setEditMsg('✓ Image updated in preview')
+    })
+    setImgUploading(false)
+  }
+
+  async function handleInsertImgFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file || !selected) return
+    setInsertImgUploading(true)
+    await uploadImgFile(file, (url) => {
+      setInsertImgUrl(url)
+    })
+    setInsertImgUploading(false)
+  }
+
+  function sendInsertImage() {
+    if (!selected || !insertImgUrl.trim()) return
+    iframeRef.current?.contentWindow?.postMessage(
+      { type: 'cms:insertImage', xpath: selected.xpath, src: insertImgUrl.trim(), alt: '' },
+      '*'
+    )
+    setInsertImgUrl('')
   }
 
   async function applyToFile() {
@@ -631,10 +701,33 @@ export default function VisualEditorPage() {
 
                   {isImg && (
                     <div className="flex flex-col gap-3">
-                      {selected.src && (
+                      {(editSrc || selected.src) && (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img src={selected.src} alt={selected.alt ?? ''} className="rounded-[8px] border max-h-32 object-contain" style={{ borderColor: 'var(--border)' }} />
+                        <img src={editSrc || selected.src || ''} alt={editAlt ?? ''} className="rounded-[8px] border max-h-32 object-contain" style={{ borderColor: 'var(--border)' }} />
                       )}
+                      <div>
+                        <label className="text-[11px] uppercase tracking-wide font-medium block mb-1" style={{ color: 'var(--muted)' }}>Image URL</label>
+                        <div className="flex gap-2">
+                          <input
+                            value={editSrc}
+                            onChange={e => setEditSrc(e.target.value)}
+                            onBlur={e => { if (e.target.value) sendUpdate('src', e.target.value) }}
+                            placeholder="https://… or /images/…"
+                            className="flex-1 px-3 py-2 rounded-[7px] border text-[13px]"
+                            style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'var(--border)', color: 'var(--text)' }}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => imgFileRef.current?.click()}
+                            disabled={imgUploading}
+                            className="px-3 py-2 rounded-[7px] border text-[12px] font-medium disabled:opacity-50 whitespace-nowrap"
+                            style={{ borderColor: 'var(--teal)', color: 'var(--teal)', background: 'transparent' }}
+                          >
+                            {imgUploading ? 'Uploading…' : '↑ Upload'}
+                          </button>
+                          <input ref={imgFileRef} type="file" accept="image/*" className="hidden" onChange={handleImgFileChange} />
+                        </div>
+                      </div>
                       <div>
                         <label className="text-[11px] uppercase tracking-wide font-medium block mb-1" style={{ color: 'var(--muted)' }}>Alt text</label>
                         <input
@@ -652,7 +745,40 @@ export default function VisualEditorPage() {
                   )}
 
                   {isContainer && (
-                    <p className="text-[13px]" style={{ color: 'var(--muted)' }}>Container selected ({selected.tagName}). Use the AI tab to describe layout changes.</p>
+                    <div className="flex flex-col gap-3">
+                      <p className="text-[13px]" style={{ color: 'var(--muted)' }}>Container selected ({selected.tagName}). Use the AI tab to describe layout changes, or insert an image below.</p>
+                      <div>
+                        <label className="text-[11px] uppercase tracking-wide font-medium block mb-1" style={{ color: 'var(--muted)' }}>Insert image into this element</label>
+                        <div className="flex gap-2 mb-2">
+                          <input
+                            value={insertImgUrl}
+                            onChange={e => setInsertImgUrl(e.target.value)}
+                            placeholder="Paste URL or upload ↓"
+                            className="flex-1 px-3 py-2 rounded-[7px] border text-[13px]"
+                            style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'var(--border)', color: 'var(--text)' }}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => insertImgFileRef.current?.click()}
+                            disabled={insertImgUploading}
+                            className="px-3 py-2 rounded-[7px] border text-[12px] font-medium disabled:opacity-50 whitespace-nowrap"
+                            style={{ borderColor: 'var(--teal)', color: 'var(--teal)', background: 'transparent' }}
+                          >
+                            {insertImgUploading ? 'Uploading…' : '↑ Upload'}
+                          </button>
+                          <input ref={insertImgFileRef} type="file" accept="image/*" className="hidden" onChange={handleInsertImgFileChange} />
+                        </div>
+                        <button
+                          type="button"
+                          onClick={sendInsertImage}
+                          disabled={!insertImgUrl.trim()}
+                          className="w-full px-3 py-2 rounded-[7px] text-[12px] font-medium disabled:opacity-40"
+                          style={{ background: 'var(--teal)', color: '#031119' }}
+                        >
+                          Insert image
+                        </button>
+                      </div>
+                    </div>
                   )}
 
                   <div className="flex gap-2 pt-2 border-t" style={{ borderColor: 'var(--border)' }}>
@@ -665,6 +791,15 @@ export default function VisualEditorPage() {
                       style={{ borderColor: 'var(--border)', color: 'var(--muted)', background: 'transparent' }}
                     >
                       ↩ Undo
+                    </button>
+                    <button
+                      type="button"
+                      onClick={sendDelete}
+                      title="Delete this element"
+                      className="px-3 py-2 rounded-[7px] text-[12px] border font-medium"
+                      style={{ borderColor: 'rgba(248,113,113,0.5)', color: '#f87171', background: 'transparent' }}
+                    >
+                      🗑 Delete
                     </button>
                     <button
                       type="button"

@@ -42,7 +42,7 @@ export default function Nav() {
         aria-label="TouchPulse home"
       >
         <Image
-          src="/touchpulse-logo.png"
+          src="/images/touchpulse-logo.png"
           alt="TouchPulse"
           width={140}
           height={36}

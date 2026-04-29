@@ -35,7 +35,7 @@ function LoginForm() {
     >
       <div className="mb-8 text-center">
         <div className="flex justify-center mb-2">
-          <Image src="/touchpulse-logo.png" alt="TouchPulse" width={140} height={34} className="object-contain" />
+          <Image src="/images/touchpulse-logo.png" alt="TouchPulse" width={140} height={34} className="object-contain" />
         </div>
         <div className="text-[12px] mt-1" style={{ color: 'var(--muted)' }}>CMS · Admin access</div>
       </div>
