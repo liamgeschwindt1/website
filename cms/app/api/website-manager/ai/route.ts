@@ -20,8 +20,8 @@ Rules:
 - If the change is not safe or not possible, set proposedContent to null and explain why in reply.`
 
 async function callGemini(prompt: string, filePath: string, content: string): Promise<{ reply: string; proposedContent: string | null }> {
-  const apiKey = process.env.GEMINI_TOKEN
-  if (!apiKey) throw new Error('GEMINI_TOKEN is not configured')
+  const apiKey = process.env.GEMINI_KEY
+  if (!apiKey) throw new Error('GEMINI_KEY is not configured')
 
   const userMessage = `File: ${filePath}\n\nInstruction: ${prompt}\n\nCurrent file content:\n\`\`\`\n${content}\n\`\`\``
 
