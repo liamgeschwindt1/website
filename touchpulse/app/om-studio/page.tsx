@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import ContactForm from '@/components/ContactForm'
@@ -24,7 +25,8 @@ export default function OMStudioPage() {
             <div style={{ position:'absolute', width:'50%', height:'60%', top:'-10%', left:'-5%', borderRadius:'50%', background:'rgba(1,180,175,0.18)', filter:'blur(100px)' }} />
             <div style={{ position:'absolute', width:'40%', height:'50%', top:'-15%', right:'5%', borderRadius:'50%', background:'rgba(80,60,200,0.15)', filter:'blur(90px)' }} />
           </div>
-          <div className="relative z-10 max-w-[700px]">
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[55fr_45fr] gap-[60px] items-center max-w-[1200px] mx-auto">
+            <div className="max-w-[640px]">
             <p className="text-[11px] font-medium tracking-[0.1em] uppercase mb-4" style={{ color:'var(--teal)' }}>
               ✦ FOR O&amp;M PROFESSIONALS
             </p>
@@ -50,6 +52,10 @@ export default function OMStudioPage() {
             >
               Join the waitlist
             </a>
+            </div>
+            <div className="relative aspect-[4/5] rounded-[16px] overflow-hidden border" style={{ borderColor:'rgba(255,255,255,0.10)' }}>
+              <Image src="/images/photos/student-walking-campus.jpg" alt="A student walks through a university campus, training their orientation skills" fill priority sizes="(max-width: 1024px) 80vw, 480px" style={{ objectFit: 'cover' }} />
+            </div>
           </div>
         </section>
 
@@ -108,7 +114,19 @@ export default function OMStudioPage() {
             </div>
           </div>
         </section>
-
+        {/* ── Field photograph row ───────────────────────────────── */}
+        <section aria-label="In the field" className="px-[clamp(24px,5vw,80px)] py-[96px] border-b border-[var(--border)]" style={{ backgroundColor:'#040d15' }}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-[60px] items-center max-w-[1200px] mx-auto">
+            <div className="relative aspect-[4/3] rounded-[12px] overflow-hidden border" style={{ borderColor:'var(--border)' }}>
+              <Image src="/images/photos/blind-man-studying-braille.jpg" alt="A trainer working alongside a student" fill sizes="(max-width: 1024px) 90vw, 560px" style={{ objectFit: 'cover' }} />
+            </div>
+            <div>
+              <p className="brand-eyebrow mb-3" style={{ color:'var(--teal)' }}>✦ In the field</p>
+              <h2 className="text-[clamp(24px,3vw,36px)] font-medium tracking-[-0.02em] text-[var(--text)] mb-5">Built side-by-side with practitioners.</h2>
+              <p className="text-[16px] text-[var(--body)] leading-[1.75] max-w-[480px]">We are co-designing O&amp;M Studio with qualified instructors. Every feature is shaped by real teaching practice — not assumptions about it.</p>
+            </div>
+          </div>
+        </section>
         {/* ── Waitlist form ─────────────────────────────────────── */}
         <section
           id="waitlist"

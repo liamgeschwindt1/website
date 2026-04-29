@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, FormEvent } from 'react'
+import Image from 'next/image'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 
@@ -46,6 +47,7 @@ export default function PartnersPage() {
           className="px-[clamp(24px,5vw,80px)] py-[80px] border-b border-[var(--border)]"
           aria-labelledby="partners-heading"
         >
+          <div className="grid grid-cols-1 lg:grid-cols-[58fr_42fr] gap-[60px] items-center max-w-[1200px] mx-auto">
           <div className="max-w-[680px]">
             <h1
               id="partners-heading"
@@ -56,6 +58,10 @@ export default function PartnersPage() {
             <p className="text-[18px] text-[var(--body)] leading-[1.75]">
               TouchPulse works with organisations, researchers, and accessibility advocates who share the belief that navigation should work for everyone. If that is you, we would like to talk.
             </p>
+          </div>
+          <div className="relative aspect-[4/5] rounded-[16px] overflow-hidden border" style={{ borderColor:'var(--border)' }}>
+            <Image src="/images/photos/student-studying.jpg" alt="A student studies, supported by accessible tools" fill priority sizes="(max-width: 1024px) 80vw, 480px" style={{ objectFit:'cover' }} />
+          </div>
           </div>
         </section>
 

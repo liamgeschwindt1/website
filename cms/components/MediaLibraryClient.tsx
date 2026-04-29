@@ -53,6 +53,10 @@ export default function MediaLibraryClient({ initialMedia, loadError = '' }: Pro
   }, [])
 
   async function handleDelete(id: string) {
+    if (id.startsWith('fs:')) {
+      setMediaError('Repo images cannot be deleted from the CMS — edit them in the source repository.')
+      return
+    }
     if (!confirm('Delete this file permanently?')) return
     try {
       const res = await fetch(`/api/media/${id}`, { method: 'DELETE' })
@@ -65,6 +69,7 @@ export default function MediaLibraryClient({ initialMedia, loadError = '' }: Pro
   }
 
   async function handleAltUpdate(id: string, alt: string) {
+    if (id.startsWith('fs:')) return
     try {
       const res = await fetch(`/api/media/${id}`, {
         method: 'PATCH',
@@ -191,6 +196,14 @@ export default function MediaLibraryClient({ initialMedia, loadError = '' }: Pro
                       <span className="text-[11px] text-center truncate w-full" style={{ color: 'var(--muted)' }}>{item.filename}</span>
                     </div>
                   )} 
+                  {item.id.startsWith('fs:') && (
+                    <span
+                      className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded text-[9px] font-medium uppercase tracking-wide"
+                      style={{ background: 'rgba(1,180,175,0.15)', color: 'var(--teal)', border: '1px solid rgba(1,180,175,0.4)' }}
+                    >
+                      Repo
+                    </span>
+                  )}
                   <div className="absolute bottom-0 left-0 right-0 px-2 py-1.5 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-between"
                     style={{ background: 'rgba(3,17,25,0.85)' }}>
                     <p className="text-[10px] truncate flex-1 mr-1" style={{ color: 'var(--muted)' }}>{item.filename}</p>
@@ -282,10 +295,11 @@ export default function MediaLibraryClient({ initialMedia, loadError = '' }: Pro
             <button
               type="button"
               onClick={() => handleDelete(selected.id)}
-              className="w-full py-2 rounded-[6px] text-[13px] font-medium border mt-2 transition-colors duration-150"
+              disabled={selected.id.startsWith('fs:')}
+              className="w-full py-2 rounded-[6px] text-[13px] font-medium border mt-2 transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
               style={{ borderColor: 'rgba(248,113,113,0.3)', color: '#f87171', background: 'transparent' }}
             >
-              Delete file
+              {selected.id.startsWith('fs:') ? 'Repo file (read-only)' : 'Delete file'}
             </button>
           </div>
         </aside>

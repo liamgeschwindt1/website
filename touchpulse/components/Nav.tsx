@@ -3,12 +3,16 @@
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { usePathname } from 'next/navigation'
 import { useAccessibility, type ColorScheme } from './AccessibilityProvider'
 
 export default function Nav() {
+  const pathname = usePathname()
   const [scrolled, setScrolled] = useState(false)
   const [a11yPanelOpen, setA11yPanelOpen] = useState(false)
   const { accessibilityMode, toggleAccessibilityMode, colorScheme, setColorScheme, fontSize, increaseFontSize, decreaseFontSize, resetFontSize } = useAccessibility()
+
+  const isActive = (href: string) => href === '/' ? pathname === '/' : pathname?.startsWith(href)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 48)
@@ -205,14 +209,14 @@ export default function Nav() {
           )}
         </li>
         <li>
-          <Link href="/" className="text-[14px] text-[var(--teal)] no-underline">
+          <Link href="/" className={`text-[14px] no-underline transition-colors duration-150 ${isActive('/') ? 'text-[var(--teal)]' : 'text-[rgba(247,247,247,0.50)] hover:text-[var(--text)]'}`}>
             Home
           </Link>
         </li>
         <li>
           <Link
             href="/tiera"
-            className="text-[14px] text-[rgba(247,247,247,0.50)] no-underline hover:text-[var(--text)] transition-colors duration-150"
+            className={`text-[14px] no-underline transition-colors duration-150 ${isActive('/tiera') ? 'text-[var(--teal)]' : 'text-[rgba(247,247,247,0.50)] hover:text-[var(--text)]'}`}
           >
             Tiera
           </Link>
@@ -220,7 +224,7 @@ export default function Nav() {
         <li>
           <Link
             href="/om-studio"
-            className="text-[14px] text-[rgba(247,247,247,0.50)] no-underline hover:text-[var(--text)] transition-colors duration-150"
+            className={`text-[14px] no-underline transition-colors duration-150 ${isActive('/om-studio') ? 'text-[var(--teal)]' : 'text-[rgba(247,247,247,0.50)] hover:text-[var(--text)]'}`}
           >
             O&amp;M Studio
           </Link>
@@ -228,7 +232,7 @@ export default function Nav() {
         <li>
           <Link
             href="/for-business"
-            className="text-[14px] text-[rgba(247,247,247,0.50)] no-underline hover:text-[var(--text)] transition-colors duration-150"
+            className={`text-[14px] no-underline transition-colors duration-150 ${isActive('/for-business') ? 'text-[var(--teal)]' : 'text-[rgba(247,247,247,0.50)] hover:text-[var(--text)]'}`}
           >
             For Business
           </Link>
@@ -236,7 +240,7 @@ export default function Nav() {
         <li>
           <Link
             href="/partners"
-            className="text-[14px] text-[rgba(247,247,247,0.50)] no-underline hover:text-[var(--text)] transition-colors duration-150"
+            className={`text-[14px] no-underline transition-colors duration-150 ${isActive('/partners') ? 'text-[var(--teal)]' : 'text-[rgba(247,247,247,0.50)] hover:text-[var(--text)]'}`}
           >
             Partners
           </Link>
@@ -244,7 +248,7 @@ export default function Nav() {
         <li>
           <Link
             href="/blog"
-            className="text-[14px] text-[rgba(247,247,247,0.50)] no-underline hover:text-[var(--text)] transition-colors duration-150"
+            className={`text-[14px] no-underline transition-colors duration-150 ${isActive('/blog') ? 'text-[var(--teal)]' : 'text-[rgba(247,247,247,0.50)] hover:text-[var(--text)]'}`}
           >
             Blog
           </Link>

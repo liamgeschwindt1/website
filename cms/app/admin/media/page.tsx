@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import MediaLibraryClient from '@/components/MediaLibraryClient'
+import { listRepoMedia } from '@/lib/repoMedia'
 
 export const dynamic = 'force-dynamic'
 
@@ -17,11 +18,25 @@ export default async function MediaPage() {
     loadError = `Failed to load media from database. Check DATABASE_URL and Prisma migrations. (${msg})`
   }
 
-  const items = media.map(m => ({
+  const dbItems = media.map(m => ({
     ...m,
     url: `/api/media/${m.id}`,
     createdAt: m.createdAt.toISOString(),
   }))
+
+  // Append filesystem-backed images from the touchpulse public folder.
+  // These are read-only; the client suppresses delete/edit for ids prefixed with `fs:`.
+  const repoItems = listRepoMedia().map(r => ({
+    id: r.id,
+    filename: r.filename,
+    mimeType: r.mimeType,
+    size: r.size,
+    url: r.url,
+    alt: r.alt,
+    createdAt: r.createdAt,
+  }))
+
+  const items = [...dbItems, ...repoItems]
 
   return <MediaLibraryClient initialMedia={items} loadError={loadError} />
 }

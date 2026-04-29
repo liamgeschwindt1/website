@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 
@@ -83,31 +84,15 @@ export default function TieraPage() {
                 Type an address or speak it. Tiera plans your route and reads it back — distance, direction, time. Your screen can stay in your pocket.
               </p>
             </div>
-            <div
-              aria-hidden="true"
-              className="hidden lg:flex items-center justify-center border-l border-[var(--border)] h-full min-h-[320px]"
-              style={{ backgroundColor: '#051520' }}
-            >
-              <span
-                style={{ fontFamily: 'var(--font-lora)', fontStyle: 'italic', color: 'var(--teal)', opacity: 0.3, fontSize: '1.25rem' }}
-              >
-                screenshot
-              </span>
+            <div className="relative hidden lg:block border-l border-[var(--border)] h-full min-h-[420px]">
+              <Image src="/images/photos/pov-map-open-walking-app.jpg" alt="Tiera planning a route on iPhone" fill sizes="40vw" style={{ objectFit: 'cover' }} />
             </div>
           </div>
 
           {/* Row 2 — image left, text right */}
           <div className="grid grid-cols-1 lg:grid-cols-[40fr_60fr] items-center border-b border-[var(--border)]">
-            <div
-              aria-hidden="true"
-              className="hidden lg:flex items-center justify-center border-r border-[var(--border)] h-full min-h-[320px]"
-              style={{ backgroundColor: '#051520' }}
-            >
-              <span
-                style={{ fontFamily: 'var(--font-lora)', fontStyle: 'italic', color: 'var(--teal)', opacity: 0.3, fontSize: '1.25rem' }}
-              >
-                screenshot
-              </span>
+            <div className="relative hidden lg:block border-r border-[var(--border)] h-full min-h-[420px]">
+              <Image src="/images/photos/teleoperator.jpg" alt="A live human navigator at her workstation" fill sizes="40vw" style={{ objectFit: 'cover' }} />
             </div>
             <div className="px-[clamp(24px,5vw,80px)] py-[80px]">
               <h2 className="text-[clamp(28px,3.2vw,42px)] font-medium tracking-[-0.02em] text-[var(--text)] mb-5">
@@ -129,16 +114,8 @@ export default function TieraPage() {
                 If you go off course Tiera replans instantly. Use Checkpoints at any time to reorient — hold your phone out and haptic feedback guides you to face the right direction.
               </p>
             </div>
-            <div
-              aria-hidden="true"
-              className="hidden lg:flex items-center justify-center border-l border-[var(--border)] h-full min-h-[320px]"
-              style={{ backgroundColor: '#051520' }}
-            >
-              <span
-                style={{ fontFamily: 'var(--font-lora)', fontStyle: 'italic', color: 'var(--teal)', opacity: 0.3, fontSize: '1.25rem' }}
-              >
-                screenshot
-              </span>
+            <div className="relative hidden lg:block border-l border-[var(--border)] h-full min-h-[420px]">
+              <Image src="/images/photos/pov-street-crossing.jpg" alt="A crossing seen from a Tiera user's perspective" fill sizes="40vw" style={{ objectFit: 'cover' }} />
             </div>
           </div>
         </section>

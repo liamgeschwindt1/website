@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, FormEvent } from 'react'
+import Image from 'next/image'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 
@@ -46,6 +47,7 @@ export default function ForBusinessPage() {
           className="px-[clamp(24px,5vw,80px)] py-[80px] border-b border-[var(--border)]"
           aria-labelledby="for-business-heading"
         >
+          <div className="grid grid-cols-1 lg:grid-cols-[58fr_42fr] gap-[60px] items-center max-w-[1200px] mx-auto">
           <div className="max-w-[680px]">
             <h1
               id="for-business-heading"
@@ -80,6 +82,10 @@ export default function ForBusinessPage() {
                 </div>
               ))}
             </div>
+          </div>
+          <div className="relative aspect-[4/5] rounded-[16px] overflow-hidden border" style={{ borderColor:'var(--border)' }}>
+            <Image src="/images/photos/man-walking-through-uni-halls.jpg" alt="A person navigates a university hall confidently" fill priority sizes="(max-width: 1024px) 80vw, 480px" style={{ objectFit:'cover' }} />
+          </div>
           </div>
         </section>
 

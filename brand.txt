@@ -1,0 +1,597 @@
+
+TOUCHPULSE
+Brand & Web Design Guide
+────────────────────────
+Design System v1.0  ·  2026
+Navigation Intelligence Platform
+touchpulse.nl
+
+1. Brand Philosophy
+TouchPulse sits at the intersection of navigation precision and AI intelligence. The design system must communicate three qualities simultaneously: serious technical credibility (like MagicLane or Naext), AI-forward modernity (like xAI or Vercel), and the warmth that makes the product feel approachable and human.
+
+1.1  Brand Pillars
+PILLAR 1
+Precision
+Every pixel earns its place. Navigation is a domain where accuracy is life-critical — the brand must project that same discipline. Thin lines, exact spacing, restrained colour.
+PILLAR 2
+Intelligence
+TouchPulse is AI-native. The visual language should feel forward-looking without being sci-fi. Subtle aurora gradients, monospace code snippets, and crisp data visualisation signal intelligence without shouting it.
+PILLAR 3
+Momentum
+Navigation is motion. The brand carries directional energy through arrow motifs, asymmetric layouts, and kinetic aurora effects.
+
+1.2  Reference Brands & What We Borrow
+Brand
+What They Do Well
+What TouchPulse Borrows
+Vercel
+Dark base, ghost buttons, near-zero decoration
+Ghost button system, muted nav links with chevrons, monospace code snippets
+xAI / Grok
+Technical credibility, high contrast, sparse layout
+Dark hero sections, tight typographic hierarchy, minimal CTA count
+SpaceX
+Mission gravity, cinematic whitespace, thin type
+Full-bleed imagery with text overlays, countdown/data cards
+Apple Intelligence
+Aurora gradients, pill buttons, iridescent accents
+Mesh gradient technique, pill-shaped feature badges, translucent surfaces
+MagicLane
+Map-centric UI, professional navigation credibility
+Clean SDK documentation aesthetic, data card grids
+Naext
+Enterprise navigation clarity, subdued palette
+Neutral grey navigation, structured information hierarchy
+
+
+
+2. Colour System
+TouchPulse uses five brand colours, each with a single defined role. The system works because Charcoal Black and Ink Blue handle all backgrounds and surfaces, Soft White handles typography, and Teal and Gold each carry one job — never competing simultaneously.
+
+2.1  Primary Palette
+Swatch
+Name
+Hex
+Role
+Primary Usage
+
+
+Charcoal Black
+#031119
+Primary BG
+Hero sections, full-bleed backgrounds, darkest surfaces
+
+
+Ink Blue
+#1B354F
+Surface / Card
+Card backgrounds, secondary sections, nav bar at scroll
+
+
+Soft White
+#F7F7F7
+Primary Text
+Body copy, headings on dark backgrounds, icon fills
+
+
+Electric Teal
+#01B4AF
+Interactive Accent
+Links, hover states, active nav, borders on focus, data lines
+
+
+Golden Yellow
+#FFB100
+Signal / CTA
+Primary CTA button only, "New" badges, key callout numbers
+
+
+2.2  Colour Hierarchy Rules
+Teal and Gold must never appear at equal visual weight in the same section. One leads, the other disappears.
+
+→  Use Teal for all interactive states — hover, focus, active, links, border highlights.
+→  Use Gold for the single most important CTA on a page — "Get started", "Try free". Not for secondary actions.
+→  Charcoal Black (#031119) is the canonical dark background. Never substitute #000000 — pure black reads as harsh.
+→  Soft White (#F7F7F7) is the text colour on dark backgrounds. Pure white (#FFFFFF) is reserved for ghost button borders only.
+→  Ink Blue (#1B354F) surfaces must always sit on top of Charcoal Black — never used as a standalone background on a light page.
+
+2.3  Tints & Functional Colours
+These derived values are not brand colours — they are functional values used for states, surfaces, and semantic meaning:
+
+Usage
+Value
+Notes
+Teal 12% (badge fill)
+rgba(1,180,175,0.12)
+Pill badge backgrounds — feature highlights
+Teal 40% (badge border)
+rgba(1,180,175,0.40)
+Pill badge border — same hue, higher opacity
+Gold 10% (callout fill)
+rgba(255,177,0,0.10)
+Warning or highlight box background
+Ink Blue 8% (subtle tint)
+rgba(27,53,79,0.08)
+Alternating table rows on light sections
+Success green
+#059669
+Positive delta in data cards, success states
+Error red
+#DC2626
+Form errors, destructive actions, alert states
+Border default
+rgba(255,255,255,0.10)
+Card borders on dark backgrounds
+Border subtle
+rgba(0,0,0,0.08)
+Card borders on light backgrounds
+
+
+2.4  Aurora Gradient System
+The mesh/aurora gradient is the primary expressive element of the TouchPulse brand — used exclusively in hero sections, AI feature banners, and key landing transitions. It must never appear in functional UI (cards, tables, navigation).
+
+On-brand aurora (Primary hero)
+Technique: Stack 3 radial-gradient blobs on a #031119 base. Add noise grain texture at 5% opacity.
+CSS implementation:
+background: radial-gradient(ellipse at 20% 50%, rgba(1,180,175,0.55) 0%, transparent 60%),           radial-gradient(ellipse at 80% 30%, rgba(255,177,0,0.40) 0%, transparent 55%),           radial-gradient(ellipse at 50% 90%, rgba(27,53,79,0.60) 0%, transparent 70%);background-color: #031119;
+
+AI feature aurora (Secondary)
+Used for AI-specific sections — routing intelligence, prediction engine, live traffic AI. Uses blue-purple-teal rather than gold, signalling computation over energy.
+background: radial-gradient(ellipse at 30% 60%, rgba(99,153,255,0.50) 0%, transparent 55%),           radial-gradient(ellipse at 70% 20%, rgba(180,120,255,0.45) 0%, transparent 60%),           radial-gradient(ellipse at 50% 100%, rgba(1,180,175,0.35) 0%, transparent 60%);background-color: #060c12;
+
+✕  Use aurora gradients on cards, tables, nav bars, or any functional UI surface.
+✕  Use more than two aurora variants on a single page.
+✕  Animate the aurora on mobile — performance cost is not worth it.
+✓  Add a subtle noise/grain layer at 5% opacity over every aurora background. This kills the digital smoothness and gives it depth.
+✓  Let the aurora fade to transparent at the bottom — never hard-cut to the next section's background.
+
+3. Typography
+Typography is where serious tech brands earn credibility. The system uses a single typeface (Inter or equivalent geometric sans), a disciplined scale, and very specific weight and colour rules that match reference brands like Vercel and Apple.
+
+3.1  Typeface
+Role
+Typeface
+Rationale
+Primary
+Inter (preferred) / Geist / system-ui
+Geometric, neutral, renders cleanly at all sizes
+Monospace / Code
+JetBrains Mono / Geist Mono
+Code snippets, API keys, coordinate values, version numbers
+Fallback stack
+ui-sans-serif, -apple-system, Arial
+For system-rendered environments
+
+
+3.2  Type Scale
+Level
+Size
+Weight
+Usage
+Hero / Display
+56–80px
+500
+Homepage hero only. letter-spacing: -0.03em
+H1 / Section Hero
+40–48px
+500
+Page section openers. letter-spacing: -0.02em
+H2 / Sub-section
+28–32px · 500
+500
+H3 / Card heading
+18–22px · 500
+500
+Eyebrow / Label
+11px · 500 · uppercase · tracked
+500
+Body / Default
+16px · 400 · line-height 1.65
+400
+Small / Caption
+13px · 400
+400
+Monospace
+13–14px · 400
+400
+
+
+3.3  Colour Assignments for Text
+→  Primary headings on dark: #F7F7F7 (Soft White)
+→  Primary headings on light: #111827 (near-black, not pure black)
+→  Body text on dark: rgba(247,247,247,0.75) — 75% Soft White
+→  Body text on light: #374151
+→  Muted / tertiary text: #6B7280 on light, rgba(247,247,247,0.45) on dark
+→  Links and interactive text: #01B4AF (Electric Teal) always
+→  Eyebrow labels: #6B7280 on light, rgba(247,247,247,0.45) on dark — never Teal or Gold
+
+3.4  Typography Rules
+✕  Use font-weight 700 (bold) for any heading — 500 (medium) is the maximum. Heavy weights look crude against the minimal layout.
+✕  Center-align body text beyond a single line. Navigation documentation is never centered prose.
+✕  Use all-caps on headings longer than 4 words. Eyebrows and labels only.
+✕  Apply gradient text to more than one heading per page. If used, hero display only.
+✕  Kern manually. Rely on letter-spacing: -0.02em to -0.03em on large headings only.
+✓  Use sentence case everywhere — headings, nav links, button labels, badges.
+✓  Set line-height: 1.1 on display and H1. line-height: 1.65 on body.
+✓  Wrap long prose at 60–72 characters per line (max-width: ~640px on body text).
+
+4. Layout & Spacing
+Layout is where TouchPulse separates itself from generic SaaS. The reference brands (Vercel, xAI, SpaceX) share one trait: disciplined emptiness. Whitespace is not wasted space — it signals confidence.
+
+4.1  Grid System
+12-column grid. Max content width: 1280px. Gutter: 24px. Margin: clamp(24px, 5vw, 80px).
+
+Column span conventions:
+Full width (12 col): Hero sections, full-bleed media, navigation bar
+10 col centred: Primary content sections with max-width prose
+8 col centred: Documentation, blog posts, technical writing
+6 col (2 × 6): Side-by-side feature comparisons, two-up cards
+4 col (3 × 4): Feature grid (three columns), pricing tiers
+3 col (4 × 3): Stats grid, partner logos, small card arrays
+
+4.2  Spacing Scale
+All spacing values derive from a base-8 system. This ensures perfect alignment across all components.
+
+Token
+Value
+CSS var
+Usage
+2xs
+4px
+--space-2xs
+xs
+8px
+--space-xs
+sm
+16px
+--space-sm
+md
+24px
+--space-md
+lg
+40px
+--space-lg
+xl
+64px
+--space-xl
+2xl
+96px
+--space-2xl
+3xl
+128px
+--space-3xl
+
+
+
+
+
+4.3  Section Anatomy
+Every content section on a TouchPulse page follows this structure:
+Eyebrow label (optional) — 11px uppercase, muted colour, letter-spacing 0.08em
+Section heading — H1 or H2, tight letter-spacing
+Lead paragraph — max 2 sentences, 75% opacity text on dark, no more than 540px wide
+Content (cards / grid / media)
+Optional CTA row — ghost button left-aligned or centred depending on section intent
+
+4.4  Responsive Breakpoints
+Breakpoint
+Min Width
+Behaviour
+Mobile
+0px
+Single column. Nav collapses to hamburger. Aurora disabled (performance).
+Tablet
+768px
+Two column max. Nav semi-expanded. Reduced hero padding.
+Desktop
+1024px
+Full grid. Full nav. Aurora enabled.
+Wide
+1280px
+Content locks to max-width: 1280px. Side margins grow.
+
+
+5. Component Library
+Every component in the TouchPulse system follows the same principle: functional minimalism. No decorative shadows. No fills on buttons. Borders do the work.
+
+5.1  Navigation Bar
+Structure
+Left: Logo wordmark (Inter 500, 18px, #F7F7F7 on dark / #031119 on light)
+Centre: Navigation links — muted grey (rgba(247,247,247,0.55) on dark), 14px, with dropdown chevron "›" for items with sub-menus
+Right: Ghost CTA button
+
+Behaviour
+→  Default state: transparent background, no border.
+→  Scroll state (after 48px): background transitions to rgba(3,17,25,0.85) with backdrop-filter: blur(12px). 0.5px border on bottom at rgba(255,255,255,0.08).
+→  Hover state on links: colour transitions from muted to #F7F7F7 over 150ms. No underline.
+→  Active/current page: colour is #01B4AF (Electric Teal). No underline, no bold.
+
+CSS spec (scroll state)
+.nav {  background: rgba(3,17,25,0.85);  backdrop-filter: blur(12px);  -webkit-backdrop-filter: blur(12px);  border-bottom: 0.5px solid rgba(255,255,255,0.08);  transition: all 200ms ease;}
+✕  Fill the nav bar with Ink Blue or any solid colour by default — it must be transparent on load.
+✕  Use coloured nav links other than Teal for the active state.
+✕  Add logo icons or illustrations next to the wordmark in the nav.
+
+5.2  Button System
+TouchPulse uses three button variants. Filled rectangular buttons are not part of the system.
+
+Ghost box (Primary action)
+An outlined box — transparent fill, 0.5px border, no border-radius beyond 6px. This is the default CTA style.
+.btn-ghost {  padding: 8px 16px;  border: 0.5px solid rgba(255,255,255,0.7);  border-radius: 6px;  background: transparent;  color: #F7F7F7;  font-size: 13px;  font-weight: 500;  transition: background 150ms;}.btn-ghost:hover { background: rgba(255,255,255,0.06); }
+
+Ghost box with Teal border (Secondary interactive)
+Same as Ghost box but border-color: rgba(1,180,175,0.5) and color: #01B4AF. Used for documentation links, API reference CTAs.
+
+Pill (Feature highlight / AI badge-button)
+border-radius: 999px. Translucent colour fill. Used for AI feature actions and secondary nav pills.
+.btn-pill-teal {  padding: 8px 18px;  border-radius: 999px;  background: rgba(1,180,175,0.12);  border: 0.5px solid rgba(1,180,175,0.40);  color: #01B4AF;  font-size: 13px;  font-weight: 500;}.btn-pill-gold {  background: rgba(255,177,0,0.12);  border: 0.5px solid rgba(255,177,0,0.45);  color: #FFB100;}
+
+Icon arrow on buttons
+→  Primary CTAs append an arrow: "Get started ↗" or "View docs →". Arrow is smaller (10px) and slightly muted vs button text.
+✕  Use filled rectangular buttons with background-color on any CTA. This kills the minimal aesthetic immediately.
+✕  Use more than one Gold button on a page. One signal, one place.
+
+5.3  Cards
+Dark surface card (Primary)
+Background: rgba(27,53,79,0.40) — Ink Blue at 40%
+Border: 0.5px solid rgba(255,255,255,0.08)
+Border-radius: 12px
+Padding: 24px
+No box-shadow
+On hover: border-color transitions to rgba(1,180,175,0.35) over 200ms
+
+Light surface card (Documentation / Content sections)
+Background: #FFFFFF
+Border: 0.5px solid rgba(0,0,0,0.08)
+Border-radius: 12px
+Padding: 24px
+No box-shadow
+
+Metric / stat card
+Same structure as dark surface card
+Label: 11px uppercase, letter-spacing 0.05em, muted colour
+Value: 28px, font-weight 500, letter-spacing -0.02em
+Delta: 13px, colour-coded — #01B4AF for positive, #DC2626 for negative
+
+✕  Add drop-shadow or box-shadow to cards. The border does the separation work.
+✕  Put aurora gradients inside cards.
+✕  Use border-radius above 12px on cards — 16px+ looks consumer app, not technical platform.
+
+5.4  Badges & Tags
+Pill-shaped labels communicating status, newness, or feature category. Always 999px border-radius.
+
+Variant
+Background
+Border
+Usage
+Teal (Live / Active)
+rgba(1,180,175,0.12)
+rgba(1,180,175,0.40)
+Gold (AI / Premium)
+rgba(255,177,0,0.10)
+rgba(255,177,0,0.45)
+Neutral (Category)
+rgba(255,255,255,0.06)
+rgba(255,255,255,0.12)
+Success (Status)
+rgba(5,150,105,0.12)
+rgba(5,150,105,0.35)
+Error (Alert)
+rgba(220,38,38,0.10)
+rgba(220,38,38,0.35)
+
+
+→  Badge text: 11–12px, font-weight 500. Never larger.
+→  Badge padding: 3px 10px. Never use padding above 12px horizontal.
+→  A status dot (●) before the text signals live/real-time state: "● Live traffic".
+→  A sparkle (✦) before the text signals AI-powered features: "✦ AI-powered".
+
+6. Iconography & Visual Motifs
+
+6.1  Icon System
+→  Icon library: Lucide (open source, consistent 1.5px stroke weight) or custom SVG at 1.5px stroke.
+→  Icon sizes: 16px (inline/badge), 20px (button), 24px (standalone), 32px (feature highlight).
+→  Icon colour: always inherits or uses the element's primary text colour. Never independently coloured icons unless in a teal or gold context.
+→  Never fill icons. Stroke-based only — filled icons read as too casual.
+→  Navigation arrows (→, ↗): Use Unicode or a thin custom SVG. These appear on nav links, buttons, and section transitions.
+
+6.2  Arrow Motif
+The arrow is TouchPulse's primary visual motif — it appears throughout the system as a signal of directionality, navigation, and forward momentum.
+Navigation links: "Platform ›" — a single right-pointing chevron (›), 10px, muted
+CTA buttons: "Get started ↗" — upper-right diagonal arrow, signals outbound/activation
+Internal transitions: "Learn more →" — simple right arrow, stays within the experience
+Data indicators: "↑ 18% this week" — directional deltas in metric cards
+
+6.3  Grid & Dot Patterns
+Subtle background patterns can appear in specific sections to add texture without complexity. These are always very low opacity (4–8%) and never compete with content.
+Grid pattern: 1px lines at 40px intervals, rgba(255,255,255,0.04). For technical documentation sections.
+Dot grid: 1px dots at 24px intervals, rgba(255,255,255,0.06). For dark hero sections.
+Never combine aurora gradient AND a dot/grid pattern in the same section.
+
+7. Motion & Animation
+Animation at TouchPulse is purposeful. Every transition must communicate information or provide spatial orientation — never decoration for its own sake. Less than you think, slower than you want.
+
+7.1  Timing Tokens
+Token
+Duration
+Usage
+instant
+0ms
+State resets, removed elements
+fast
+100ms
+Button active states, icon swaps
+default
+150–200ms
+Hover state colour transitions, border changes
+medium
+300ms
+Card hover elevations, panel slides, badge appearances
+slow
+500ms
+Page section reveals, hero fade-in
+aurora
+0ms (CSS, no JS)
+Static — no animation on aurora gradients on mobile
+
+
+7.2  Easing
+→  Use ease-out for elements entering the screen (they decelerate into position).
+→  Use ease-in for elements leaving (they accelerate away).
+→  Never use linear for UI transitions — it reads as mechanical.
+→  Preferred easing: cubic-bezier(0.16, 1, 0.3, 1) — fast start, smooth landing.
+
+7.3  Scroll Reveals
+Content sections reveal on scroll using opacity + translateY:
+.reveal {  opacity: 0;  transform: translateY(20px);  transition: opacity 500ms ease-out, transform 500ms ease-out;}.reveal.visible {  opacity: 1;  transform: translateY(0);}
+✕  Animate cards horizontally — always vertical translateY reveals only.
+✕  Stagger more than 5 items in sequence — the last item takes too long to appear.
+✕  Use animation on reduced-motion users: always wrap in @media (prefers-reduced-motion: no-preference).
+ALWAYS wrap animations in @media (prefers-reduced-motion: no-preference). This is both an accessibility requirement and a legal consideration in some markets.
+
+8. Page Templates
+
+8.1  Homepage Structure
+Nav bar (transparent → blur on scroll)
+Hero section — aurora gradient, display type, 2 CTAs max, badge with "✦ AI-powered"
+Social proof bar — logo strip: partners / clients, 40% opacity, no labels
+Core value section — 3-column feature grid, 4px teal border-left on each card
+AI / Intelligence feature — AI aurora, headline, lead text, SDK code snippet
+Metrics section — dark surface, 4 stat cards in a row, live-updating numbers
+Use case section — alternating image + text rows (60/40 split)
+Developer section — code snippet, dark card, ghost CTA to documentation
+Pricing teaser — 3 tiers, middle tier highlighted with teal border
+Footer — dark surface, logo, nav links in columns, legal, socials
+
+8.2  Documentation Page Structure
+Persistent sidebar: 240px, Ink Blue background, current item highlighted with teal left border
+Content area: light background, 8-column centred, Inter body text
+Code blocks: dark surface (Charcoal), monospace, 4px teal border-left, copy button
+Warning boxes: gold left border, light gold fill
+Right side TOC: sticky, 180px wide, 13px muted text, current heading in teal
+
+8.3  Landing Page (Feature / Campaign)
+Full-bleed hero with aurora, single H1, single CTA, single badge
+Problem/solution split — muted "Before" left, energised "After" right
+Feature breakdown — alternating content rows
+Testimonial or quote — large pullquote, attribution, muted background
+Final CTA section — centred, aurora, large heading, gold CTA button
+
+9. Dark & Light Mode
+TouchPulse defaults to dark mode — it is the canonical brand experience. A light mode is provided for documentation and enterprise contexts where accessibility or printing is required.
+
+9.1  Dark Mode (Default)
+Page background: #031119 (Charcoal Black)
+Surface / card: rgba(27,53,79,0.40)
+Primary text: #F7F7F7
+Body text: rgba(247,247,247,0.75)
+Muted text: rgba(247,247,247,0.45)
+Borders: rgba(255,255,255,0.08)
+Borders on hover: rgba(1,180,175,0.35)
+
+9.2  Light Mode
+Page background: #F7F7F7 (Soft White)
+Surface / card: #FFFFFF
+Primary text: #111827
+Body text: #374151
+Muted text: #6B7280
+Borders: rgba(0,0,0,0.08)
+Borders on hover: rgba(1,180,175,0.50)
+Aurora gradients: reduce opacity by 60% and shift base to #F0F7F7
+
+9.3  Mode Toggle
+→  Store preference in localStorage("touchpulse-theme").
+→  Default to system preference (prefers-color-scheme) if no stored value.
+→  Toggle icon: sun/moon, 20px, muted colour, no label, positioned in nav right cluster.
+→  Transition on toggle: 200ms ease on background-color and color for all elements using CSS custom properties.
+
+10. Voice & Tone
+Design and copy are inseparable. The visual minimalism only lands if the writing matches it. The brands TouchPulse references (xAI, Vercel, SpaceX) all write like engineers who have something important to say and no time to waste.
+
+10.1  Writing Principles
+→  Short. Then shorter. Read every line and cut the first word if it still makes sense.
+→  Concrete over abstract. "Routes 2.4M journeys daily" beats "world-class scale."
+→  Active voice. "TouchPulse calculates the fastest route" not "The fastest route is calculated."
+→  No adverbs on claims. "incredibly accurate" → remove "incredibly." The claim speaks for itself or it doesn't.
+→  Numbers are credibility. Always prefer a specific figure over a vague superlative.
+
+10.2  Headline Patterns
+Study the headline patterns from reference brands:
+"Navigate smarter." — imperative, 2 words, full stop
+"Real-time routing intelligence." — noun phrase, no verb needed
+"Built for the speed of the city." — poetic constraint
+"2.4M routes. Zero guesswork." — data + negation
+"Your map, your rules." — possession + ownership
+
+10.3  Tone by Context
+Context
+Tone
+Example
+Homepage hero
+Confident, bold, minimal
+"Navigate smarter."
+Feature explanations
+Technical, clear, no hype
+"Processes 50,000 GPS signals per second."
+Error messages
+Direct, helpful, no blame
+"Route unavailable — trying alternate path."
+Documentation
+Precise, instructional, neutral
+"Pass the API key as a Bearer token header."
+Onboarding
+Warm, brief, action-oriented
+"You're set up. Let's explore."
+Sales / pricing
+Honest, specific, no filler
+"Everything in Pro, plus SLA and SSO."
+
+
+10.4  Words to Avoid
+✕  World-class, industry-leading, cutting-edge, state-of-the-art
+✕  Seamless, frictionless, intuitive, powerful, robust, scalable (without proof)
+✕  Leverage, utilise (use "use")
+✕  Journey (in a metaphorical sense — TouchPulse is literally about journeys, use "trip" or "route")
+✕  Disrupt, revolutionise, transform (unless a specific measurable change follows)
+
+11. Accessibility Standards
+TouchPulse targets WCAG 2.1 AA compliance as a minimum. Navigation is used by drivers and fleets who depend on clear, fast information delivery — accessibility is not optional.
+
+11.1  Colour Contrast
+Combination
+Ratio
+WCAG AA
+WCAG AAA
+#F7F7F7 on #031119
+18.3:1
+Pass ✓
+Pass ✓
+#01B4AF on #031119
+5.1:1
+Pass ✓
+Fail (4.5 req.)
+#FFB100 on #031119
+8.7:1
+Pass ✓
+Pass ✓
+
+
+11.2  Core Accessibility Rules
+→  All interactive elements must have a visible focus ring: outline: 2px solid #01B4AF; outline-offset: 2px.
+→  All images require alt text. Decorative images: alt="".
+→  Navigation must be keyboard-navigable. Tab order must follow visual order.
+→  All form inputs require a visible label (not just placeholder text).
+→  Motion: @media (prefers-reduced-motion) must disable or reduce all animations.
+→  Touch targets: minimum 44×44px on mobile.
+→  Error messages must not rely on colour alone — include an icon or text prefix.
+
+12. CSS Custom Properties Reference
+Implement the entire design system through CSS custom properties. This ensures consistency and makes dark/light mode switching trivial.
+
+:root {  /* Colours */  --color-bg-primary:     #031119;  --color-bg-surface:     rgba(27,53,79,0.40);  --color-bg-subtle:      rgba(27,53,79,0.20);  --color-text-primary:   #F7F7F7;  --color-text-body:      rgba(247,247,247,0.75);  --color-text-muted:     rgba(247,247,247,0.45);  --color-accent-teal:    #01B4AF;  --color-accent-gold:    #FFB100;  --color-border-default: rgba(255,255,255,0.08);  --color-border-hover:   rgba(1,180,175,0.35);  --color-success:        #059669;  --color-error:          #DC2626;  /* Typography */  --font-sans:    Inter, ui-sans-serif, -apple-system, Arial, sans-serif;  --font-mono:    "JetBrains Mono", "Geist Mono", monospace;  /* Spacing */  --space-2xs: 4px;  --space-xs:  8px;  --space-sm:  16px;  --space-md:  24px;  --space-lg:  40px;  --space-xl:  64px;  --space-2xl: 96px;  --space-3xl: 128px;  /* Radii */  --radius-sm:  4px;  --radius-md:  6px;  --radius-lg:  12px;  --radius-pill: 999px;  /* Transitions */  --transition-fast:    100ms ease;  --transition-default: 200ms ease;  --transition-slow:    500ms ease-out;}[data-theme="light"] {  --color-bg-primary:     #F7F7F7;  --color-bg-surface:     #FFFFFF;  --color-text-primary:   #111827;  --color-text-body:      #374151;  --color-text-muted:     #6B7280;  --color-border-default: rgba(0,0,0,0.08);  --color-border-hover:   rgba(1,180,175,0.50);}
+
+
+TouchPulse Brand & Web Design Guide
+Version 1.0  ·  2026  ·  touchpulse.nl
+────────────────────────
+This document is confidential and intended for internal use only.
