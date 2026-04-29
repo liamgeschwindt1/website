@@ -8,38 +8,60 @@ type AIRequest = {
   content?: string
 }
 
-function generatePlaceholderProposal(prompt: string, content: string) {
-  const replaceMatch = prompt.match(/replace\s+"([^"]+)"\s+with\s+"([^"]+)"/i)
-  if (replaceMatch) {
-    const oldText = replaceMatch[1]
-    const newText = replaceMatch[2]
-    if (!content.includes(oldText)) {
-      return {
-        reply: `I could not find \"${oldText}\" in this file. Try another selection or edit manually.`,
-        proposedContent: null as string | null,
-      }
-    }
+const SYSTEM_PROMPT = `You are a code editing assistant for a Next.js TypeScript website called Touchpulse.
+The user will give you a natural-language instruction and the current source code of a file.
+Your job is to return the COMPLETE updated file content with the requested change applied.
 
-    return {
-      reply: `I prepared a draft replacing \"${oldText}\" with \"${newText}\". Review and apply if it looks right.`,
-      proposedContent: content.replaceAll(oldText, newText),
+Rules:
+- Return ONLY a JSON object with two keys: "reply" (a short 1-2 sentence explanation of what you changed) and "proposedContent" (the full updated file as a string).
+- Never truncate proposedContent. Always return the entire file.
+- Preserve all formatting, imports, and TypeScript types.
+- Do NOT wrap proposedContent in markdown fences — it must be raw code.
+- If the change is not safe or not possible, set proposedContent to null and explain why in reply.`
+
+async function callGemini(prompt: string, filePath: string, content: string): Promise<{ reply: string; proposedContent: string | null }> {
+  const apiKey = process.env.GEMINI_TOKEN
+  if (!apiKey) throw new Error('GEMINI_TOKEN is not configured')
+
+  const userMessage = `File: ${filePath}\n\nInstruction: ${prompt}\n\nCurrent file content:\n\`\`\`\n${content}\n\`\`\``
+
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+        contents: [{ role: 'user', parts: [{ text: userMessage }] }],
+        generationConfig: { temperature: 0.2, maxOutputTokens: 8192 },
+      }),
     }
+  )
+
+  if (!res.ok) {
+    const err = await res.text()
+    throw new Error(`Gemini API error ${res.status}: ${err.slice(0, 200)}`)
   }
 
-  const appendMatch = prompt.match(/append\s+"([^"]+)"/i)
-  if (appendMatch) {
-    const line = appendMatch[1]
-    const separator = content.endsWith('\n') ? '' : '\n'
-    return {
-      reply: 'I prepared a draft that appends your requested line at the end of the file.',
-      proposedContent: `${content}${separator}${line}\n`,
-    }
+  const data = await res.json() as {
+    candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>
+  }
+  const raw = data.candidates?.[0]?.content?.parts?.[0]?.text ?? ''
+
+  // Strip markdown fences if Gemini wraps the JSON
+  const cleaned = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/, '').trim()
+
+  let parsed: { reply?: string; proposedContent?: string | null } = {}
+  try {
+    parsed = JSON.parse(cleaned) as typeof parsed
+  } catch {
+    // Gemini didn't return valid JSON — treat raw text as a reply with no proposal
+    return { reply: raw.slice(0, 500) || 'Gemini returned an unexpected response.', proposedContent: null }
   }
 
   return {
-    reply:
-      'Placeholder AI is active. Connect Gemini later by replacing this route. For now, you can ask: replace "old" with "new" or append "line" to generate a draft edit.',
-    proposedContent: null as string | null,
+    reply: parsed.reply ?? 'Done.',
+    proposedContent: typeof parsed.proposedContent === 'string' ? parsed.proposedContent : null,
   }
 }
 
@@ -59,13 +81,19 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'content must be a string' }, { status: 400 })
   }
 
-  const generated = generatePlaceholderProposal(prompt, content)
-
-  return NextResponse.json({
-    role: 'assistant',
-    filePath,
-    reply: generated.reply,
-    proposedContent: generated.proposedContent,
-    provider: 'placeholder',
-  })
+  try {
+    const result = await callGemini(prompt, filePath, content)
+    return NextResponse.json({
+      role: 'assistant',
+      filePath,
+      reply: result.reply,
+      proposedContent: result.proposedContent,
+      provider: 'gemini',
+    })
+  } catch (e: unknown) {
+    return NextResponse.json(
+      { error: e instanceof Error ? e.message : 'AI request failed' },
+      { status: 500 }
+    )
+  }
 }
