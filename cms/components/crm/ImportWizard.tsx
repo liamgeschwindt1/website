@@ -291,7 +291,7 @@ export default function ImportWizard({ onClose }: ImportWizardProps) {
           {step === 'mapping' && parsed && (
             <div className="flex flex-col gap-5">
               <p className="text-sm" style={{ color: 'rgba(247,247,247,0.65)' }}>
-                Match your file&apos;s columns to TouchPulse fields. <strong style={{ color: '#F7F7F7' }}>Name</strong> and <strong style={{ color: '#F7F7F7' }}>Email</strong> are required.
+                Match your file&apos;s columns to Touchpulse fields. <strong style={{ color: '#F7F7F7' }}>Name</strong> and <strong style={{ color: '#F7F7F7' }}>Email</strong> are required.
               </p>
 
               {/* Mapping table */}
@@ -303,7 +303,7 @@ export default function ImportWizard({ onClose }: ImportWizardProps) {
                         Your File Column
                       </th>
                       <th className="text-left px-4 py-2.5 font-medium" style={{ color: 'rgba(247,247,247,0.55)' }}>
-                        TouchPulse Field
+                        Touchpulse Field
                       </th>
                     </tr>
                   </thead>

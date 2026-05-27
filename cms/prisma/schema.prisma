@@ -56,14 +56,16 @@ model SiteContent {
 }
 
 model ContactSubmission {
-  id        String   @id @default(cuid())
-  name      String
-  email     String
-  company   String?
-  message   String
-  source    String?  // e.g. "contact-form", "get-involved"
-  ipAddress String?
-  userAgent String?
-  referrer  String?
-  createdAt DateTime @default(now())
+  id             String   @id @default(cuid())
+  name           String
+  email          String
+  company        String?
+  message        String
+  source         String?  // e.g. "contact-form", "get-tiera", "client-enquiry"
+  submissionType String?  @default("contact") // "user_access" | "client_lead" | "contact"
+  pipelineStage  String?  @default("new")     // "new" | "contacted" | "qualified" | "closed"
+  ipAddress      String?
+  userAgent      String?
+  referrer       String?
+  createdAt      DateTime @default(now())
 }

@@ -37,11 +37,14 @@ export async function POST(req: NextRequest) {
 
   try {
     const body = await req.json()
-    const { name, email, company, message, source, ipAddress, userAgent, referrer } = body
+    const { name, email, company, message, source, submissionType, pipelineStage, ipAddress, userAgent, referrer } = body
 
     if (!name || !email || !message) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
+
+    const validTypes = ['user_access', 'client_lead', 'contact']
+    const validStages = ['new', 'contacted', 'qualified', 'closed']
 
     const submission = await prisma.contactSubmission.create({
       data: {
@@ -50,6 +53,8 @@ export async function POST(req: NextRequest) {
         company: company ? String(company).slice(0, 200) : null,
         message: String(message).slice(0, 5000),
         source: source ? String(source).slice(0, 100) : 'contact-form',
+        submissionType: submissionType && validTypes.includes(String(submissionType)) ? String(submissionType) : 'contact',
+        pipelineStage: pipelineStage && validStages.includes(String(pipelineStage)) ? String(pipelineStage) : 'new',
         ipAddress: ipAddress ? String(ipAddress).slice(0, 50) : null,
         userAgent: userAgent ? String(userAgent).slice(0, 500) : null,
         referrer: referrer ? String(referrer).slice(0, 500) : null,

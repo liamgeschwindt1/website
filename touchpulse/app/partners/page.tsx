@@ -56,7 +56,7 @@ export default function PartnersPage() {
               Built with people who understand the need.
             </h1>
             <p className="text-[18px] text-[var(--body)] leading-[1.75]">
-              TouchPulse works with organisations, researchers, and accessibility advocates who share the belief that navigation should work for everyone. If that is you, we would like to talk.
+              Touchpulse works with organisations, researchers, and accessibility advocates who share the belief that navigation should work for everyone. If that is you, we would like to talk.
             </p>
           </div>
           <div className="relative aspect-[4/5] rounded-[16px] overflow-hidden border" style={{ borderColor:'var(--border)' }}>

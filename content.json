@@ -1,0 +1,1309 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "brand": "Touchpulse",
+    "product_suite": ["ROVI", "Tiera", "Pathway"],
+    "positioning": "Platform for Orientation and Mobility support",
+    "primary_cta": {
+      "label": "Book a demo",
+      "url": "https://calendly.com/liam-touchpulse"
+    },
+    "secondary_cta": {
+      "label": "View pricing",
+      "url": "/pricing"
+    },
+    "contact_email": "info@touchpulse.nl",
+    "company_legal": "Touchpulse B.V. (KVK 98689371)",
+    "address": "Het Eeuwsel 57, 5612 AS Eindhoven, Netherlands",
+    "social": {
+      "instagram": "https://www.instagram.com/touch.pulse",
+      "facebook": "https://www.facebook.com/profile.php?id=61559596765756",
+      "linkedin": "https://www.linkedin.com/company/touchpulse-technologies/"
+    }
+  },
+
+  "seo_defaults": {
+    "site_name": "Touchpulse",
+    "og_image": "https://static.wixstatic.com/media/e12407_836ca46043d744ffa294fee854343ea2~mv2.png",
+    "twitter_card": "summary_large_image",
+    "default_description": "Touchpulse is the platform for Orientation and Mobility professionals. Create and share custom training routes, monitor client progress, and provide human support through a single connected system."
+  },
+
+  "navigation": {
+    "logo": {
+      "alt": "Touchpulse",
+      "url": "/"
+    },
+    "links": [
+      { "label": "Home", "url": "/" },
+      {
+        "label": "Platform",
+        "url": "/platform",
+        "children": [
+          { "label": "ROVI: trainer dashboard", "url": "/rovi" },
+          { "label": "Pathway: teleassistance", "url": "/pathway" },
+          { "label": "Tiera: client app", "url": "/tiera" }
+        ]
+      },
+      { "label": "For organisations", "url": "/organisations" },
+      { "label": "Pricing", "url": "/pricing" },
+      { "label": "Blog", "url": "/blog" },
+      { "label": "Contact", "url": "/contact" }
+    ],
+    "cta": {
+      "label": "Book a demo",
+      "url": "https://calendly.com/liam-touchpulse"
+    }
+  },
+
+  "footer": {
+    "tagline": "The platform for Orientation and Mobility support.",
+    "columns": [
+      {
+        "heading": "Platform",
+        "links": [
+          { "label": "ROVI: trainer dashboard", "url": "/rovi" },
+          { "label": "Pathway: teleassistance", "url": "/pathway" },
+          { "label": "Tiera: client app", "url": "/tiera" },
+          { "label": "Pricing", "url": "/pricing" }
+        ]
+      },
+      {
+        "heading": "Organisation",
+        "links": [
+          { "label": "For O&M services", "url": "/organisations" },
+          { "label": "Partners", "url": "/partners" },
+          { "label": "Blog", "url": "/blog" },
+          { "label": "Team", "url": "/team" }
+        ]
+      },
+      {
+        "heading": "Legal",
+        "links": [
+          { "label": "Privacy policy", "url": "/privacy" },
+          { "label": "Terms of service", "url": "/terms" },
+          { "label": "Contact", "url": "/contact" }
+        ]
+      }
+    ],
+    "bottom_bar": "Touchpulse B.V. (KVK 98689371). All rights reserved."
+  },
+
+  "pages": {
+
+    "home": {
+      "slug": "/",
+      "seo": {
+        "title": "Touchpulse: the platform for Orientation and Mobility support",
+        "description": "Touchpulse gives O&M professionals the tools to create custom training routes, monitor client progress remotely, and deliver human support at scale. Used by sight-loss charities, local authorities, and rehabilitation services."
+      },
+      "sections": [
+        {
+          "id": "hero",
+          "type": "hero",
+          "eyebrow": "Orientation and Mobility platform",
+          "headline": "Support your clients from anywhere",
+          "subheadline": "Touchpulse gives O&M professionals one connected system: create and share training routes, track client progress, and provide live human support without being physically present.",
+          "cta_primary": { "label": "Book a demo", "url": "https://calendly.com/liam-touchpulse" },
+          "cta_secondary": { "label": "See how it works", "url": "/platform" },
+          "image": "/images/photos/man-street-summer.jpg",
+          "image_alt": "A man walks confidently through a summer city street"
+        },
+        {
+          "id": "problem_statement",
+          "type": "statement_band",
+          "text": "O&M training today relies on paper notes, in-person walks, and phone calls. Touchpulse replaces all three with a platform built specifically for the work you do."
+        },
+        {
+          "id": "pillars",
+          "type": "three_column_features",
+          "heading": "Three things Touchpulse does",
+          "items": [
+            {
+              "icon": "route",
+              "title": "Create and share custom routes",
+              "body": "Build training routes on the ROVI dashboard, record instructions at each point, and assign them directly to your clients. Routes travel with the client in the Tiera app, in their language, with your guidance in their ear."
+            },
+            {
+              "icon": "chart-line",
+              "title": "Monitor clients remotely",
+              "body": "See live breadcrumb trails as clients walk their routes. Track completions, deviations, and usage over time. Your whole caseload visible from one dashboard, without a single home visit."
+            },
+            {
+              "icon": "headset",
+              "title": "Deliver human support on demand",
+              "body": "When a client needs a person, not an app, the Pathway dashboard connects your operators to them in seconds. See their camera feed, live map position, and route before you even say hello."
+            }
+          ]
+        },
+        {
+          "id": "product_overview",
+          "type": "product_cards",
+          "heading": "One platform, three connected tools",
+          "items": [
+            {
+              "product": "ROVI",
+              "label": "For trainers",
+              "description": "The web dashboard where trainers plan routes, assign clients, and review progress. No IT setup required.",
+              "url": "/rovi",
+              "cta": "Learn about ROVI",
+              "image": "/images/photos/man-preparing-route.jpg",
+              "image_alt": "A trainer preparing a route on a map"
+            },
+            {
+              "product": "Pathway",
+              "label": "For operators",
+              "description": "The teleassistance dashboard that connects your operators to clients in real time. Staff it yourself or use ours.",
+              "url": "/pathway",
+              "cta": "Learn about Pathway",
+              "image": "/images/photos/teleoperator.jpg",
+              "image_alt": "A teleoperator working at a support desk"
+            },
+            {
+              "product": "Tiera",
+              "label": "For clients",
+              "description": "The AI navigation app your clients carry. Included free for every member of your organisation.",
+              "url": "/tiera",
+              "cta": "Learn about Tiera",
+              "image": "/images/photos/pov-vps-app-user-walking.jpg",
+              "image_alt": "A first-person perspective of someone using the Tiera app while walking"
+            }
+          ]
+        },
+        {
+          "id": "outcomes",
+          "type": "stat_row",
+          "heading": "What organisations gain",
+          "items": [
+            {
+              "stat": "Fewer home visits",
+              "body": "A route sent from ROVI delivers the same guidance as a physical walk, repeatedly, at zero marginal cost. A single home visit costs 2 to 3 hours of trainer time. ROVI pays for itself the first time you send a route instead."
+            },
+            {
+              "stat": "A growing route library",
+              "body": "Every route your team creates becomes an asset your whole organisation can use. New trainers, new clients, shared knowledge that does not leave when a trainer does."
+            },
+            {
+              "stat": "Data to evidence your work",
+              "body": "Every walk is logged with timestamps, deviations, and completions. Use it for progress reporting, funding applications, and safeguarding records."
+            }
+          ]
+        },
+        {
+          "id": "partnership_callout",
+          "type": "partner_banner",
+          "heading": "In partnership with Blind Veterans UK",
+          "body": "Touchpulse is proud to work with Blind Veterans UK to ensure that those who served our country can navigate the world with confidence, backed by AI guidance and the support of trained operators.",
+          "logo_alt": "Blind Veterans UK",
+          "image": "/images/photos/drone-shot-man-crossing-street.jpg",
+          "image_alt": "Drone shot of a person confidently crossing a street"
+        },
+        {
+          "id": "who_its_for",
+          "type": "audience_grid",
+          "heading": "Built for O&M professionals",
+          "image": "/images/photos/student-walking-campus.jpg",
+          "image_alt": "A student walking independently across a university campus",
+          "items": [
+            {
+              "title": "Sight-loss charities",
+              "body": "Extend your reach without expanding your team. Serve more clients with the same number of trainers."
+            },
+            {
+              "title": "Local authorities",
+              "body": "Modernise your vision rehabilitation service. Reduce dependence on in-person delivery and build an evidence base for your commissioners."
+            },
+            {
+              "title": "NHS and community rehab",
+              "body": "Integrate Touchpulse into your O&M pathway. Trainers plan routes in the dashboard, clients walk them independently between appointments."
+            },
+            {
+              "title": "Private O&M practices",
+              "body": "Take on more clients without compromising quality. ROVI scales with you from a single trainer to a growing team."
+            }
+          ]
+        },
+        {
+          "id": "testimonials",
+          "type": "quote_row",
+          "heading": "From the community",
+          "items": [
+            {
+              "quote": "I went on a trip to NYC a month ago and Tiera got me through busy crowds.",
+              "attribution": "Tiera user"
+            },
+            {
+              "quote": "Tiera actually works. I could finally get to class on my own instead of calling my parents in the morning.",
+              "attribution": "Tiera user"
+            },
+            {
+              "quote": "Tiera made sure I always started my journey in the right direction.",
+              "attribution": "Tiera user"
+            }
+          ]
+        },
+        {
+          "id": "pricing_teaser",
+          "type": "pricing_banner",
+          "heading": "Simple, transparent pricing",
+          "body": "Annual packages from £3,000 per year. Tiera is included free for every client your organisation registers. Teleassistance staffing available at £0.50 per minute if you want us to handle it.",
+          "cta_primary": { "label": "See full pricing", "url": "/pricing" },
+          "cta_secondary": { "label": "Book a demo", "url": "https://calendly.com/liam-touchpulse" },
+          "founding_note": "Founding partner offer: 50% off your first 6 months. Limited availability."
+        },
+        {
+          "id": "final_cta",
+          "type": "cta_band",
+          "heading": "See it in action",
+          "body": "Book a 30-minute demo and we will walk you through the full platform, from route creation to live teleassistance.",
+          "cta": { "label": "Book a demo", "url": "https://calendly.com/liam-touchpulse" }
+        }
+      ]
+    },
+
+    "rovi": {
+      "slug": "/rovi",
+      "seo": {
+        "title": "ROVI: the O&M trainer dashboard | Touchpulse",
+        "description": "ROVI is the web dashboard for Orientation and Mobility trainers. Create custom training routes, record spoken instructions, assign routes to clients, and track progress from one place."
+      },
+      "sections": [
+        {
+          "id": "hero",
+          "type": "hero",
+          "eyebrow": "ROVI: trainer dashboard",
+          "headline": "Your routes. Your voice. In your client's ear.",
+          "subheadline": "ROVI is the web dashboard where O&M trainers build custom training routes, record instructions at each point, and assign them directly to clients. Clients walk the route in the Tiera app with the trainer's guidance spoken at the exact right moments.",
+          "cta_primary": { "label": "Book a demo", "url": "https://calendly.com/liam-touchpulse" },
+          "cta_secondary": { "label": "See pricing", "url": "/pricing" },
+          "image": "/images/photos/man-preparing-route.jpg",
+          "image_alt": "A trainer reviewing and preparing a navigation route"
+        },
+        {
+          "id": "problem",
+          "type": "statement_band",
+          "text": "Today, O&M training relies on paper notes, memorised scripts, and walking the route in person. None of that travels with the client. ROVI does."
+        },
+        {
+          "id": "how_it_works",
+          "type": "step_list",
+          "heading": "How ROVI works",
+          "steps": [
+            {
+              "number": "01",
+              "title": "Sign in with your organisation code",
+              "body": "Trainers access the dashboard with an organisation short code and their work email. No per-user passwords, no IT ticket, no setup delay. The session stays active for 24 hours."
+            },
+            {
+              "number": "02",
+              "title": "Plan the route",
+              "body": "Type a start and end address. The system draws a candidate path on an interactive map. Drag, insert, or delete any point to route around hazards the engine does not know about: a damaged kerb, a missing tactile strip, the safe crossing two metres further down."
+            },
+            {
+              "number": "03",
+              "title": "Add instructions at specific points",
+              "body": "Place text annotations at exact positions along the route. These become spoken guidance delivered to the client at precisely the right moment: 'At the second tactile strip, the kerb drops. Step down carefully.' The client hears this in their language using the same TTS pipeline as the rest of Tiera."
+            },
+            {
+              "number": "04",
+              "title": "Assign to your clients",
+              "body": "Select clients from the planner sidebar. Tick the ones the route is for. Assignment and planning happen on the same screen. The client receives a push notification the moment the route is assigned."
+            },
+            {
+              "number": "05",
+              "title": "Auto-save on every edit",
+              "body": "There is no Save button. Every change commits in under one second. Trainers cannot lose work. Routes are ready to use the moment they are built."
+            }
+          ]
+        },
+        {
+          "id": "client_experience",
+          "type": "two_column",
+          "heading": "What the client experiences",
+          "body": "When a trainer assigns a route, the client's Tiera app receives a push notification naming the trainer's organisation. A dedicated Custom Routes tab lists every assigned route, sorted by most recent. The client follows turn-by-turn navigation along the trainer's exact path, with the trainer's instructions spoken at the exact moments they marked. The same TTS pipeline, in 20 languages, VoiceOver and TalkBack safe throughout.",
+          "callout": "The trainer's craft becomes a route that walks with the client, repeatedly, without the trainer being present."
+        },
+        {
+          "id": "features",
+          "type": "feature_grid",
+          "heading": "Everything in ROVI",
+          "categories": [
+            {
+              "category": "Route creation",
+              "items": [
+                "Route planning by address with autocomplete",
+                "Interactive map editor: drag, insert, and delete waypoints",
+                "Spoken instructions at specific points along the route",
+                "Unlimited active routes per trainer",
+                "Auto-save on every edit, no manual saving required",
+                "Route creation via web dashboard and via the Tiera app"
+              ]
+            },
+            {
+              "category": "Client management",
+              "items": [
+                "Direct route assignment to named clients",
+                "Push notification to client on assignment",
+                "Client Custom Routes tab in Tiera",
+                "Shared team route library for organisations",
+                "Team admin dashboard for managers"
+              ]
+            },
+            {
+              "category": "Live monitoring",
+              "items": [
+                "Real-time breadcrumb trail as clients walk",
+                "Live status per client: In Route, Idle, Offline",
+                "Route progress overlay showing deviation and completion",
+                "Timestamps on every walk for audit and reporting"
+              ]
+            },
+            {
+              "category": "Coming soon",
+              "items": [
+                "Full analytics suite: completions, deviations, time-on-route",
+                "Client CRM with progress history",
+                "Exportable reports for commissioners and funders"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "languages",
+          "type": "callout_box",
+          "heading": "20 languages on day one",
+          "body": "Trainer instructions are delivered in the client's chosen language using the same TTS pipeline as the rest of the Tiera app. The UI, autocomplete, and spoken guidance are all wired together. Not just translated strings. Tiera works natively in the client's language."
+        },
+        {
+          "id": "pricing_teaser",
+          "type": "pricing_banner",
+          "heading": "ROVI is included in every Touchpulse plan",
+          "body": "Solo plans start at £29 per month (annual billing). Organisation plans from £3,000 per year include the full platform: ROVI, live breadcrumbing, Pathway access, and Tiera free for all clients.",
+          "cta": { "label": "See full pricing", "url": "/pricing" }
+        },
+        {
+          "id": "final_cta",
+          "type": "cta_band",
+          "heading": "See ROVI in action",
+          "body": "Book a demo and we will show you a live route being built, assigned, and walked.",
+          "cta": { "label": "Book a demo", "url": "https://calendly.com/liam-touchpulse" }
+        }
+      ]
+    },
+
+    "pathway": {
+      "slug": "/pathway",
+      "seo": {
+        "title": "Pathway: teleassistance for O&M organisations | Touchpulse",
+        "description": "Pathway is the operator dashboard that connects sighted support staff to blind and low-vision clients in real time. Staff it with your own team or use Touchpulse managed operators at 50p per minute."
+      },
+      "sections": [
+        {
+          "id": "hero",
+          "type": "hero",
+          "eyebrow": "Pathway: teleassistance dashboard",
+          "headline": "A person on the line when the route is not enough",
+          "subheadline": "Tiera's AI navigation gets clients from A to B most of the time. Pathway is the human layer for the moments it cannot: a construction barrier, a confusing intersection, an address sign that needs reading. One tap connects the client to a sighted operator who sees exactly what they see.",
+          "cta_primary": { "label": "Book a demo", "url": "https://calendly.com/liam-touchpulse" },
+          "cta_secondary": { "label": "See pricing", "url": "/pricing" },
+          "image": "/images/photos/teleoperator.jpg",
+          "image_alt": "A teleoperator at a support station ready to assist a client"
+        },
+        {
+          "id": "the_problem",
+          "type": "statement_band",
+          "text": "Accessibility helplines today are phone-only, low context, and slow to resolve. Pathway operators see the same world the client is in: same map, same route, same camera feed. Before the client finishes their sentence."
+        },
+        {
+          "id": "how_call_works",
+          "type": "step_list",
+          "heading": "How a Pathway call works",
+          "steps": [
+            {
+              "number": "01",
+              "title": "The client calls for help",
+              "body": "A prominent call button on the Tiera home screen is reachable by touch or by voice. The client says 'call teleassistance' or taps the button. The app confirms out loud, places them in queue, and reads back the estimated wait time."
+            },
+            {
+              "number": "02",
+              "title": "The operator receives the call",
+              "body": "The Pathway dashboard shows an incoming call modal with the client's avatar, name, and email. The operator accepts. Before they say a word, they already see the client's live camera feed, their map position, their active route, their next navigation instruction, and their AI chat history."
+            },
+            {
+              "number": "03",
+              "title": "The operator talks them through it",
+              "body": "Full-duplex audio via LiveKit at sub-second latency. The operator's microphone is live the moment they accept. No fumbling, no delay. The typical resolution takes 30 to 90 seconds."
+            },
+            {
+              "number": "04",
+              "title": "Navigation resumes",
+              "body": "The operator hangs up. The system tears down cleanly. The client's route picks back up from exactly where it left off. There is no disruption to their journey."
+            }
+          ]
+        },
+        {
+          "id": "operator_view",
+          "type": "feature_detail",
+          "heading": "What the operator sees",
+          "body": "Pathway gives operators everything they need before the client speaks. Every call is tied to a named operator, creating a complete audit chain for reporting and safeguarding. The operator dashboard includes:",
+          "items": [
+            {
+              "title": "Live camera feed",
+              "body": "The operator sees the client's phone camera in real time. They can spot the barrier, read the sign, or identify the landmark the client cannot."
+            },
+            {
+              "title": "Live map position and route overlay",
+              "body": "The client's current GPS position is shown on a map alongside their active route and their next navigation instruction. Operators know where the client is heading and where they are."
+            },
+            {
+              "title": "User list with live status",
+              "body": "A full list of the organisation's registered users, filterable by status: In Route, Awaits Call, In Call, Idle, Offline. Operators can see their whole queue at a glance."
+            },
+            {
+              "title": "AI chat history",
+              "body": "The full conversation between the client and the Tiera AI assistant is visible to the operator during the call, providing context on what the client has already tried."
+            },
+            {
+              "title": "Call records and audit trail",
+              "body": "Every call is logged with the operator's name, the client's name, start time, duration, and outcome. The records are available to organisation admins for reporting and quality assurance."
+            }
+          ]
+        },
+        {
+          "id": "staffing_models",
+          "type": "two_option_comparison",
+          "heading": "Two ways to staff Pathway",
+          "options": [
+            {
+              "title": "Your own operators",
+              "tag": "Included from Organisation tier",
+              "body": "Train members of your team to use the Pathway dashboard. They sign in once per shift and handle calls from your registered clients only. Pathway access is included in Organisation, Local Authority, and Enterprise plans. You control staffing, hours, and coverage.",
+              "best_for": "Charities and local authorities with existing support staff"
+            },
+            {
+              "title": "Touchpulse managed operators",
+              "tag": "£0.50 per minute",
+              "body": "Purchase managed staffing from Touchpulse. Our trained operators cover your clients using the Pathway dashboard. Billed on actual usage with transparent in-app tracking. Choose a prepaid bundle for the best rate: Starter 1,000 min per year, Standard 3,000 min per year, or Enterprise 6,000 plus min per year.",
+              "best_for": "Organisations without dedicated support staff or those scaling quickly"
+            }
+          ]
+        },
+        {
+          "id": "minutes_bundles",
+          "type": "table",
+          "heading": "Managed staffing bundles",
+          "note": "Pay-as-you-go is available for organisations with variable or unpredictable usage. All bundles include full Pathway platform access.",
+          "columns": ["Bundle", "Annual minutes", "Rate per minute", "Annual cost"],
+          "rows": [
+            ["Pay-as-you-go", "No commitment", "£0.80", "Usage-based"],
+            ["Starter", "1,000 min per year", "£0.65", "£650"],
+            ["Standard", "3,000 min per year", "£0.50", "£1,500"],
+            ["Enterprise", "6,000+ min per year", "£0.40", "From £2,400"]
+          ]
+        },
+        {
+          "id": "geofencing",
+          "type": "callout_box",
+          "heading": "Calls stay within your organisation",
+          "body": "Teleassistance calls are authenticated against the client's organisation. Your operators only receive calls from your registered clients. Touchpulse managed operators are licensed to specific geographic regions. Clients in queue are matched to an operator licensed for their area."
+        },
+        {
+          "id": "final_cta",
+          "type": "cta_band",
+          "heading": "See Pathway in action",
+          "body": "Book a demo and we will walk you through a live call: from the client pressing the button to the operator hanging up and navigation resuming.",
+          "cta": { "label": "Book a demo", "url": "https://calendly.com/liam-touchpulse" }
+        }
+      ]
+    },
+
+    "tiera": {
+      "slug": "/tiera",
+      "seo": {
+        "title": "Tiera: the navigation app your clients carry | Touchpulse",
+        "description": "Tiera is the AI navigation app for blind and low-vision users. Voice-first, 20 languages, built for independence from the ground up. Included free for every client of a Touchpulse partner organisation."
+      },
+      "sections": [
+        {
+          "id": "hero",
+          "type": "hero",
+          "eyebrow": "Tiera: client navigation app",
+          "headline": "The app your clients carry",
+          "subheadline": "Tiera is the AI navigation companion built for blind and low-vision users from the ground up. Voice-first, 20 languages, and deeply connected to your ROVI dashboard. Included free for every client your organisation registers.",
+          "cta_primary": { "label": "Book a demo", "url": "https://calendly.com/liam-touchpulse" },
+          "app_store": {
+            "ios": "https://apps.apple.com/nl/app/tiera/id6738327862",
+            "android": "https://play.google.com/store/apps/details?id=nl.touchpulse.navis"
+          },
+          "image": "/images/photos/pov-street-crossing.jpg",
+          "image_alt": "First-person perspective of a person crossing a street with Tiera"
+        },
+        {
+          "id": "name_meaning",
+          "type": "editorial_note",
+          "body": "The name comes from a variant of Tierra, from the Latin terra, meaning earth, land, or ground. It symbolises being grounded, stable, and connected to the world around you. That is the mission: to help people move through their environment with confidence."
+        },
+        {
+          "id": "what_makes_it_different",
+          "type": "comparison_points",
+          "heading": "Built for this, not retrofitted for this",
+          "intro": "Tiera is not a standard navigation app with an accessibility setting bolted on. Every decision, from the first screen to the last instruction, was made with blind and low-vision users in front of us.",
+          "items": [
+            {
+              "title": "Voice-first by design",
+              "body": "Not a buried setting. Navigation, destination search, and assistant commands all work by voice from the home screen. The phone can stay in the user's pocket throughout."
+            },
+            {
+              "title": "20 languages on day one",
+              "body": "The UI, TTS, and autocomplete locale are all wired together. Tiera works natively in the user's language. Not just translated strings."
+            },
+            {
+              "title": "AI personalisation that remembers",
+              "body": "Users type free-text instructions once: 'Ignore all trees and bushes', 'Always tell me about tactile pavement'. The assistant honours them on every future route, indefinitely."
+            },
+            {
+              "title": "Checkpoints: solving the standing-still problem",
+              "body": "Every navigation app fails at the moment you exit a building with no idea which way is forward. Checkpoints fix it. Point the phone vertically. A vibration confirms you are facing the right direction. Walk on."
+            },
+            {
+              "title": "No silent re-planning",
+              "body": "Going off-route triggers a calm audio cue and a single recovery step. Never a quiet route rewrite that leaves the user disoriented without explanation."
+            },
+            {
+              "title": "Street names on turn and on pass",
+              "body": "Tiera announces street names when you turn and as you pass them, so users build a genuine mental map of their environment over time."
+            }
+          ]
+        },
+        {
+          "id": "trainer_connection",
+          "type": "feature_highlight",
+          "heading": "Connected to your ROVI dashboard",
+          "body": "When a trainer assigns a route in ROVI, the client receives a push notification in Tiera within seconds. A dedicated Custom Routes tab lists every assigned route with the trainer's organisation name, sorted by most recent. The client follows the trainer's exact path with their guidance spoken at the precise moments the trainer marked. This connection between trainer and client is what separates Tiera from any general-purpose navigation app.",
+          "callout": "Tiera is included free for every client of a Touchpulse partner organisation. No per-seat fee, no registration cost."
+        },
+        {
+          "id": "teleassistance_in_app",
+          "type": "feature_detail",
+          "heading": "Human support, one tap away",
+          "body": "For organisations with Pathway enabled, a call button sits on the main navigation screen. The client can press it or say 'call teleassistance' mid-stride. The app confirms out loud, reads back the estimated wait time, and connects to a sighted operator. Navigation resumes exactly where it left off when the call ends.",
+          "items": [
+            {
+              "title": "Reachable by touch or voice",
+              "body": "The button is large, prominently placed, and accessible without unlocking or navigating menus."
+            },
+            {
+              "title": "Minute balance always visible",
+              "body": "Users with a managed minutes allocation can see their remaining balance in-app at any time. Minutes are deducted cheapest-first."
+            },
+            {
+              "title": "Only for your organisation's clients",
+              "body": "The teleassistance button is only visible to users whose organisation has Pathway enabled. It is not available to the general public."
+            }
+          ]
+        },
+        {
+          "id": "getting_started",
+          "type": "step_list",
+          "heading": "Getting started with Tiera",
+          "steps": [
+            {
+              "number": "01",
+              "title": "Install and onboard",
+              "body": "Install from the App Store or Google Play. The onboarding walkthrough covers the layout, key buttons, and permissions. Microphone and location access are explained clearly at each step."
+            },
+            {
+              "number": "02",
+              "title": "Log in and sync settings",
+              "body": "Sign in with Google or Apple ID. Language and preferences sync automatically and restore on any device."
+            },
+            {
+              "number": "03",
+              "title": "Plan a route",
+              "body": "Type or speak a destination. Tiera plans the route and reads a summary aloud: destination, distance, and estimated travel time. Saved favourites can be launched with a single tap."
+            },
+            {
+              "number": "04",
+              "title": "Navigate confidently",
+              "body": "Instructions are given before and at each turn, including the street you are turning onto and side streets as you pass them. The phone stays in the pocket. The screen can be off throughout."
+            }
+          ]
+        },
+        {
+          "id": "faqs",
+          "type": "faq",
+          "heading": "Frequently asked questions",
+          "items": [
+            {
+              "question": "Why does Tiera need microphone and location access?",
+              "answer": "The microphone powers the voice assistant so users can speak destinations and commands hands-free. Location is used for real-time navigation and to answer orientation queries like 'Where am I?'. The app tells you clearly whenever either is active."
+            },
+            {
+              "question": "Does Tiera work without an internet connection?",
+              "answer": "No. Tiera requires a network connection. If connectivity is lost during navigation, a warning appears within seconds. The app blocks startup if there is no connection and prompts the user to reconnect."
+            },
+            {
+              "question": "Can clients use Bluetooth headphones?",
+              "answer": "Yes. All audio, including navigation instructions, voice assistant responses, and Pathway calls, routes automatically to a connected Bluetooth earpiece."
+            },
+            {
+              "question": "How do clients save frequent addresses?",
+              "answer": "Open the Favourites page and save any address. There is no limit on how many can be stored."
+            },
+            {
+              "question": "What is Checkpoints?",
+              "answer": "Checkpoints is an orientation feature that uses the camera and haptic feedback to help users face the right direction at the start of a route, when they go off course, or on demand. It can be triggered manually or configured to activate automatically in Settings."
+            },
+            {
+              "question": "What does a Pathway operator see about the client?",
+              "answer": "Operators can see the client's live camera feed, map position, active route, next navigation instruction, and AI chat history during a call. If the client has set up an accessibility profile, operators can see that too so they can tailor their assistance."
+            },
+            {
+              "question": "Is Tiera free for clients?",
+              "answer": "Yes. Tiera is included free for every client registered by a Touchpulse partner organisation. There is no per-seat fee and no registration cost for clients."
+            },
+            {
+              "question": "How do clients submit feedback?",
+              "answer": "Go to Settings and find the feedback button. Feedback is sent by email and a confirmation is sent once it is submitted."
+            }
+          ]
+        },
+        {
+          "id": "testimonials",
+          "type": "quote_row",
+          "heading": "Voices from the community",
+          "items": [
+            {
+              "quote": "I went on a trip to NYC a month ago and Tiera got me through busy crowds.",
+              "attribution": "Tiera user"
+            },
+            {
+              "quote": "Tiera actually works. I could finally get to class on my own instead of calling my parents in the morning.",
+              "attribution": "Tiera user"
+            },
+            {
+              "quote": "Tiera made sure I always started my journey in the right direction.",
+              "attribution": "Tiera user"
+            }
+          ]
+        },
+        {
+          "id": "download",
+          "type": "app_download",
+          "heading": "Download Tiera",
+          "body": "Available on iOS and Android. Free to download for clients of Touchpulse partner organisations.",
+          "ios_url": "https://apps.apple.com/nl/app/tiera/id6738327862",
+          "android_url": "https://play.google.com/store/apps/details?id=nl.touchpulse.navis"
+        }
+      ]
+    },
+
+    "organisations": {
+      "slug": "/organisations",
+      "seo": {
+        "title": "Touchpulse for O&M organisations | Charities, local authorities, NHS rehab",
+        "description": "Touchpulse is designed for Orientation and Mobility services. Whether you run a sight-loss charity, a council rehabilitation service, or a private O&M practice, the platform fits your workflow."
+      },
+      "sections": [
+        {
+          "id": "hero",
+          "type": "hero",
+          "eyebrow": "For O&M organisations",
+          "headline": "The platform your O&M service has been missing",
+          "subheadline": "Touchpulse is built around the way Orientation and Mobility professionals actually work. Not wayfinding for buildings. Not a consumer app. A professional platform for organisations that support blind and low-vision people in living and moving independently.",
+          "cta_primary": { "label": "Book a demo", "url": "https://calendly.com/liam-touchpulse" }
+        },
+        {
+          "id": "audience_sections",
+          "type": "tabbed_audience",
+          "heading": "Built for your type of organisation",
+          "audiences": [
+            {
+              "label": "Sight-loss charities",
+              "icon": "heart-handshake",
+              "headline": "Serve more clients without growing your team",
+              "body": "Most sight-loss charities have more clients than trainer hours. Touchpulse lets a single trainer serve multiple clients simultaneously. A route built once can be walked by hundreds of clients, in their language, with the trainer's guidance, without a single additional visit.",
+              "specific_benefits": [
+                "Routes become reusable assets, not one-off walks",
+                "Trainers can monitor multiple clients remotely from one screen",
+                "Teleassistance extends your support hours without additional staff headcount",
+                "Evidence of outcomes for funders and commissioners built into the platform"
+              ]
+            },
+            {
+              "label": "Local authorities",
+              "icon": "building",
+              "headline": "Modernise your vision rehabilitation service",
+              "body": "Local authority O&M services face pressure to do more with less. Touchpulse reduces the dependency on in-person delivery, creates a searchable library of routes across your area, and gives you data to evidence your service to commissioners.",
+              "specific_benefits": [
+                "Reduce the cost per client through remote delivery",
+                "Build a shared route library across your whole service",
+                "Audit-ready records of every walk for safeguarding and reporting",
+                "Works within existing referral pathways and case management systems"
+              ]
+            },
+            {
+              "label": "NHS and community rehab",
+              "icon": "stethoscope",
+              "headline": "Integrate Touchpulse into your O&M pathway",
+              "body": "For community rehabilitation services, Touchpulse sits between appointments. Trainers assign routes for clients to practise independently. Progress data is available before the next session. The Pathway dashboard provides a human safety net for clients in the community.",
+              "specific_benefits": [
+                "Clients practise routes independently between appointments",
+                "Progress data available to the trainer before each session",
+                "Pathway provides a supervised support layer for community outings",
+                "No additional IT infrastructure required"
+              ]
+            },
+            {
+              "label": "Private O&M practices",
+              "icon": "user-check",
+              "headline": "Take on more clients without compromising quality",
+              "body": "For private practitioners, Touchpulse scales with you. Start on a Solo plan as a single trainer and upgrade to a Team or Organisation plan as you grow. Every plan includes full ROVI access and Tiera for your clients at no extra cost.",
+              "specific_benefits": [
+                "Solo plan from £29 per month: one trainer, unlimited clients",
+                "Team plan from £99 per month: up to 5 trainers, shared route library",
+                "Upgrade at any time as your practice grows",
+                "Founding partner discount available: 50% off for the first 6 months"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "implementation",
+          "type": "step_list",
+          "heading": "Getting started is straightforward",
+          "steps": [
+            {
+              "number": "01",
+              "title": "Book a demo",
+              "body": "30 minutes. We walk you through the full platform and answer questions about how it fits your specific service."
+            },
+            {
+              "number": "02",
+              "title": "Choose your plan",
+              "body": "We help you identify the right tier based on your number of trainers, clients, and whether you want managed teleassistance staffing."
+            },
+            {
+              "number": "03",
+              "title": "Onboard your team",
+              "body": "Trainers sign in with an organisation code and their work email. No IT ticket, no per-user accounts to create. Your organisation is live in minutes."
+            },
+            {
+              "number": "04",
+              "title": "Register your clients",
+              "body": "Clients download Tiera, log in with their existing Google or Apple account, and they are connected to your organisation automatically."
+            },
+            {
+              "number": "05",
+              "title": "Build your first route",
+              "body": "Most trainers have their first route built and assigned within 20 minutes of signing in. No training course required."
+            }
+          ]
+        },
+        {
+          "id": "procurement",
+          "type": "callout_box",
+          "heading": "For local authority and NHS procurement teams",
+          "body": "Touchpulse B.V. is a registered company (KVK 98689371) based in the Netherlands. We can provide documentation for procurement processes including data processing agreements, security overviews, and reference contacts. Please contact us at info@touchpulse.nl for procurement support."
+        },
+        {
+          "id": "partnership_callout",
+          "type": "partner_banner",
+          "heading": "In partnership with Blind Veterans UK",
+          "body": "Touchpulse works with Blind Veterans UK to support veterans with sight loss in navigating confidently and independently. This partnership is a reference point for how we approach the O&M sector: built with the community, not just for it."
+        },
+        {
+          "id": "final_cta",
+          "type": "cta_band",
+          "heading": "See how Touchpulse fits your service",
+          "body": "Book a 30-minute demo. We will show you the platform and map it to your specific workflow.",
+          "cta": { "label": "Book a demo", "url": "https://calendly.com/liam-touchpulse" }
+        }
+      ]
+    },
+
+    "pricing": {
+      "slug": "/pricing",
+      "seo": {
+        "title": "Pricing | Touchpulse",
+        "description": "Touchpulse annual packages from £3,000 per year. Tiera included free for all clients. Teleassistance staffing available at £0.50 per minute. Solo and Practice plans available for independent trainers."
+      },
+      "sections": [
+        {
+          "id": "hero",
+          "type": "pricing_hero",
+          "eyebrow": "Pricing",
+          "headline": "Straightforward plans, no hidden extras",
+          "subheadline": "Tiera is included free for every client your organisation registers. Teleassistance platform access is included from the Organisation tier upwards. Managed staffing is an optional add-on.",
+          "billing_toggle": {
+            "options": ["Monthly", "Annual"],
+            "default": "Annual",
+            "annual_saving_label": "Save 20%"
+          }
+        },
+        {
+          "id": "roi_callout",
+          "type": "roi_banner",
+          "text": "A single home visit takes 2 to 3 hours. At £35 per hour, that is up to £105 of trainer time per client per route. ROVI pays for itself the first time you send a route instead of walking it."
+        },
+        {
+          "id": "plan_tiers",
+          "type": "pricing_table",
+          "plans": [
+            {
+              "id": "solo",
+              "name": "Solo",
+              "tag": "Independent trainer",
+              "description": "For independent O&M specialists and rehab trainers working with their own clients.",
+              "price_monthly": 36,
+              "price_annual_monthly_equiv": 29,
+              "price_annual_total": 348,
+              "trainer_limit": 1,
+              "client_limit": "Unlimited",
+              "features": [
+                "1 trainer",
+                "Unlimited clients",
+                "Route creation via ROVI dashboard",
+                "Route creation via Tiera app",
+                "Unlimited active routes",
+                "Direct route assignment to clients",
+                "Tiera app free for all clients",
+                "Full analytics suite (coming soon)",
+                "Client CRM (coming soon)"
+              ],
+              "cta": { "label": "Get started", "url": "https://calendly.com/liam-touchpulse" }
+            },
+            {
+              "id": "practice",
+              "name": "Practice",
+              "tag": "Small team or clinic",
+              "description": "One flat rate for your whole team. No per-seat counting.",
+              "price_monthly": 124,
+              "price_annual_monthly_equiv": 99,
+              "price_annual_total": 1188,
+              "trainer_limit": 5,
+              "client_limit": "Unlimited",
+              "features": [
+                "Up to 5 trainers",
+                "Unlimited clients",
+                "Everything in Solo",
+                "Shared team route library",
+                "Team admin dashboard"
+              ],
+              "cta": { "label": "Get started", "url": "https://calendly.com/liam-touchpulse" }
+            },
+            {
+              "id": "organisation",
+              "name": "Organisation",
+              "tag": "Charities and O&M services",
+              "description": "The full platform for organisations that need remote monitoring, live breadcrumbing, and Pathway access.",
+              "price_monthly": 312,
+              "price_annual_monthly_equiv": 250,
+              "price_annual_total": 3000,
+              "trainer_limit": 20,
+              "client_limit": "Unlimited",
+              "featured": true,
+              "popular_tag": "Most popular",
+              "features": [
+                "Up to 20 trainers",
+                "Unlimited clients",
+                "Everything in Practice",
+                "Live breadcrumbing and real-time client monitoring",
+                "Pathway platform access (bring your own operators)",
+                "Tiera app free for all clients",
+                "Full analytics suite (coming soon)",
+                "Client CRM (coming soon)"
+              ],
+              "cta": { "label": "Get started", "url": "https://calendly.com/liam-touchpulse" }
+            },
+            {
+              "id": "local_authority",
+              "name": "Local Authority",
+              "tag": "Councils and NHS services",
+              "description": "For larger services with priority support and dedicated onboarding.",
+              "price_monthly": 625,
+              "price_annual_monthly_equiv": 500,
+              "price_annual_total": 6000,
+              "trainer_limit": 50,
+              "client_limit": "Unlimited",
+              "features": [
+                "Up to 50 trainers",
+                "Unlimited clients",
+                "Everything in Organisation",
+                "Priority support",
+                "Dedicated onboarding session",
+                "Procurement documentation on request"
+              ],
+              "cta": { "label": "Get started", "url": "https://calendly.com/liam-touchpulse" }
+            },
+            {
+              "id": "enterprise",
+              "name": "Enterprise",
+              "tag": "Large organisations and national services",
+              "description": "For organisations with 51 or more trainers. Custom SLA, dedicated account management, and bespoke contract terms.",
+              "price_label": "Custom",
+              "price_from": 12000,
+              "trainer_limit": "Unlimited",
+              "client_limit": "Unlimited",
+              "features": [
+                "Unlimited trainers",
+                "Unlimited clients",
+                "Everything in Local Authority",
+                "Custom SLA",
+                "Dedicated account manager",
+                "Bespoke contract terms",
+                "API access on request"
+              ],
+              "cta": { "label": "Talk to us", "url": "https://calendly.com/liam-touchpulse" }
+            }
+          ]
+        },
+        {
+          "id": "teleassistance_pricing",
+          "type": "addon_section",
+          "heading": "Teleassistance: managed staffing add-on",
+          "intro": "Pathway platform access is included in Organisation plans and above. If you want Touchpulse to provide trained operators, choose a managed staffing bundle. Billed on actual usage with full in-app transparency.",
+          "options": [
+            {
+              "name": "Own operators",
+              "price": "Included",
+              "description": "You staff Pathway with your own team. Included from the Organisation tier upwards. No additional cost."
+            },
+            {
+              "name": "Pay-as-you-go",
+              "price": "£0.80 per minute",
+              "description": "No minimum commitment. Billed monthly on actual usage. Best for low or unpredictable call volumes."
+            },
+            {
+              "name": "Starter bundle",
+              "price": "£0.65 per minute",
+              "annual_commitment": "1,000 minutes per year",
+              "annual_cost": "£650",
+              "description": "Approximately 2 calls per day. Good for small services with a steady call volume."
+            },
+            {
+              "name": "Standard bundle",
+              "price": "£0.50 per minute",
+              "annual_commitment": "3,000 minutes per year",
+              "annual_cost": "£1,500",
+              "description": "Approximately 6 calls per day. The most popular option for mid-size organisations."
+            },
+            {
+              "name": "Enterprise bundle",
+              "price": "£0.40 per minute",
+              "annual_commitment": "6,000+ minutes per year",
+              "annual_cost": "From £2,400",
+              "description": "For services with high call volume. Custom SLA and response time guarantees available."
+            }
+          ]
+        },
+        {
+          "id": "tiera_note",
+          "type": "callout_box",
+          "heading": "Tiera is always free for clients",
+          "body": "There is no per-seat fee for the Tiera app. Every client your organisation registers gets full access to AI navigation, custom routes, and teleassistance (if enabled) at no additional cost. No limit on the number of clients."
+        },
+        {
+          "id": "founding_partner",
+          "type": "founding_banner",
+          "heading": "Founding partner offer",
+          "body": "We are opening the platform to a small group of founding partners. Sign up now and receive 50% off your first 6 months on any plan or billing cycle. No discount code needed. Your feedback shapes the product directly.",
+          "details": [
+            "Solo 6 months: from £87 (was £174)",
+            "Practice 6 months: from £297 (was £594)",
+            "Organisation 6 months: from £750 (was £1,500)"
+          ],
+          "cta": { "label": "Claim founding discount", "url": "https://calendly.com/liam-touchpulse" },
+          "small_print": "Limited spots. No code needed. Reverts to standard pricing after 6 months."
+        },
+        {
+          "id": "faq",
+          "type": "faq",
+          "heading": "Pricing questions",
+          "items": [
+            {
+              "question": "What is included in the annual package?",
+              "answer": "Every plan includes full ROVI dashboard access, unlimited routes, direct client assignment, and the Tiera app free for all registered clients. Organisation plans and above also include live breadcrumbing and Pathway platform access for your own operators."
+            },
+            {
+              "question": "Can I switch plans as my team grows?",
+              "answer": "Yes. You can upgrade at any time and the cost is prorated from the date of change. Downgrades take effect at the next renewal date."
+            },
+            {
+              "question": "Is there a setup fee?",
+              "answer": "No. There are no setup fees on any plan."
+            },
+            {
+              "question": "Do I need to commit to an annual contract?",
+              "answer": "No. Monthly billing is available on all plans. Annual billing saves approximately 20% and is the recommended option for organisations with stable budgets."
+            },
+            {
+              "question": "How does teleassistance billing work?",
+              "answer": "If you choose a bundle, the commitment is billed annually upfront. Pay-as-you-go usage is billed monthly in arrears. All usage is visible in real time in the Pathway dashboard."
+            },
+            {
+              "question": "What happens if we use more minutes than our bundle?",
+              "answer": "Usage above your bundle is charged at the pay-as-you-go rate of £0.80 per minute. We will notify you when you reach 80% of your bundle allocation."
+            },
+            {
+              "question": "Is there a minimum contract length?",
+              "answer": "No minimum contract on monthly plans. Annual plans are paid upfront for the year. We do not lock organisations into multi-year terms without agreement."
+            },
+            {
+              "question": "Do you offer a free trial?",
+              "answer": "We do not currently offer a self-serve trial. Book a demo and we can arrange a supervised trial for your team before you commit to a plan."
+            }
+          ]
+        },
+        {
+          "id": "final_cta",
+          "type": "cta_band",
+          "heading": "Ready to talk numbers?",
+          "body": "Book a call and we will put together a quote tailored to your organisation: number of trainers, clients, and whether you want managed staffing.",
+          "cta": { "label": "Book a demo", "url": "https://calendly.com/liam-touchpulse" }
+        }
+      ]
+    },
+
+    "platform": {
+      "slug": "/platform",
+      "seo": {
+        "title": "How Touchpulse works | The O&M support platform",
+        "description": "Touchpulse connects three tools into one platform for Orientation and Mobility support: ROVI for trainers, Pathway for operators, and Tiera for clients."
+      },
+      "sections": [
+        {
+          "id": "hero",
+          "type": "hero",
+          "eyebrow": "How it works",
+          "headline": "One platform, three connected tools",
+          "subheadline": "ROVI, Pathway, and Tiera are designed to work together. A route built in ROVI appears in Tiera within seconds. A client who needs help presses one button in Tiera and an operator in Pathway is with them in moments."
+        },
+        {
+          "id": "platform_diagram",
+          "type": "flow_diagram",
+          "nodes": [
+            {
+              "id": "trainer",
+              "label": "Trainer",
+              "tool": "ROVI dashboard",
+              "actions": ["Builds route", "Records instructions", "Assigns to client", "Reviews progress"]
+            },
+            {
+              "id": "client",
+              "label": "Client",
+              "tool": "Tiera app",
+              "actions": ["Receives route", "Walks independently", "Calls for help if needed"]
+            },
+            {
+              "id": "operator",
+              "label": "Operator",
+              "tool": "Pathway dashboard",
+              "actions": ["Accepts call", "Sees camera and map", "Talks client through it", "Logs the call"]
+            }
+          ],
+          "connections": [
+            { "from": "trainer", "to": "client", "label": "Route assigned via ROVI" },
+            { "from": "client", "to": "operator", "label": "Call via Tiera button" },
+            { "from": "operator", "to": "trainer", "label": "Call logs visible to trainer" }
+          ]
+        },
+        {
+          "id": "scenario_walkthroughs",
+          "type": "scenario_list",
+          "heading": "What a week looks like with Touchpulse",
+          "scenarios": [
+            {
+              "title": "Monday: a new client joins",
+              "body": "A trainer receives a referral for a client who needs to learn the route from home to their local supermarket. They open ROVI, type the two addresses, adjust two waypoints to avoid a road closure they know about, and add spoken instructions at three key decision points. They assign the route to the client in the same screen. The client's Tiera app pings within seconds."
+            },
+            {
+              "title": "Wednesday: the client walks the route",
+              "body": "The client opens their Custom Routes tab, taps the assigned route, and starts walking. Tiera guides them turn by turn. At the second junction, the trainer's recorded instruction plays: 'Cross here, not at the lights ahead'. The trainer can see the breadcrumb trail live from their ROVI dashboard."
+            },
+            {
+              "title": "Wednesday afternoon: the client gets confused",
+              "body": "A road is partially blocked by a delivery vehicle. The client taps the Pathway call button. An operator accepts within 20 seconds. They see the camera feed immediately: a large white van blocking the pavement. They talk the client around it in 45 seconds. Navigation resumes. The call is logged automatically."
+            },
+            {
+              "title": "Friday: the trainer reviews the week",
+              "body": "The trainer checks the ROVI dashboard. Three clients walked routes this week. One completed the supermarket route twice. One deviated at the same point both times, suggesting a re-assessment of the instructions at that waypoint. The trainer updates the instruction before Monday."
+            }
+          ]
+        },
+        {
+          "id": "tool_links",
+          "type": "product_cards",
+          "heading": "Explore each tool",
+          "items": [
+            { "product": "ROVI", "label": "For trainers", "url": "/rovi", "cta": "Learn about ROVI" },
+            { "product": "Pathway", "label": "For operators", "url": "/pathway", "cta": "Learn about Pathway" },
+            { "product": "Tiera", "label": "For clients", "url": "/tiera", "cta": "Learn about Tiera" }
+          ]
+        }
+      ]
+    },
+
+    "partners": {
+      "slug": "/partners",
+      "seo": {
+        "title": "Partners | Touchpulse",
+        "description": "Touchpulse partners with organisations in the sight-loss and rehabilitation sector to bring the ROVI and Tiera platform to more clients."
+      },
+      "sections": [
+        {
+          "id": "hero",
+          "type": "hero",
+          "eyebrow": "Partners",
+          "headline": "Built with the sector, not just for it",
+          "subheadline": "Touchpulse works with sight-loss organisations, rehabilitation services, and technology partners to develop and improve the platform."
+        },
+        {
+          "id": "blind_veterans",
+          "type": "partner_feature",
+          "partner_name": "Blind Veterans UK",
+          "description": "Touchpulse is proud to collaborate with Blind Veterans UK. Together, we are ensuring that those who served our country can navigate the world with confidence, safety, and the support of AI-driven guidance and trained operators.",
+          "url": "https://www.blindveterans.org.uk"
+        },
+        {
+          "id": "become_partner",
+          "type": "cta_band",
+          "heading": "Become a partner",
+          "body": "We are actively looking for O&M organisations, sight-loss charities, and rehabilitation services to partner with as we build and improve the platform. Founding partners receive 50% off for their first 6 months and have direct input into product decisions.",
+          "cta": { "label": "Get in touch", "url": "/contact" }
+        }
+      ]
+    },
+
+    "team": {
+      "slug": "/team",
+      "seo": {
+        "title": "Team | Touchpulse",
+        "description": "The team behind Touchpulse, the platform for Orientation and Mobility support."
+      },
+      "sections": [
+        {
+          "id": "hero",
+          "type": "hero",
+          "eyebrow": "Team",
+          "headline": "The people building Touchpulse",
+          "subheadline": "We are a small team with a clear mission: give blind and low-vision people the tools to move through the world independently, and give the professionals who support them a platform that matches the scale of the job."
+        },
+        {
+          "id": "mission_note",
+          "type": "editorial_note",
+          "body": "Touchpulse started from a simple observation: O&M training is one of the most effective interventions available to people with sight loss, but the tools available to trainers have not changed in decades. We are building the platform that the profession deserves."
+        }
+      ]
+    },
+
+    "blog": {
+      "slug": "/blog",
+      "seo": {
+        "title": "Blog | Touchpulse",
+        "description": "Insights and updates from the Touchpulse team on Orientation and Mobility, assistive technology, and independent navigation."
+      },
+      "sections": [
+        {
+          "id": "hero",
+          "type": "hero",
+          "eyebrow": "Blog",
+          "headline": "Insights from the O&M platform",
+          "subheadline": "Updates from the Touchpulse team on the platform, the sector, and the people we work with."
+        },
+        {
+          "id": "posts",
+          "type": "blog_grid",
+          "note": "Posts to be populated from CMS"
+        }
+      ]
+    },
+
+    "contact": {
+      "slug": "/contact",
+      "seo": {
+        "title": "Contact | Touchpulse",
+        "description": "Get in touch with the Touchpulse team. Book a demo, ask a question, or request procurement documentation."
+      },
+      "sections": [
+        {
+          "id": "hero",
+          "type": "hero",
+          "eyebrow": "Contact",
+          "headline": "Get in touch",
+          "subheadline": "Book a demo, ask a question, or request procurement documentation. We respond to all enquiries within one business day."
+        },
+        {
+          "id": "contact_options",
+          "type": "contact_grid",
+          "items": [
+            {
+              "title": "Book a demo",
+              "body": "30 minutes. We walk you through the full platform and answer questions specific to your organisation.",
+              "cta": { "label": "Book on Calendly", "url": "https://calendly.com/liam-touchpulse" }
+            },
+            {
+              "title": "Email us",
+              "body": "For general enquiries, partnership discussions, or procurement documentation requests.",
+              "cta": { "label": "info@touchpulse.nl", "url": "mailto:info@touchpulse.nl" }
+            },
+            {
+              "title": "Pricing enquiry",
+              "body": "Need a quote for your organisation? Fill in the contact form and we will send a tailored proposal.",
+              "cta": { "label": "Request a quote", "url": "mailto:info@touchpulse.nl?subject=Pricing enquiry" }
+            }
+          ]
+        },
+        {
+          "id": "contact_form",
+          "type": "form",
+          "fields": [
+            { "id": "first_name", "label": "First name", "type": "text", "required": true },
+            { "id": "last_name", "label": "Last name", "type": "text", "required": true },
+            { "id": "email", "label": "Work email", "type": "email", "required": true },
+            { "id": "organisation", "label": "Organisation name", "type": "text", "required": true },
+            { "id": "org_type", "label": "Organisation type", "type": "select", "required": true,
+              "options": ["Sight-loss charity", "Local authority", "NHS or community rehab", "Private O&M practice", "Other"] },
+            { "id": "trainers", "label": "Approximate number of trainers", "type": "select", "required": false,
+              "options": ["1", "2 to 5", "6 to 20", "21 to 50", "51 or more"] },
+            { "id": "message", "label": "Message", "type": "textarea", "required": false },
+            { "id": "demo_request", "label": "I would like to book a demo", "type": "checkbox", "required": false }
+          ],
+          "submit_label": "Send message",
+          "success_message": "Thank you. We will be in touch within one business day."
+        },
+        {
+          "id": "address",
+          "type": "address_block",
+          "company": "Touchpulse B.V.",
+          "kvk": "98689371",
+          "address": "Het Eeuwsel 57, 5612 AS Eindhoven, Netherlands",
+          "email": "info@touchpulse.nl"
+        }
+      ]
+    },
+
+    "privacy": {
+      "slug": "/privacy",
+      "seo": {
+        "title": "Privacy policy | Touchpulse",
+        "description": "Touchpulse privacy policy. How we collect, use, and protect personal data."
+      },
+      "sections": [
+        {
+          "id": "hero",
+          "type": "hero",
+          "eyebrow": "Legal",
+          "headline": "Privacy policy",
+          "subheadline": "Last updated: May 2026"
+        },
+        {
+          "id": "body",
+          "type": "legal_content",
+          "note": "Full privacy policy text to be maintained separately and linked here. Must comply with GDPR as Touchpulse B.V. is incorporated in the Netherlands."
+        }
+      ]
+    }
+
+  }
+}

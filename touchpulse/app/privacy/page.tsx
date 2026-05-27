@@ -4,12 +4,12 @@ import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy — TouchPulse',
-  description: 'How TouchPulse collects, uses, and protects your personal data in accordance with GDPR and Dutch AVG law.',
+  title: 'Privacy Policy — Touchpulse',
+  description: 'How Touchpulse collects, uses, and protects your personal data in accordance with GDPR and Dutch AVG law.',
 }
 
 const LAST_UPDATED = '21 April 2025'
-const COMPANY = 'TouchPulse B.V.'
+const COMPANY = 'Touchpulse B.V.'
 const ADDRESS = 'Het Eeuwsel 57, 5612 AS Eindhoven, Netherlands'
 const EMAIL = 'privacy@touchpulse.nl'
 const DPA_AUTHORITY = 'Autoriteit Persoonsgegevens (AP)'
@@ -27,7 +27,7 @@ export default function PrivacyPage() {
 
           <Prose>
             <Section title="1. Who we are">
-              <p>{COMPANY} (&quot;TouchPulse&quot;, &quot;we&quot;, &quot;us&quot;, &quot;our&quot;) is the controller of the personal data described in this policy.</p>
+              <p>{COMPANY} (&quot;Touchpulse&quot;, &quot;we&quot;, &quot;us&quot;, &quot;our&quot;) is the controller of the personal data described in this policy.</p>
               <ul>
                 <li><strong>Company:</strong> {COMPANY}</li>
                 <li><strong>Address:</strong> {ADDRESS}</li>

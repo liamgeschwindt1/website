@@ -12,6 +12,7 @@ export default function Footer() {
           <ul className="flex flex-col gap-[10px] list-none" role="list">
             {[
               { label: 'Tiera', href: '/tiera' },
+              { label: 'Get Tiera', href: '/get-tiera' },
               { label: 'For Business', href: '/for-business' },
               { label: 'Partners', href: '/partners' },
             ].map(l => (
@@ -55,6 +56,7 @@ export default function Footer() {
             {[
               { label: 'Privacy', href: '/privacy' },
               { label: 'Cookies', href: '/cookies' },
+              { label: 'Contact', href: '/contact' },
               { label: 'Blog', href: '/blog' },
             ].map(l => (
               <li key={l.label}>
@@ -86,7 +88,7 @@ export default function Footer() {
       {/* Legal row */}
       <div className="border-t border-[var(--border)] pt-6">
         <p className="text-[13px] text-[var(--muted)]">
-          TouchPulse B.V. &middot; Amsterdam &middot; 2026
+          Touchpulse B.V. &middot; Amsterdam &middot; 2026
         </p>
       </div>
     </footer>

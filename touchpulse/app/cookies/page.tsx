@@ -5,8 +5,8 @@ import CookieResetButton from '@/components/CookieResetButton'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Cookie Policy — TouchPulse',
-  description: 'Information about the cookies TouchPulse uses on its website.',
+  title: 'Cookie Policy — Touchpulse',
+  description: 'Information about the cookies Touchpulse uses on its website.',
 }
 
 const LAST_UPDATED = '21 April 2025'
@@ -45,8 +45,8 @@ export default function CookiePolicyPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    <Tr><Td><code>next-auth.session-token</code></Td><Td>Keeps CMS staff logged in (not set for public visitors)</Td><Td>Session</Td><Td>TouchPulse</Td></Tr>
-                    <Tr><Td><code>tp_cookie_consent</code></Td><Td>Remembers your cookie preference so we don&apos;t ask again</Td><Td>1 year</Td><Td>TouchPulse</Td></Tr>
+                    <Tr><Td><code>next-auth.session-token</code></Td><Td>Keeps CMS staff logged in (not set for public visitors)</Td><Td>Session</Td><Td>Touchpulse</Td></Tr>
+                    <Tr><Td><code>tp_cookie_consent</code></Td><Td>Remembers your cookie preference so we don&apos;t ask again</Td><Td>1 year</Td><Td>Touchpulse</Td></Tr>
                   </tbody>
                 </table>
                 <p className="text-[13px] leading-[1.6]" style={{ color: 'var(--muted)' }}>These cookies are essential for the website to work and cannot be switched off.</p>

@@ -12,7 +12,7 @@ export default function AdminHeader() {
     >
       <div className="flex items-center gap-3">
         <span className="text-[15px] font-semibold tracking-tight" style={{ color: 'var(--teal)' }}>
-          TouchPulse
+          Touchpulse
         </span>
         <span className="text-[11px] px-2 py-0.5 rounded-full border" style={{ color: 'var(--muted)', borderColor: 'var(--border)' }}>
           CMS

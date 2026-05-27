@@ -3,8 +3,8 @@ import Providers from './Providers'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'TouchPulse CMS',
-  description: 'Content management for TouchPulse',
+  title: 'Touchpulse CMS',
+  description: 'Content management for Touchpulse',
   robots: { index: false, follow: false },
 }
 

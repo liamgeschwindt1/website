@@ -4,8 +4,8 @@ import { prisma } from '@/lib/prisma'
 
 export const runtime = 'nodejs'
 
-const SYSTEM_PROMPT = `You are an AI content assistant for the TouchPulse CMS admin panel.
-TouchPulse is an AI + human-powered navigation app for people with visual impairments.
+const SYSTEM_PROMPT = `You are an AI content assistant for the Touchpulse CMS admin panel.
+Touchpulse is an AI + human-powered navigation app for people with visual impairments.
 
 You can propose changes to any of these content types:
 - website_copy: Main site-wide copy (hero section, proofBar stats, ctaBanner — stored as a JSON object)
@@ -34,8 +34,8 @@ Rules:
 - For page/post create: omit "id", include all required fields in "after" (title, slug, content, excerpt, published), generate a URL-safe slug
 - If the user uploads images or videos, analyze them and suggest appropriate use in content or as cover images — reference the provided media URLs
 - If no changes are needed (it's just a question), return an empty "changes" array
-- Preserve TouchPulse brand voice: empowering, clear, accessible, human-centered
-- Never fabricate facts about TouchPulse — only work with the content provided in the context`
+- Preserve Touchpulse brand voice: empowering, clear, accessible, human-centered
+- Never fabricate facts about Touchpulse — only work with the content provided in the context`
 
 interface MessageIn {
   role: 'user' | 'assistant'

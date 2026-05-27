@@ -43,11 +43,11 @@ export default function Nav() {
       <Link
         href="/"
         className="flex items-center no-underline"
-        aria-label="TouchPulse home"
+        aria-label="Touchpulse home"
       >
         <Image
           src="/images/touchpulse-logo.png"
-          alt="TouchPulse"
+          alt="Touchpulse"
           width={140}
           height={36}
           priority
@@ -253,14 +253,22 @@ export default function Nav() {
             Blog
           </Link>
         </li>
+        <li>
+          <Link
+            href="/get-tiera"
+            className={`text-[14px] no-underline transition-colors duration-150 ${isActive('/get-tiera') ? 'text-[var(--teal)]' : 'text-[rgba(247,247,247,0.50)] hover:text-[var(--text)]'}`}
+          >
+            Get Tiera
+          </Link>
+        </li>
       </ul>
 
-      <a
-        href="mailto:info@touchpulse.nl?subject=Demo%20request"
+      <Link
+        href="/contact"
         className="min-h-[44px] min-w-[44px] flex items-center px-4 py-2 border border-[rgba(255,255,255,0.6)] rounded-[6px] text-[13px] font-medium text-[var(--text)] no-underline hover:bg-[rgba(255,255,255,0.06)] transition-colors duration-150"
       >
         Book a demo ↗
-      </a>
+      </Link>
     </nav>
   )
 }

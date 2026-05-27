@@ -192,7 +192,7 @@ export default function DesignPreview() {
       <div className="absolute inset-0">
         <iframe
           src={previewUrl}
-          title="TouchPulse website preview"
+          title="Touchpulse website preview"
           className="w-full h-full border-0"
           sandbox="allow-scripts allow-same-origin"
         />

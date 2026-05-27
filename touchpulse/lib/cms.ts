@@ -2,6 +2,17 @@ import siteCopy from '@/content/siteCopy.json'
 
 export type SiteCopy = typeof siteCopy
 
+export interface Post {
+  id: string
+  title: string
+  slug: string
+  excerpt: string | null
+  content: string
+  coverImage: string | null
+  publishedAt: string | null
+  createdAt: string
+}
+
 interface CmsWebsiteCopy {
   hero?: Partial<SiteCopy['hero']>
   proofBar?: {
@@ -52,5 +63,34 @@ export async function fetchFooterContent(): Promise<string> {
     return data?.value ?? ''
   } catch {
     return ''
+  }
+}
+
+export async function fetchPosts(): Promise<Post[]> {
+  if (!CMS_URL) return []
+
+  try {
+    const res = await fetch(`${CMS_URL}/api/posts`, {
+      next: { revalidate: 60 },
+    })
+    if (!res.ok) return []
+    const data = await res.json() as Post[]
+    return Array.isArray(data) ? data : []
+  } catch {
+    return []
+  }
+}
+
+export async function fetchPost(slug: string): Promise<Post | null> {
+  if (!CMS_URL) return null
+
+  try {
+    const res = await fetch(`${CMS_URL}/api/posts/${encodeURIComponent(slug)}`, {
+      next: { revalidate: 60 },
+    })
+    if (!res.ok) return null
+    return await res.json() as Post
+  } catch {
+    return null
   }
 }

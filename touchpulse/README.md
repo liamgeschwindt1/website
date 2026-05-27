@@ -1,4 +1,4 @@
-# TouchPulse — Marketing Website
+# Touchpulse — Marketing Website
 
 Navigation intelligence platform for people with sight loss. Built with Next.js 14, Tailwind CSS, Framer Motion, and TypeScript.
 

@@ -5,7 +5,7 @@ import Footer from '@/components/Footer'
 import ContactForm from '@/components/ContactForm'
 
 export const metadata: Metadata = {
-  title: 'O&M Studio — TouchPulse',
+  title: 'O&M Studio — Touchpulse',
   description: 'A professional tool for Orientation and Mobility instructors. Record routes, attach expert cues, deliver verified guidance through Tiera.',
 }
 

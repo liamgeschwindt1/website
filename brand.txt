@@ -7,7 +7,7 @@ Navigation Intelligence Platform
 touchpulse.nl
 
 1. Brand Philosophy
-TouchPulse sits at the intersection of navigation precision and AI intelligence. The design system must communicate three qualities simultaneously: serious technical credibility (like MagicLane or Naext), AI-forward modernity (like xAI or Vercel), and the warmth that makes the product feel approachable and human.
+Touchpulse sits at the intersection of navigation precision and AI intelligence. The design system must communicate three qualities simultaneously: serious technical credibility (like MagicLane or Naext), AI-forward modernity (like xAI or Vercel), and the warmth that makes the product feel approachable and human.
 
 1.1  Brand Pillars
 PILLAR 1
@@ -15,7 +15,7 @@ Precision
 Every pixel earns its place. Navigation is a domain where accuracy is life-critical — the brand must project that same discipline. Thin lines, exact spacing, restrained colour.
 PILLAR 2
 Intelligence
-TouchPulse is AI-native. The visual language should feel forward-looking without being sci-fi. Subtle aurora gradients, monospace code snippets, and crisp data visualisation signal intelligence without shouting it.
+Touchpulse is AI-native. The visual language should feel forward-looking without being sci-fi. Subtle aurora gradients, monospace code snippets, and crisp data visualisation signal intelligence without shouting it.
 PILLAR 3
 Momentum
 Navigation is motion. The brand carries directional energy through arrow motifs, asymmetric layouts, and kinetic aurora effects.
@@ -23,7 +23,7 @@ Navigation is motion. The brand carries directional energy through arrow motifs,
 1.2  Reference Brands & What We Borrow
 Brand
 What They Do Well
-What TouchPulse Borrows
+What Touchpulse Borrows
 Vercel
 Dark base, ghost buttons, near-zero decoration
 Ghost button system, muted nav links with chevrons, monospace code snippets
@@ -46,7 +46,7 @@ Neutral grey navigation, structured information hierarchy
 
 
 2. Colour System
-TouchPulse uses five brand colours, each with a single defined role. The system works because Charcoal Black and Ink Blue handle all backgrounds and surfaces, Soft White handles typography, and Teal and Gold each carry one job — never competing simultaneously.
+Touchpulse uses five brand colours, each with a single defined role. The system works because Charcoal Black and Ink Blue handle all backgrounds and surfaces, Soft White handles typography, and Teal and Gold each carry one job — never competing simultaneously.
 
 2.1  Primary Palette
 Swatch
@@ -128,7 +128,7 @@ Card borders on light backgrounds
 
 
 2.4  Aurora Gradient System
-The mesh/aurora gradient is the primary expressive element of the TouchPulse brand — used exclusively in hero sections, AI feature banners, and key landing transitions. It must never appear in functional UI (cards, tables, navigation).
+The mesh/aurora gradient is the primary expressive element of the Touchpulse brand — used exclusively in hero sections, AI feature banners, and key landing transitions. It must never appear in functional UI (cards, tables, navigation).
 
 On-brand aurora (Primary hero)
 Technique: Stack 3 radial-gradient blobs on a #031119 base. Add noise grain texture at 5% opacity.
@@ -216,7 +216,7 @@ Monospace
 ✓  Wrap long prose at 60–72 characters per line (max-width: ~640px on body text).
 
 4. Layout & Spacing
-Layout is where TouchPulse separates itself from generic SaaS. The reference brands (Vercel, xAI, SpaceX) share one trait: disciplined emptiness. Whitespace is not wasted space — it signals confidence.
+Layout is where Touchpulse separates itself from generic SaaS. The reference brands (Vercel, xAI, SpaceX) share one trait: disciplined emptiness. Whitespace is not wasted space — it signals confidence.
 
 4.1  Grid System
 12-column grid. Max content width: 1280px. Gutter: 24px. Margin: clamp(24px, 5vw, 80px).
@@ -266,7 +266,7 @@ xl
 
 
 4.3  Section Anatomy
-Every content section on a TouchPulse page follows this structure:
+Every content section on a Touchpulse page follows this structure:
 Eyebrow label (optional) — 11px uppercase, muted colour, letter-spacing 0.08em
 Section heading — H1 or H2, tight letter-spacing
 Lead paragraph — max 2 sentences, 75% opacity text on dark, no more than 540px wide
@@ -292,7 +292,7 @@ Content locks to max-width: 1280px. Side margins grow.
 
 
 5. Component Library
-Every component in the TouchPulse system follows the same principle: functional minimalism. No decorative shadows. No fills on buttons. Borders do the work.
+Every component in the Touchpulse system follows the same principle: functional minimalism. No decorative shadows. No fills on buttons. Borders do the work.
 
 5.1  Navigation Bar
 Structure
@@ -313,7 +313,7 @@ CSS spec (scroll state)
 ✕  Add logo icons or illustrations next to the wordmark in the nav.
 
 5.2  Button System
-TouchPulse uses three button variants. Filled rectangular buttons are not part of the system.
+Touchpulse uses three button variants. Filled rectangular buttons are not part of the system.
 
 Ghost box (Primary action)
 An outlined box — transparent fill, 0.5px border, no border-radius beyond 6px. This is the default CTA style.
@@ -396,7 +396,7 @@ rgba(220,38,38,0.35)
 →  Navigation arrows (→, ↗): Use Unicode or a thin custom SVG. These appear on nav links, buttons, and section transitions.
 
 6.2  Arrow Motif
-The arrow is TouchPulse's primary visual motif — it appears throughout the system as a signal of directionality, navigation, and forward momentum.
+The arrow is Touchpulse's primary visual motif — it appears throughout the system as a signal of directionality, navigation, and forward momentum.
 Navigation links: "Platform ›" — a single right-pointing chevron (›), 10px, muted
 CTA buttons: "Get started ↗" — upper-right diagonal arrow, signals outbound/activation
 Internal transitions: "Learn more →" — simple right arrow, stays within the experience
@@ -409,7 +409,7 @@ Dot grid: 1px dots at 24px intervals, rgba(255,255,255,0.06). For dark hero sect
 Never combine aurora gradient AND a dot/grid pattern in the same section.
 
 7. Motion & Animation
-Animation at TouchPulse is purposeful. Every transition must communicate information or provide spatial orientation — never decoration for its own sake. Less than you think, slower than you want.
+Animation at Touchpulse is purposeful. Every transition must communicate information or provide spatial orientation — never decoration for its own sake. Less than you think, slower than you want.
 
 7.1  Timing Tokens
 Token
@@ -478,7 +478,7 @@ Testimonial or quote — large pullquote, attribution, muted background
 Final CTA section — centred, aurora, large heading, gold CTA button
 
 9. Dark & Light Mode
-TouchPulse defaults to dark mode — it is the canonical brand experience. A light mode is provided for documentation and enterprise contexts where accessibility or printing is required.
+Touchpulse defaults to dark mode — it is the canonical brand experience. A light mode is provided for documentation and enterprise contexts where accessibility or printing is required.
 
 9.1  Dark Mode (Default)
 Page background: #031119 (Charcoal Black)
@@ -506,12 +506,12 @@ Aurora gradients: reduce opacity by 60% and shift base to #F0F7F7
 →  Transition on toggle: 200ms ease on background-color and color for all elements using CSS custom properties.
 
 10. Voice & Tone
-Design and copy are inseparable. The visual minimalism only lands if the writing matches it. The brands TouchPulse references (xAI, Vercel, SpaceX) all write like engineers who have something important to say and no time to waste.
+Design and copy are inseparable. The visual minimalism only lands if the writing matches it. The brands Touchpulse references (xAI, Vercel, SpaceX) all write like engineers who have something important to say and no time to waste.
 
 10.1  Writing Principles
 →  Short. Then shorter. Read every line and cut the first word if it still makes sense.
 →  Concrete over abstract. "Routes 2.4M journeys daily" beats "world-class scale."
-→  Active voice. "TouchPulse calculates the fastest route" not "The fastest route is calculated."
+→  Active voice. "Touchpulse calculates the fastest route" not "The fastest route is calculated."
 →  No adverbs on claims. "incredibly accurate" → remove "incredibly." The claim speaks for itself or it doesn't.
 →  Numbers are credibility. Always prefer a specific figure over a vague superlative.
 
@@ -551,11 +551,11 @@ Honest, specific, no filler
 ✕  World-class, industry-leading, cutting-edge, state-of-the-art
 ✕  Seamless, frictionless, intuitive, powerful, robust, scalable (without proof)
 ✕  Leverage, utilise (use "use")
-✕  Journey (in a metaphorical sense — TouchPulse is literally about journeys, use "trip" or "route")
+✕  Journey (in a metaphorical sense — Touchpulse is literally about journeys, use "trip" or "route")
 ✕  Disrupt, revolutionise, transform (unless a specific measurable change follows)
 
 11. Accessibility Standards
-TouchPulse targets WCAG 2.1 AA compliance as a minimum. Navigation is used by drivers and fleets who depend on clear, fast information delivery — accessibility is not optional.
+Touchpulse targets WCAG 2.1 AA compliance as a minimum. Navigation is used by drivers and fleets who depend on clear, fast information delivery — accessibility is not optional.
 
 11.1  Colour Contrast
 Combination
@@ -591,7 +591,7 @@ Implement the entire design system through CSS custom properties. This ensures c
 :root {  /* Colours */  --color-bg-primary:     #031119;  --color-bg-surface:     rgba(27,53,79,0.40);  --color-bg-subtle:      rgba(27,53,79,0.20);  --color-text-primary:   #F7F7F7;  --color-text-body:      rgba(247,247,247,0.75);  --color-text-muted:     rgba(247,247,247,0.45);  --color-accent-teal:    #01B4AF;  --color-accent-gold:    #FFB100;  --color-border-default: rgba(255,255,255,0.08);  --color-border-hover:   rgba(1,180,175,0.35);  --color-success:        #059669;  --color-error:          #DC2626;  /* Typography */  --font-sans:    Inter, ui-sans-serif, -apple-system, Arial, sans-serif;  --font-mono:    "JetBrains Mono", "Geist Mono", monospace;  /* Spacing */  --space-2xs: 4px;  --space-xs:  8px;  --space-sm:  16px;  --space-md:  24px;  --space-lg:  40px;  --space-xl:  64px;  --space-2xl: 96px;  --space-3xl: 128px;  /* Radii */  --radius-sm:  4px;  --radius-md:  6px;  --radius-lg:  12px;  --radius-pill: 999px;  /* Transitions */  --transition-fast:    100ms ease;  --transition-default: 200ms ease;  --transition-slow:    500ms ease-out;}[data-theme="light"] {  --color-bg-primary:     #F7F7F7;  --color-bg-surface:     #FFFFFF;  --color-text-primary:   #111827;  --color-text-body:      #374151;  --color-text-muted:     #6B7280;  --color-border-default: rgba(0,0,0,0.08);  --color-border-hover:   rgba(1,180,175,0.50);}
 
 
-TouchPulse Brand & Web Design Guide
+Touchpulse Brand & Web Design Guide
 Version 1.0  ·  2026  ·  touchpulse.nl
 ────────────────────────
 This document is confidential and intended for internal use only.
